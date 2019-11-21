@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 const DB_URL = 'mongodb://127.0.0.1/user'
-
-mongoose.connect(DB_URL)
+const OPTIONS = {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+}
+mongoose.connect(DB_URL, OPTIONS)
 
 mongoose.connection
   .on('error', () => {
