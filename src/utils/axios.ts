@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import URL from '@/api/user'
 // 创建axios实例
 let service: any = {}
 service = axios.create({
@@ -49,18 +49,26 @@ service.interceptors.response.use(
 export default {
   //获取用户
   getUser () {
-    return service.get('/api/user')
+    return service.get(URL.getUser)
+  },
+  // 获取所有用户
+  getAllUser () {
+    return service.get(URL.getAllUsers)
   },
   // 用户注册
   userRegister (data: object) {
-    return service.post('/api/register', data)
+    return service.post(URL.register, data)
   },
   //用户登录
   userLogin (data: object) {
-    return service.post('/api/login', data)
+    return service.post(URL.login, data)
+  },
+  //用户登出
+  userLogout (data: object) {
+    return service.post(URL.logout, data)
   },
   //删除用户
   userDelete (data: object) {
-    return service.post('/api/delUser', data)
+    return service.post(URL.delUser, data)
   }
 }
