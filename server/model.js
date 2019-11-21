@@ -8,10 +8,10 @@ mongoose.connect(DB_URL, OPTIONS)
 
 mongoose.connection
   .on('error', () => {
-    console.log('数据库连接出错！')
+    console.log('Database connection failed')
   })
   .on('open', () => {
-    console.log('数据库连接成功！')
+    console.log('Database connection successful')
   })
 
 const schema = mongoose.Schema({

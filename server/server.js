@@ -6,7 +6,7 @@ const router = new Router()
 // 用于post请求的数据
 const bodyParser = require('koa-bodyparser')
 
-const PORT = 9999
+const PORT = 8888
 app.use(bodyParser())
 
 // user数据库操作

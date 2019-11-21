@@ -2,9 +2,16 @@ const { User } = require('../model')
 const sha1 = require('sha1')
 const moment = require('moment')
 const createToken = require('../token/createToken')
-
+const isDBExist = (callback) => {
+  if (!User) {
+    console.log('database is undefined')
+    callback()
+    return
+  }
+}
 const getUser = async (username) => {
   return new Promise((resolve, reject) => {
+    isDBExist(reject)
     User.findOne(
       { username },
       (err, doc) => {
