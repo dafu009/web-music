@@ -76,7 +76,13 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          api.user.login({})
+          api.user.login({
+            method: 'post',
+            data: {
+              name: 123,
+              pass: 123
+            }
+          })
         }
       })
     },

@@ -7,7 +7,7 @@ type urlObject = typeof urls
 type apisType = {
   [k in keyof urlObject]: {
     [a in keyof urlObject[k]['path']]: (
-      param: AxiosRequestConfig
+      param?: AxiosRequestConfig
     ) => Promise<any>
   } & { _get: { [a in keyof urlObject[k]['path']]?: string } }
 }
