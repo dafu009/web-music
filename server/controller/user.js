@@ -1,11 +1,11 @@
-const { User } = require('../model')
+const User = require('../model').User
 const sha1 = require('sha1')
 const moment = require('moment')
 const createToken = require('../token/createToken')
 const isDBExist = (callback) => {
   if (!User) {
     console.log('database is undefined')
-    callback()
+    callback({ info: '数据库不存在' })
     return
   }
 }
@@ -24,8 +24,8 @@ const getUser = async (username) => {
 
 // 登录
 const Login = async (ctx) => {
-  const username = ctx.request.body.name
-  const password = sha1(ctx.request.body.pass);
+  const username = ctx.request.body.username
+  const password = sha1(ctx.request.body.password);
 
   const doc = await getUser(username)
 
@@ -60,8 +60,8 @@ const Login = async (ctx) => {
 // 注册
 const Register = async (ctx) => {
   let user = new User({
-    username: ctx.request.body.name,
-    password: sha1(ctx.request.body.pass),
+    username: ctx.request.body.username,
+    password: sha1(ctx.request.body.password),
     token: createToken(this.username),
     create_time: moment().format('X'),  // 十位时间戳
     avatar: '',
