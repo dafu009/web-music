@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://127.0.0.1/user')
+const DB_URL = 'mongodb://127.0.0.1/user'
+
+mongoose.connect(DB_URL)
 
 mongoose.connection
   .on('error', () => {
