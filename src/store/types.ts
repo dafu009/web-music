@@ -1,4 +1,4 @@
-export interface User {
+export interface UserInfoTpyes {
   username: string,
   token: string | null
 }
