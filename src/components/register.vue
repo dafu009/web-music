@@ -98,25 +98,6 @@ export default {
             message: err.toJSON().message
           })
         })
-        // if (valid) {
-        //   axios.userRegister(this.ruleForm)
-        //     .then(({ data }) => {
-        //       if (data.success) {
-        //         this.$message({
-        //           type: 'success',
-        //           message: '注册成功'
-        //         });
-        //       } else {
-        //         this.$message({
-        //           type: 'info',
-        //           message: '用户名已经存在'
-        //         });
-        //       }
-        //     })
-        // } else {
-        //   console.log('error submit!!');
-        //   return false;
-        // }
       })
     },
     resetForm (formName) {

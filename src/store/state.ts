@@ -5,7 +5,7 @@ const state: USER = {
     token: window.sessionStorage.getItem('token'),
     avatar: '',
     introduction: '',
-    create_time: '',
+    createTime: '',
     phone: 0
   }
 }

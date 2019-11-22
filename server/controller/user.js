@@ -53,12 +53,13 @@ const Login = async (ctx) => {
       code: DONE,
       success: true,
       message: '登陆成功',
-      info: {
+      userInfo: {
         token,
         username,
         avatar: doc.avatar,
         createTime: doc.create_time,
-        introduction: doc.introduction
+        introduction: doc.introduction,
+        phone: 0
       }
     }
   } else {
@@ -80,7 +81,8 @@ const Register = async (ctx) => {
     token: createToken(this.username),
     create_time: new Date(),  // 十位时间戳
     avatar: '',
-    introduction: ''
+    introduction: '',
+    phone: 0
   })
   const doc = await getUser(user.username)
   if (doc) {

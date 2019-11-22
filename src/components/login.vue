@@ -20,7 +20,7 @@
           <el-form-item>
             <el-button type="primary"
                        @click="submitForm('ruleForm')">登录</el-button>
-            <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
+            <el-button @click="submitLogout">登出</el-button>
           </el-form-item>
         </el-form>
       </el-tab-pane>
@@ -50,8 +50,9 @@ interface RuleForm {
 export default class login extends Vue {
 
   // vuex
-  @State('username') name: any
+  @State('userInfo') userInfo: any
   @Action('Login') login: any
+  @Action('Logout') logout: any
 
   app: any = this
   activeName: string = 'first'
@@ -84,8 +85,7 @@ export default class login extends Vue {
               type: this.type,
               message: data.message
             })
-            console.log(data)
-            // this.login(data.info)
+            this.login(data)
           })
           .catch(err => {
             console.log(err)
@@ -94,6 +94,9 @@ export default class login extends Vue {
     })
   }
 
+  submitLogout () {
+    this.logout()
+  }
 }
 
 </script>

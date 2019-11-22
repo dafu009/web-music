@@ -20,7 +20,8 @@ const schema = mongoose.Schema({
   token: String,
   create_time: Date,
   avatar: String,
-  introduction: String
+  introduction: String,
+  phone: Number
 })
 
 const model = {

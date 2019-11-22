@@ -2,21 +2,30 @@ import { MutationTree } from 'vuex'
 import { USER, UserInfo } from './types'
 
 const mutations: MutationTree<USER> = {
-  setUserInfo (state: USER, data: UserInfo) {
-    state.userInfo.username = data.username
-    state.avatar = data.avatar
-    state.introduction = data.introduction
-    state.phone = data.phone
-    state.create_time = data.create_time
+  resetUserInfo (state: USER) {
+    const userinfo = state.userInfo
+    userinfo.username = ''
+    userinfo.avatar = ''
+    userinfo.introduction = ''
+    userinfo.phone = 0
+    userinfo.createTime = ''
   },
-  setToken (state: UserInfoTpyes, data: string) {
-    state.token = data
+  setUserInfo (state: USER, data: UserInfo) {
+    const userinfo = state.userInfo
+    userinfo.username = data.username
+    userinfo.avatar = data.avatar
+    userinfo.introduction = data.introduction
+    userinfo.phone = data.phone
+    userinfo.createTime = data.createTime
+  },
+  setToken (state: USER, data: string) {
+    state.userInfo.token = data
     window.sessionStorage.setItem('token', data)
   },
-  removeToken (state: UserInfoTpyes) {
-    state.token = null
+  removeToken (state: USER) {
+    state.userInfo.token = null
     window.sessionStorage.removeItem('token')
-  }
+  },
 }
 
 export default mutations
