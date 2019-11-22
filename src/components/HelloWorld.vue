@@ -92,13 +92,20 @@
            rel="noopener">awesome-vue</a>
       </li>
     </ul>
+    <check-image />
   </div>
 </template>
 
 <script lang="ts">
+import CheckImage from './checkImage.vue'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { State } from 'vuex-class'
-@Component
+@Component({
+  components: {
+    CheckImage
+  }
+})
+
 export default class HelloWorld extends Vue {
   @Prop() private msg!: string
   mounted () {
