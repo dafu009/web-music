@@ -1,30 +1,28 @@
 <template>
-  <el-form
-    :model="ruleForm"
-    :rules="rules"
-    ref="ruleForm"
-    label-width="100px"
-    class="demo-ruleForm"
-  >
-    <el-form-item label="名称" prop="username">
+  <el-form :model="ruleForm"
+           :rules="rules"
+           ref="ruleForm"
+           label-width="100px"
+           class="demo-ruleForm">
+    <el-form-item label="名称"
+                  prop="username">
       <el-input v-model="ruleForm.username"></el-input>
     </el-form-item>
-    <el-form-item label="密码" prop="password">
-      <el-input
-        type="password"
-        v-model="ruleForm.password"
-        auto-complete="off"
-      ></el-input>
+    <el-form-item label="密码"
+                  prop="password">
+      <el-input type="password"
+                v-model="ruleForm.password"
+                auto-complete="off"></el-input>
     </el-form-item>
-    <el-form-item label="确认密码" prop="checkPass">
-      <el-input
-        type="password"
-        v-model="ruleForm.checkPass"
-        auto-complete="off"
-      ></el-input>
+    <el-form-item label="确认密码"
+                  prop="checkPass">
+      <el-input type="password"
+                v-model="ruleForm.checkPass"
+                auto-complete="off"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm('ruleForm')">注册</el-button>
+      <el-button type="primary"
+                 @click="submitForm('ruleForm')">注册</el-button>
       <el-button @click="resetForm('ruleForm')">重置</el-button>
     </el-form-item>
   </el-form>
@@ -32,7 +30,7 @@
 <script>
 import api from '../api'
 export default {
-  data() {
+  data () {
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'))
@@ -72,15 +70,33 @@ export default {
     }
   },
   methods: {
-    submitForm(formName) {
+    submitForm (formName) {
       this.$refs[formName].validate(valid => {
-        console.log(valid)
         api.user.register({
           method: 'post',
           data: {
             username: this.ruleForm.username,
             password: this.ruleForm.password
           }
+        }).then(({ success, message, code }) => {
+          if (success) {
+            if (code === 2000) {
+              this.$message({
+                type: 'success',
+                message
+              })
+            } else if (code === 4000) {
+              this.$message({
+                type: 'warring',
+                message
+              })
+            }
+          }
+        }).catch(err => {
+          this.$message({
+            type: 'error',
+            message: err.toJSON().message
+          })
         })
         // if (valid) {
         //   axios.userRegister(this.ruleForm)
@@ -103,7 +119,7 @@ export default {
         // }
       })
     },
-    resetForm(formName) {
+    resetForm (formName) {
       this.$refs[formName].resetFields()
     }
   }

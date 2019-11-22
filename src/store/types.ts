@@ -1,4 +1,11 @@
-export interface UserInfoTpyes {
+export interface USER {
+  userInfo: object
+}
+export interface UserInfo {
   username: string,
-  token: string | null
+  avatar: string,
+  create_time: string,
+  introduction: string,
+  phone: number,
+  token?: string | null
 }

@@ -1,9 +1,13 @@
 import { MutationTree } from 'vuex'
-import { UserInfoTpyes } from './types'
+import { USER, UserInfo } from './types'
 
-const mutations: MutationTree<UserInfoTpyes> = {
-  setUsername (state: UserInfoTpyes, data: string) {
-    state.username = data
+const mutations: MutationTree<USER> = {
+  setUserInfo (state: USER, data: UserInfo) {
+    state.userInfo.username = data.username
+    state.avatar = data.avatar
+    state.introduction = data.introduction
+    state.phone = data.phone
+    state.create_time = data.create_time
   },
   setToken (state: UserInfoTpyes, data: string) {
     state.token = data

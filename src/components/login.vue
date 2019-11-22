@@ -1,130 +1,101 @@
 <template>
   <div class="login">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="登录" name="first">
-        <el-form
-          :model="ruleForm"
-          :rules="rules"
-          ref="ruleForm"
-          label-width="100px"
-          class="demo-ruleForm"
-        >
-          <el-form-item label="名称" prop="username">
+    <el-tabs v-model="activeName">
+      <el-tab-pane label="登录"
+                   name="first">
+        <el-form :model="ruleForm"
+                 ref="ruleForm"
+                 label-width="100px"
+                 class="demo-ruleForm">
+          <el-form-item label="名称"
+                        prop="username">
             <el-input v-model="ruleForm.username"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password">
-            <el-input
-              type="password"
-              v-model="ruleForm.password"
-              auto-complete="off"
-            ></el-input>
+          <el-form-item label="密码"
+                        prop="password">
+            <el-input type="password"
+                      v-model="ruleForm.password"
+                      auto-complete="off"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')"
-              >登录</el-button
-            >
-            <el-button @click="resetForm('ruleForm')">重置</el-button>
+            <el-button type="primary"
+                       @click="submitForm('ruleForm')">登录</el-button>
+            <!-- <el-button @click="resetForm('ruleForm')">重置</el-button> -->
           </el-form-item>
         </el-form>
       </el-tab-pane>
-      <el-tab-pane label="注册" name="second">
+      <el-tab-pane label="注册"
+                   name="second">
         <register></register>
       </el-tab-pane>
     </el-tabs>
   </div>
 </template>
-<script>
-import register from '@/components/register'
+<script lang="ts">
+import { Component, Prop, Vue, Provide } from "vue-property-decorator"
+import { State, Action, Getter, Mutation } from 'vuex-class'
+import register from '@/components/register.vue'
 import api from '@/api'
-export default {
-  data() {
-    var validatePass = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('请输入密码'))
-      } else {
-        if (this.ruleForm.checkPass !== '') {
-          this.$refs.ruleForm.validateField('checkPass')
-        }
-        callback()
-      }
-    }
-    return {
-      activeName: 'first',
-      ruleForm: {
-        username: '',
-        password: '',
-        checkPass: ''
-      },
-      rules: {
-        name: [
-          { required: true, message: '请输入您的名称', trigger: 'blur' },
-          { min: 2, max: 5, message: '长度在 2 到 5 个字符', trigger: 'blur' }
-        ],
-        pass: [{ required: true, validator: validatePass, trigger: 'blur' }]
-      }
-    }
-  },
-  methods: {
-    //选项卡切换
-    handleClick(tab, event) {},
-    //重置表单
-    resetForm(formName) {
-      this.$refs[formName].resetFields()
-    },
-    //提交表单
-    submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        console.log(formName)
-        if (valid) {
-          api.user
-            .login({
-              method: 'post',
-              data: {
-                username: this.ruleForm.username,
-                password: this.ruleForm.password
-              }
-            })
-            .then(data => {
-              console.log(data)
-            })
-            .catch(err => {
-              console.log(err)
-            })
-        }
-        //   axios.userLogin(this.ruleForm).then(({ data }) => {
-        //     //账号不存在
-        //     if (data.info === false) {
-        //       this.$message({
-        //         type: 'info',
-        //         message: '账号不存在'
-        //       })
-        //       return
-        //     }
-        //     if (data.success) {
-        //       this.$message({
-        //         type: 'success',
-        //         message: '登录成功'
-        //       })
-        //       //拿到返回的token和username，并存到store
-        //       let token = data.token
-        //       let username = data.username
-        //       this.$store.dispatch('UserLogin', token)
-        //       this.$store.dispatch('UserName', username)
-        //       //跳到目标页
-        //       this.$router.push('HelloWorld')
-        //     }
-        //   })
-        // } else {
-        //   console.log('error submit!!')
-        //   return false
-        // }
-      })
-    }
-  },
+interface RuleForm {
+  username: string,
+  password: string,
+  checkPass: string
+}
+@Component({
   components: {
     register
   }
+})
+
+export default class login extends Vue {
+
+  // vuex
+  @State('username') name: any
+  @Action('Login') login: any
+
+  app: any = this
+  activeName: string = 'first'
+  ruleForm: RuleForm = {
+    username: '',
+    password: '',
+    checkPass: ''
+  }
+  type: string = ''
+
+  submitForm (formName: string) {
+    const ref: any = this.$refs[formName]
+    ref.validate((valid: any) => {
+      if (valid) {
+        api.user
+          .login({
+            method: 'post',
+            data: {
+              username: this.ruleForm.username,
+              password: this.ruleForm.password
+            }
+          })
+          .then(data => {
+            if (data.success) {
+              this.type = 'success'
+            } else {
+              this.type = 'error'
+            }
+            this.app.$message({
+              type: this.type,
+              message: data.message
+            })
+            console.log(data)
+            // this.login(data.info)
+          })
+          .catch(err => {
+            console.log(err)
+          })
+      }
+    })
+  }
+
 }
+
 </script>
 <style rel="stylesheet/scss" lang="scss">
 .login {

@@ -1,17 +1,16 @@
-const User = require('../model').User
+const User = require('../model.js').UserInfo
 const sha1 = require('sha1')
-const moment = require('moment')
 const createToken = require('../token/createToken')
-const isDBExist = (callback) => {
-  if (!User) {
-    console.log('database is undefined')
-    callback({ info: '数据库不存在' })
-    return
-  }
-}
+
+const WRONG_PASSWORD = 4000
+const USER_NOT_EXIST = 4004
+const USER_ALREADY_EXIST = 4005
+const DONE = 2000
+const SERVICE_LOST = 5000
+
 const getUser = async (username) => {
   return new Promise((resolve, reject) => {
-    isDBExist(reject)
+
     User.findOne(
       { username },
       (err, doc) => {
@@ -34,11 +33,13 @@ const Login = async (ctx) => {
     ctx.status = 200
     ctx.body = {
       success: false,
-      info: false
+      code: USER_NOT_EXIST,
+      message: '用户不存在'
     }
+    return
   }
   if (doc.password === password) {
-    console.log('密码一致!')
+    console.log('密码正确')
     const token = createToken(username)
     doc.token = token
     await new Promise((resolve, reject) => {
@@ -49,10 +50,24 @@ const Login = async (ctx) => {
     })
     ctx.status = 200
     ctx.body = {
+      code: DONE,
       success: true,
-      username,
-      token,
-      create_time: doc.create_time
+      message: '登陆成功',
+      info: {
+        token,
+        username,
+        avatar: doc.avatar,
+        createTime: doc.create_time,
+        introduction: doc.introduction
+      }
+    }
+  } else {
+    console.log('密码错误')
+    ctx.status = 200
+    ctx.body = {
+      code: WRONG_PASSWORD,
+      success: false,
+      message: '密码错误'
     }
   }
 }
@@ -63,16 +78,17 @@ const Register = async (ctx) => {
     username: ctx.request.body.username,
     password: sha1(ctx.request.body.password),
     token: createToken(this.username),
-    create_time: moment().format('X'),  // 十位时间戳
+    create_time: new Date(),  // 十位时间戳
     avatar: '',
     introduction: ''
   })
   const doc = await getUser(user.username)
   if (doc) {
-    console.log('用户名已经存在');
     ctx.status = 200;
     ctx.body = {
-      success: false
+      code: USER_ALREADY_EXIST,
+      success: false,
+      message: '用户名已经存在'
     }
   } else {
     await new Promise((resolve, reject) => {
@@ -81,10 +97,11 @@ const Register = async (ctx) => {
         resolve()
       })
     })
-    console.log('注册成功!')
     ctx.status = 200;
     ctx.body = {
-      success: true
+      code: DONE,
+      success: true,
+      message: '注册成功'
     }
   }
 }

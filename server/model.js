@@ -26,5 +26,5 @@ const schema = mongoose.Schema({
 const model = {
   UserInfo: mongoose.model('UserInfo', schema)
 }
-
+// console.log(model)
 module.exports = model

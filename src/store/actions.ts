@@ -2,18 +2,18 @@ import { ActionTree } from 'vuex'
 import { UserInfoTpyes } from './types'
 
 const actions: ActionTree<UserInfoTpyes, any> = {
-  async SET_USERNAME_ASYNC ({ commit, state: UserInfoTpyes }, data: string) {
-    commit('setUsername', data)
+  async SET_USERINFO ({ commit, state: UserInfoTpyes }, data: UserInfoTpyes) {
+    commit('setUserInfo', data)
   },
-  async SET_TOKEN_ASYNC ({ commit, state: UserInfoTpyes }, data: string) {
+  async SET_TOKEN ({ commit, state: UserInfoTpyes }, data: string) {
     commit('setToken', data)
   },
   async Login ({ commit, state: UserInfoTpyes }, data: UserInfoTpyes) {
-    commit('setUsername', data.username)
+    commit('setUserInfo', data)
     commit('setToken', data.token)
   },
   async Logout ({ commit, state: UserInfoTpyes }) {
-    commit('setUsername')
+    commit('setUserInfo')
     commit('removeToken')
   }
 }

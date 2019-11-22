@@ -1,7 +1,6 @@
 import Vue from 'vue'
 declare module 'vue/types/vue' {
   interface Vue {
-    $axios: any,
-    $urls: any
+    // $message: any
   }
 }
