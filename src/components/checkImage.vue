@@ -5,7 +5,7 @@
          @mouseup="upEvent">
       <div class="check-wrap">
         <div class="close"
-             @click.prevent="close">
+             @click="close">
           <i class="iconfont icon-guanbi"></i>
         </div>
         <div class="content">
@@ -83,7 +83,7 @@ export default class check extends Vue {
     if (a > 0) {
       this.watchEvent = true
     } else return
-    this.rotate = +(+this.rotate + ((a - b) * 12 / 7)).toFixed(2)
+    this.rotate = +(+this.rotate + ((a - b) * 12 / 7)).toFixed(0)
   }
 
   init () {
@@ -92,17 +92,14 @@ export default class check extends Vue {
     this.checkSuccess = false
     this.checkFail = false
     this.offsetX = 0
-    this.randomImgId = this.RandomNum(1, 500)
+    this.randomImgId = this.RandomNum(1, 1000)
     this.rotate = this.RandomNum(60, 300)
   }
   close () {
-    setTimeout(() => {
-      this.setGlobalEvent({ checkShow: false })
-    }, 1000)
+    this.setGlobalEvent({ checkShow: false })
   }
   imageError () {
     this.randomImgId = this.RandomNum(1, 500)
-    console.log(this.randomImgId)
   }
   RandomNum (Min: number, Max: number) {
     let Range = Max - Min
@@ -112,6 +109,7 @@ export default class check extends Vue {
   }
   downEvent (e: any) {
     const startX = e.clientX
+    if (this.checkFail) return
     document.onmousemove = (e) => {
       let move = e.clientX - startX
       if (move <= 0) {
@@ -131,15 +129,18 @@ export default class check extends Vue {
       if (this.rotate >= 350 && this.rotate <= 370) {
         console.log('验证成功')
         this.checkSuccess = true
-        this.close()
       } else {
         console.log('验证失败')
         this.checkFail = true
       }
+      setTimeout(() => {
+        if (this.checkSuccess) {
+          this.close()
+        }
+        this.init()
+      }, 1100)
     }
-    setTimeout(() => {
-      this.init()
-    }, 1100)
+
   }
 
 }
@@ -278,7 +279,7 @@ export default class check extends Vue {
       .failed {
         animation: shake 1s 0.1s;
         border: 1px solid #f98989;
-
+        cursor: not-allowed;
         .button {
           background-color: #ff4545;
           border: 1px solid #ff4545;
