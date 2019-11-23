@@ -92,7 +92,6 @@
            rel="noopener">awesome-vue</a>
       </li>
     </ul>
-    <check-image />
   </div>
 </template>
 
@@ -100,14 +99,10 @@
 import CheckImage from './checkImage.vue'
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { State } from 'vuex-class'
-@Component({
-  components: {
-    CheckImage
-  }
-})
 
+@Component
 export default class HelloWorld extends Vue {
-  @Prop() private msg!: string
+  @Prop() private msg?: string
   mounted () {
     this.cons()
   }
@@ -117,7 +112,7 @@ export default class HelloWorld extends Vue {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="stylus">
+<style>
 h3 {
   margin: 40px 0 0;
 }

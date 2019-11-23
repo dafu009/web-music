@@ -6,7 +6,11 @@ const state: USER = {
     avatar: '',
     introduction: '',
     createTime: '',
-    phone: 0
+    phone: 0,
+  },
+  globalEvent: {
+    isPass: false,
+    checkShow: false
   }
 }
 export default state

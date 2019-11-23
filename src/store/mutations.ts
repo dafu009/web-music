@@ -1,5 +1,6 @@
 import { MutationTree } from 'vuex'
-import { USER, UserInfo } from './types'
+import { USER, UserInfo, GlobalEvent } from './types';
+import state from './state';
 
 const mutations: MutationTree<USER> = {
   resetUserInfo (state: USER) {
@@ -25,6 +26,11 @@ const mutations: MutationTree<USER> = {
   removeToken (state: USER) {
     state.userInfo.token = null
     window.sessionStorage.removeItem('token')
+  },
+  setGlobalEvent (state: USER, data: GlobalEvent) {
+    const globalEvent = state.globalEvent
+    globalEvent.checkShow = data.checkShow
+    globalEvent.isPass = data.isPass
   },
 }
 

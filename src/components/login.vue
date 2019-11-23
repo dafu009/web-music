@@ -29,12 +29,14 @@
         <register></register>
       </el-tab-pane>
     </el-tabs>
+    <check-image v-if="checkShow" />
   </div>
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Provide } from "vue-property-decorator"
 import { State, Action, Getter, Mutation } from 'vuex-class'
 import register from '@/components/register.vue'
+import CheckImage from '@/components/checkImage.vue'
 import api from '@/api'
 interface RuleForm {
   username: string,
@@ -43,7 +45,8 @@ interface RuleForm {
 }
 @Component({
   components: {
-    register
+    register,
+    CheckImage
   }
 })
 
@@ -51,6 +54,8 @@ export default class login extends Vue {
 
   // vuex
   @State('userInfo') userInfo: any
+  @State(state => state.globalEvent.checkShow) checkShow: any
+  @Mutation('setGlobalEvent') setGlobalEvent: any
   @Action('Login') login: any
   @Action('Logout') logout: any
 
@@ -66,37 +71,41 @@ export default class login extends Vue {
   submitForm (formName: string) {
     const ref: any = this.$refs[formName]
     ref.validate((valid: any) => {
-      if (valid) {
-        api.user
-          .login({
-            method: 'post',
-            data: {
-              username: this.ruleForm.username,
-              password: this.ruleForm.password
-            }
-          })
-          .then(data => {
-            if (data.success) {
-              this.type = 'success'
-            } else {
-              this.type = 'error'
-            }
-            this.app.$message({
-              type: this.type,
-              message: data.message
-            })
-            this.login(data)
-          })
-          .catch(err => {
-            console.log(err)
-          })
-      }
+      this.setGlobalEvent({
+        checkShow: true
+      })
+      // if (valid) {
+      //   api.user
+      //     .login({
+      //       method: 'post',
+      //       data: {
+      //         username: this.ruleForm.username,
+      //         password: this.ruleForm.password
+      //       }
+      //     })
+      //     .then(data => {
+      //       if (data.success) {
+      //         this.type = 'success'
+      //       } else {
+      //         this.type = 'error'
+      //       }
+      //       this.app.$message({
+      //         type: this.type,
+      //         message: data.message
+      //       })
+      //       this.login(data)
+      //     })
+      //     .catch(err => {
+      //       console.log(err)
+      //     })
+      // }
     })
   }
 
   submitLogout () {
     this.logout()
   }
+
 }
 
 </script>
