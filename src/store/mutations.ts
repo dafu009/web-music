@@ -29,8 +29,8 @@ const mutations: MutationTree<USER> = {
   },
   setGlobalEvent (state: USER, data: GlobalEvent) {
     const globalEvent = state.globalEvent
-    globalEvent.checkShow = data.checkShow
-    globalEvent.isPass = data.isPass
+    globalEvent.checkShow = data.checkShow || false
+    globalEvent.isPass = data.isPass || false
   },
 }
 

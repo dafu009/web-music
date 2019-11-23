@@ -8,8 +8,8 @@ export interface UserInfo {
 }
 
 export interface GlobalEvent {
-  checkShow: boolean,
-  isPass: boolean
+  checkShow?: boolean,
+  isPass?: boolean
 }
 export interface USER {
   userInfo: UserInfo,

@@ -46,14 +46,14 @@
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-import { Mutation } from 'vuex-class'
+import { Mutation, State } from 'vuex-class'
 @Component({
   components: {
 
   }
 })
 export default class check extends Vue {
-
+  @State(state => state.globalEvent) globalEvent: any
   @Mutation('setGlobalEvent') setGlobalEvent: any
 
   randomImgId: number = 0
@@ -96,7 +96,10 @@ export default class check extends Vue {
     this.rotate = this.RandomNum(60, 300)
   }
   close () {
-    this.setGlobalEvent({ checkShow: false })
+    this.setGlobalEvent({ 
+      checkShow: false,
+      isPass: this.checkSuccess
+    })
   }
   imageError () {
     this.randomImgId = this.RandomNum(1, 500)
