@@ -9,7 +9,6 @@ const state: USER = {
     phone: 0,
   },
   globalEvent: {
-    isPass: false,
     checkShow: false
   }
 }

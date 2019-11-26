@@ -30,7 +30,7 @@
         <register></register>
       </el-tab-pane>
     </el-tabs>
-    <check-image v-if="globalEvent.checkShow" />
+    <check-image v-show="globalEvent.checkShow" />
   </div>
 </template>
 <script lang="ts">
@@ -70,11 +70,11 @@ export default class login extends Vue {
   submitForm(formName: string) {
     const ref: any = this.$refs[formName]
     ref.validate((valid: any) => {
-      console.log(valid)
+      // console.log(valid)
       //   if (valid) {}
-      //   this.setGlobalEvent({
-      //     checkShow: true
-      //   })
+      this.setGlobalEvent({
+        checkShow: true
+      })
       //   if (this.globalEvent.isPass) {
       //     api.user
       //       .login({

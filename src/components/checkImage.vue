@@ -1,56 +1,29 @@
-<template>
-  <transition appear
-              name="fade">
-    <div class="mask"
-         @mouseup="upEvent">
-      <div class="check-wrap">
-        <div class="close"
-             @click="close">
-          <i class="iconfont icon-guanbi"></i>
-        </div>
-        <div class="content">
-          <p class="tip tip-info-1">身份验证</p>
-          <p class="tip tip-info-2">拖动滑块，使图片角度为正</p>
-          <div class="faceboder">
-            <img v-lazy="randomImage"
-                 alt=""
-                 :style="{ transform: randomRotate }"
-                 @error="imageError" />
-            <div class="status"
-                 v-if="statusShow">
-              <div class="icon success"
-                   v-if="checkSuccess">
-                <i class="iconfont icon-zhengque"></i>
-              </div>
-              <div class="icon error"
-                   v-if="checkFail">
-                <i class="iconfont icon-guanbi"></i>
-              </div>
-            </div>
-          </div>
-          <div class="contorl"
-               :class="{'failed': checkFail, 'successed': checkSuccess}">
-            <div class="button"
-                 ref="contorl"
-                 @mousedown="downEvent"
-                 :style="{transform: translateX}">
-              <p class="icon">
-                <i class="iconfont icon-jiantouarrowheads3"></i>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </transition>
+<template lang="pug">
+  transition(name="fade")
+    div.mask(@mouseup="upEvent")
+      div.check-wrap
+        div.close(@click="close")
+          i(class=["iconfont icon-guanbi"])
+        div.content
+          p(class=["tip tip-info-1"]) 身份验证
+          p(class=["tip tip-info-2"]) 拖动滑块，使图片角度为正
+          div.faceboder
+            img( v-lazy="randomImage" :style="{transform: randomRotate}" @error="imageError")
+            div.status(v-if="statusShow")
+              div(class=["icon success"] v-if="checkSuccess")
+                i(class=["iconfont icon-zhengque"])
+              div(class=["icon error"] v-if="checkFail")
+                i(class=["iconfont icon-guanbi"])
+          div.contorl(:class="{ failed: checkFail, successed: checkSuccess }")
+            div.button(ref="contorl" @mousedown="downEvent" :style="{ transform: translateX }")
+              p.icon
+                i(class=["iconfont icon-jiantouarrowheads3"])
 </template>
-<script lang='ts'>
+<script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { Mutation, State } from 'vuex-class'
 @Component({
-  components: {
-
-  }
+  components: {}
 })
 export default class check extends Vue {
   @State(state => state.globalEvent) globalEvent: any
@@ -64,29 +37,29 @@ export default class check extends Vue {
   checkFail: boolean = false
   watchEvent: boolean = false
 
-  created () {
+  created() {
     this.init()
   }
 
-  get randomImage () {
+  get randomImage() {
     return `https://picsum.photos/id/${this.randomImgId}/200/200`
   }
-  get randomRotate () {
+  get randomRotate() {
     return `rotate(${this.rotate}deg)`
   }
-  get translateX () {
+  get translateX() {
     return `translateX(${this.offsetX}px)`
   }
 
   @Watch('offsetX')
-  resetRotate (a: number, b: number) {
+  resetRotate(a: number, b: number) {
     if (a > 0) {
       this.watchEvent = true
     } else return
-    this.rotate = +(+this.rotate + ((a - b) * 12 / 7)).toFixed(0)
+    this.rotate = +(+this.rotate + ((a - b) * 12) / 7).toFixed(0)
   }
 
-  init () {
+  init() {
     this.watchEvent = false
     this.statusShow = false
     this.checkSuccess = false
@@ -95,25 +68,24 @@ export default class check extends Vue {
     this.randomImgId = this.RandomNum(1, 1000)
     this.rotate = this.RandomNum(60, 300)
   }
-  close () {
-    this.setGlobalEvent({ 
-      checkShow: false,
-      isPass: this.checkSuccess
+  close() {
+    this.setGlobalEvent({
+      checkShow: false
     })
   }
-  imageError () {
+  imageError() {
     this.randomImgId = this.RandomNum(1, 500)
   }
-  RandomNum (Min: number, Max: number) {
+  RandomNum(Min: number, Max: number) {
     let Range = Max - Min
     let Rand = Math.random()
     let num = Min + Math.round(Rand * Range)
     return num
   }
-  downEvent (e: any) {
+  downEvent(e: any) {
     const startX = e.clientX
     if (this.checkFail) return
-    document.onmousemove = (e) => {
+    document.onmousemove = e => {
       let move = e.clientX - startX
       if (move <= 0) {
         move = 0
@@ -123,8 +95,8 @@ export default class check extends Vue {
       this.offsetX = move
     }
   }
-  upEvent () {
-    document.onmouseup = (e) => {
+  upEvent() {
+    document.onmouseup = e => {
       document.onmousemove = null
     }
     if (this.watchEvent) {
@@ -143,12 +115,10 @@ export default class check extends Vue {
         this.init()
       }, 1100)
     }
-
   }
-
 }
 </script>
-<style lang='scss' scoped >
+<style lang="scss" scoped>
 @import url('../style/shake.css');
 .fade-enter-active,
 .fade-leave-active {
