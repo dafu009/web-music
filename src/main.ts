@@ -9,7 +9,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(ElementUI)
 Vue.use(VueLazyLoad, {
   preLoad: 1.3,
-  loading: 'https://image.yy.com/yjmf/NmY5OGE5YzgtMzhkYi00MDMxLWIxMTctNzNhMTBmNTVjNWRj.gif'
+  loading: 'https://image.yy.com/yjmf/YjFkNzdjYTgtYWQ3Ny00ZTUwLTgxMjUtNDU2MDNiYzEwMjc0.gif'
 })
 Vue.config.productionTip = false
 
