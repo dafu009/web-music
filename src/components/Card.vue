@@ -8,6 +8,7 @@
 
 </template>
 <script lang="ts">
+import { RadomNumber as radomNum } from '@/utils'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
   components: {}
@@ -19,15 +20,8 @@ export default class Card extends Vue {
     return `https://picsum.photos/id/${this.randomImgId}/500/300`
   }
 
-  RandomNum(Min: number, Max: number) {
-    let Range = Max - Min
-    let Rand = Math.random()
-    let num = Min + Math.round(Rand * Range)
-    return num
-  }
-
   init() {
-    this.randomImgId = this.RandomNum(1, 1000)
+    this.randomImgId = radomNum(1, 1000)
   }
 
   created() {
