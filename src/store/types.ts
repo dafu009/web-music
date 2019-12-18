@@ -12,7 +12,12 @@ export interface GlobalEvent {
   playing: false
 }
 
-export interface USER {
+export interface Singer {
+  artists: []
+}
+
+export interface CONFIG {
   userInfo: UserInfo,
-  globalEvent: GlobalEvent
+  globalEvent: GlobalEvent,
+  singer: Singer
 }

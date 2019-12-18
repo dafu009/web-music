@@ -1,9 +1,9 @@
 import { MutationTree } from 'vuex'
-import { USER, UserInfo, GlobalEvent } from './types';
+import { CONFIG, UserInfo, GlobalEvent, Singer } from './types';
 import state from './state';
 
-const mutations: MutationTree<USER> = {
-  resetUserInfo (state: USER) {
+const mutations: MutationTree<CONFIG> = {
+  resetUserInfo (state: CONFIG) {
     const userinfo = state.userInfo
     userinfo.username = ''
     userinfo.avatar = ''
@@ -11,7 +11,7 @@ const mutations: MutationTree<USER> = {
     userinfo.phone = 0
     userinfo.createTime = ''
   },
-  setUserInfo (state: USER, data: UserInfo) {
+  setUserInfo (state: CONFIG, data: UserInfo) {
     const userinfo = state.userInfo
     userinfo.username = data.username
     userinfo.avatar = data.avatar
@@ -19,20 +19,23 @@ const mutations: MutationTree<USER> = {
     userinfo.phone = data.phone
     userinfo.createTime = data.createTime
   },
-  setToken (state: USER, data: string) {
+  setToken (state: CONFIG, data: string) {
     state.userInfo.token = data
     window.sessionStorage.setItem('token', data)
   },
-  removeToken (state: USER) {
+  removeToken (state: CONFIG) {
     state.userInfo.token = null
     window.sessionStorage.removeItem('token')
   },
-  setGlobalEvent (state: USER, data: GlobalEvent) {
+  setGlobalEvent (state: CONFIG, data: GlobalEvent) {
     const globalEvent = state.globalEvent
     globalEvent.checkShow = data.checkShow || false
   },
-  setPlaying (state: USER, data: GlobalEvent) {
+  setPlaying (state: CONFIG, data: GlobalEvent) {
     state.globalEvent.playing = data.playing || false
+  },
+  setSingerList (state: CONFIG, data: Singer) {
+    state.singer.artists = data.artists
   }
 }
 

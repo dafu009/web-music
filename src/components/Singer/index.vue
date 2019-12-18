@@ -1,26 +1,23 @@
 <template lang="pug">
   .singer
-    content-placeholders(:rounded="true")
-      content-placeholders-heading(:img="true")
-      content-placeholders-text(:lines="2")
-      content-placeholders-heading(:img="true")
-      content-placeholders-text(:lines="3")
-      content-placeholders-heading(:img="true")
-      content-placeholders-text(:lines="4")
+    router-view
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
     components: {
         
     }
 })
 export default class index extends Vue {
+  @Prop() private show?: boolean
+  mounted () {
+  }
+
 
 }
 </script>
 <style lang="scss" scoped >
 .singer {
-  width: 80%;
 }
 </style>

@@ -1,9 +1,9 @@
 import { GetterTree } from 'vuex'
-import { USER } from './types'
+import { CONFIG } from './types'
 
-const getter: GetterTree<USER, any> = {
-  username: (state: USER) => state.userInfo.username,
-  token: (state: USER) => state.userInfo.token
+const getter: GetterTree<CONFIG, any> = {
+  username: (state: CONFIG) => state.userInfo.username,
+  token: (state: CONFIG) => state.userInfo.token
 }
 
 export default getter

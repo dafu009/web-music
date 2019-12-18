@@ -26,7 +26,6 @@ export default class index extends Vue {
   }
   trigger() {}
   mounted () {
-    console.log(this.$route.name)
   }
 }
 </script>

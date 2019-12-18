@@ -1,5 +1,5 @@
-import { USER } from './types';
-const state: USER = {
+import { CONFIG } from './types';
+const state: CONFIG = {
   userInfo: {
     username: '',
     token: window.sessionStorage.getItem('token'),
@@ -11,6 +11,9 @@ const state: USER = {
   globalEvent: {
     checkShow: false,
     playing: false
+  },
+  singer: {
+    artists: []
   }
 }
 export default state
