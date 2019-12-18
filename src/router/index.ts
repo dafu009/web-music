@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -10,20 +9,32 @@ const routes = [
   {
     path: '/',
     name: 'home',
-    component: Home
+    component: () => import('@/components/Recommend/index.vue')
+  },
+  {
+    path: '/recommend',
+    name: 'recommend',
+    component: () => import('@/components/Recommend/index.vue')
+  },
+  {
+    path: '/singer',
+    name: 'singer',
+    component: () => import('@/components/Singer/index.vue')
+  },
+  {
+    path: '/rank',
+    name: 'rank',
+    component: () => import('@/components/Rank/index.vue')
+  },
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import('@/components/Search/index.vue')
   },
   {
     path: '/login',
     name: 'login',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '@/components/login.vue')
-  },
-  {
-    path: '/card',
-    name: 'card',
-    component: () => import('@/components/loginRegister.vue')
+    component: () => import('@/components/login.vue')
   }
 ]
 

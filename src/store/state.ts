@@ -9,7 +9,8 @@ const state: USER = {
     phone: 0,
   },
   globalEvent: {
-    checkShow: false
+    checkShow: false,
+    playing: false
   }
 }
 export default state

@@ -31,6 +31,9 @@ const mutations: MutationTree<USER> = {
     const globalEvent = state.globalEvent
     globalEvent.checkShow = data.checkShow || false
   },
+  setPlaying (state: USER, data: GlobalEvent) {
+    state.globalEvent.playing = data.playing || false
+  }
 }
 
 export default mutations

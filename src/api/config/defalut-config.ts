@@ -1,5 +1,5 @@
 const httpDefaultConfig = {
-  baseURL: '/api',
+  baseURL: '/',
   method: 'GET',
   headers: {
     'Content-Type': 'application/json'
