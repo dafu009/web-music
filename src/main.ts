@@ -6,7 +6,7 @@ import VueLazyLoad from 'vue-lazyload'
 import ElementUI from 'element-ui'
 import 'assets/css/iconfont.css'
 import 'element-ui/lib/theme-chalk/index.css'
-import 'papercss/dist/paper.css'
+// import 'papercss/dist/paper.css'
 Vue.use(ElementUI)
 Vue.use(VueLazyLoad, {
   preLoad: 1.3,

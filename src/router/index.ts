@@ -24,6 +24,11 @@ const routes = [
     path: '/card',
     name: 'card',
     component: () => import('@/components/loginRegister.vue')
+  },
+  {
+    path: '/player',
+    name: 'player',
+    component: () => import('@/components/Player/index.vue')
   }
 ]
 
