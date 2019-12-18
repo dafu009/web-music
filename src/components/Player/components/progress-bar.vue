@@ -1,19 +1,15 @@
 <template lang="pug">
-  .progress
+  .progress-bar
+    
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import api from '@/api'
-@Component({
-  components: {}
-})
+
+@Component
 export default class progressBar extends Vue {
+  @Prop(Number) readonly percent: number | undefined
   mounted() {
-    api.song.getSongUrl({
-      params: {
-        id: 4875626
-      }
-    })
   }
 }
 </script>
