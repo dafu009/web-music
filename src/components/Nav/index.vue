@@ -1,7 +1,6 @@
 <template lang="pug">
   .nav(ref="nav")
-    .nav_userinfo
-      //- 用户信息
+    user-info
     .nav_content
       router-link.nav-item(tag="div" to="/recommend")
         span.nav-link 发现音乐
@@ -13,9 +12,12 @@
         span.nav-link 搜索
 </template>
 <script lang="ts">
+import UserInfo from './components/UserInfo.vue'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 @Component({
-  components: {}
+  components: {
+    UserInfo
+  }
 })
 export default class index extends Vue {
   @Ref('') readonly nav!: HTMLDivElement
