@@ -1,5 +1,8 @@
 import { ActionTree } from 'vuex'
-import { CONFIG } from './types'
+import { CONFIG } from './types';
+import state from './state'
+import api from '@/api'
+import { ERR_OK } from '@/common/ts/config';
 
 const actions: ActionTree<CONFIG, any> = {
   async SET_CONFIGINFO ({ commit, state: CONFIG }, data: CONFIG) {
@@ -16,6 +19,31 @@ const actions: ActionTree<CONFIG, any> = {
   async Logout ({ commit, state: CONFIG }) {
     commit('resetUserInfo')
     commit('removeToken')
+  },
+  async GetTopArtistList ({ commit, state: CONFIG }, params) {
+    let requestConfig = {
+      params: {
+        offset: state.singer.pageNum * state.singer.pageSize,
+        limit: state.singer.pageSize,
+      }
+    }
+    const { code, artists } = await api.singer.getTopArtistList(requestConfig)
+    if (code === ERR_OK) {
+      commit('setSingerList', artists)
+    }
+  },
+  async GetArtistList ({ commit, state: CONFIG }, { cat }) {
+    let requestConfig = {
+      params: {
+        cat,
+        offset: state.singer.pageNum * state.singer.pageSize,
+        limit: state.singer.pageSize,
+      }
+    }
+    const { code, artists } = await api.singer.getArtistList(requestConfig)
+    if (code === ERR_OK) {
+      commit('setSingerList', artists)
+    }
   }
 }
 export default actions

@@ -1,0 +1,16 @@
+#app {
+  user-select: none;
+  .drawer-content {
+    height: 100%;
+  }
+  .content {
+    box-sizing: border-box;
+    padding: 60px;
+  }
+  .drawer_active {
+    width: calc(100% - 300px)
+  }
+  .content-wrap {
+    overflow-y: auto;
+  }
+}

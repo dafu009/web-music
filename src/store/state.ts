@@ -10,10 +10,14 @@ const state: CONFIG = {
   },
   globalEvent: {
     checkShow: false,
-    playing: false
+    playing: false,
+    loading: false,
+    globalLoading: false
   },
   singer: {
-    artists: []
+    artists: [],
+    pageNum: 0,
+    pageSize: 20
   }
 }
 export default state

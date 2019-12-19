@@ -34,8 +34,22 @@ const mutations: MutationTree<CONFIG> = {
   setPlaying (state: CONFIG, data: GlobalEvent) {
     state.globalEvent.playing = data.playing || false
   },
-  setSingerList (state: CONFIG, data: Singer) {
-    state.singer.artists = data.artists
+  setLoading (state: CONFIG, value: boolean) {
+    state.globalEvent.loading = value
+  },
+  setGlobalLoading (state: CONFIG, value: boolean) {
+    state.globalEvent.globalLoading = value
+  },
+  async setSingerPageNum (state: CONFIG, value: number) {
+    state.singer.pageNum = value
+  },
+  async reSetSingerConfig (state: CONFIG) {
+    state.singer.artists = []
+    state.singer.pageNum = 0
+    state.singer.pageSize = 20
+  },
+  setSingerList (state: CONFIG, data: []) {
+    state.singer.artists = data
   }
 }
 

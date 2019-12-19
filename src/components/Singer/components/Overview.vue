@@ -2,40 +2,69 @@
 .overview
   .title {{ '热门歌手' }}
   .singer-content
-    .sort-tab
-    .lists
-      .item(v-for="(item, index) in lists" :key="index")
-        .avatar
-          img(v-lazy="item.img1v1Url")
-        .name {{ item.name }}
-  loading
+    category-nav(@checkout="checkoutCategory")
+    lists(:lists="totalList")
+  loading(@loadMore="loadmore" v-if="singer.artists.length !== 0")
 </template>
 <script lang="ts">
-import { Mutation, State } from 'vuex-class'
+import Lists from './List.vue'
+import CategoryNav from './CategoryNav.vue'
+import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import Loading from '@/components/Loading/index.vue'
 import api from '@/api'
 @Component({
   components: {
-    Loading
+    CategoryNav,
+    Loading,
+    Lists
   }
 })
 export default class Overview extends Vue {
-  @State(state => state.singer.artists) lists: any
-  @Mutation('setSingerList') setSingerList: any
+  @State(state => state.singer) singer: any
+  @Mutation('setLoading') setLoading: any
+  @Mutation('setSingerPageNum') setSingerPageNum: any
+  @Mutation('reSetSingerConfig') reSetSingerConfig: any
+  @Mutation('setGlobalLoading') setGlobalLoading: any
+  @Action('GetTopArtistList') GetTopArtistList: any
+  @Action('GetArtistList') GetArtistList: any
 
-  created() {
-    api.singer
-      .getTopArtistList({
-        params: {
-          offset: 0,
-          limit: 20
-        }
-      })
-      .then(data => {
-        this.setSingerList(data)
-      })
-      .catch(() => {})
+  private totalList = []
+  private currentCategory: number = 0
+
+  async created() {
+    await this.GetTopArtistList()
+    this.pageLoad()
+  }
+  pageLoad() {
+    this.totalList = this.singer.artists
+  }
+  async loadmore() {
+    setTimeout(async () => {
+      if (this.singer.artists.length === 0) return
+      await this.setSingerPageNum(this.singer.pageNum + 1)
+      if (this.currentCategory === 0) {
+        await this.GetTopArtistList()
+      } else {
+        await this.GetArtistList({ cat: this.currentCategory })
+      }
+      this.totalList = this.totalList.concat(this.singer.artists)
+      this.setLoading(false)
+    }, 1000)
+  }
+
+  async _resetSinger() {
+    await this.reSetSingerConfig()
+    this.totalList = []
+  }
+
+  async checkoutCategory(value: number) {
+    this.setGlobalLoading(true)
+    this.currentCategory = value
+    await this._resetSinger()
+    await this.GetArtistList({ cat: value })
+    this.totalList = this.singer.artists
+    this.setGlobalLoading(false)
   }
 }
 </script>
@@ -44,35 +73,6 @@ export default class Overview extends Vue {
   .title {
     font-size: 24px;
     margin-bottom: 10px;
-  }
-  .singer-content {
-    .sort-tab {
-      width: 100%;
-      height: 100px;
-      background-color: #ccc;
-    }
-    .lists {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      .item {
-        .avatar {
-          margin: 30px 30px 10px 30px;
-          width: 100px;
-          height: 100px;
-          border: 2px solid #ccc;
-          border-radius: 50%;
-          img {
-            width: 100%;
-            border-radius: 50%;
-          }
-        }
-        .name {
-          text-align: center;
-          font-size: 14px;
-        }
-      }
-    }
   }
 }
 </style>

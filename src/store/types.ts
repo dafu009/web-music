@@ -9,11 +9,15 @@ export interface UserInfo {
 
 export interface GlobalEvent {
   checkShow?: boolean,
-  playing: false
+  playing: boolean,
+  loading: boolean,
+  globalLoading: boolean
 }
 
 export interface Singer {
-  artists: []
+  artists: [],
+  pageNum: number,
+  pageSize: number
 }
 
 export interface CONFIG {

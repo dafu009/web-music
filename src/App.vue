@@ -1,5 +1,6 @@
 <template lang="pug">
   #app
+    global-loading
     vue-drawer-layout(
       ref="drawer"
       :drawer-width="300"
@@ -19,9 +20,11 @@
 <script lang="ts">
 import Nav from '@/components/Nav/index.vue'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
+import GlobalLoading from '@/common/components/GlobalLoading.vue';
 @Component({
   components: {
-    Nav
+    Nav,
+    GlobalLoading
   }
 })
 export default class App extends Vue {
@@ -39,21 +42,19 @@ export default class App extends Vue {
 </script>
 <style lang="scss">
 #app {
-  // img::selection {
-  //   background: rgba(0, 0, 0, 0);
-  // }
   user-select: none;
   .drawer-content {
     height: 100%;
   }
+  .content {
+    box-sizing: border-box;
+    padding: 60px;
+  }
   .drawer_active {
-    width: 70%;
+    width: calc(100% - 300px)
   }
   .content-wrap {
     overflow-y: auto;
-  }
-  .content {
-    padding: 60px;
   }
 }
 </style>

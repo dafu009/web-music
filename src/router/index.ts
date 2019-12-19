@@ -8,7 +8,6 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'recommend',
     component: () => import('@/components/Recommend/index.vue')
   },
   {
@@ -18,7 +17,6 @@ const routes = [
   },
   {
     path: '/singer',
-    name: 'singer',
     component: () => import('@/components/Singer/index.vue'),
     children: [
       {
