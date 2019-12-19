@@ -12,7 +12,15 @@ const state: CONFIG = {
     checkShow: false,
     playing: false,
     loading: false,
-    globalLoading: false
+    globalLoading: false,
+    currentMusic: {
+      songName: '',
+      songUrl: '',
+      imgUrl: '',
+      artist: '',
+      singerId: 0,
+      songId: 0
+    }
   },
   singer: {
     detail: {},

@@ -15,7 +15,7 @@ import api from '@/api'
     ProgressBar
   }
 })
-export default class Player extends Vue {
+export default class index extends Vue {
   @State(state => state.globalEvent) globalEvent: any
   @Mutation('setPlaying') setPlaying: any
 

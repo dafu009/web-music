@@ -14,6 +14,7 @@ import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 export default class List extends Vue {
   @Prop() private lists!: []
   @Action('GetArtistDetail') GetArtistDetail: any
+
   async detail(id: number) {
     await this.GetArtistDetail(id)
     this.$router.push({

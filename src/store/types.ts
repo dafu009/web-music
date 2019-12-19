@@ -7,11 +7,21 @@ export interface UserInfo {
   token?: string | null
 }
 
+export interface CurrentMusic {
+  songName: string,
+  songUrl: string,
+  imgUrl: string,
+  artist: string,
+  singerId: number,
+  songId: number
+}
+
 export interface GlobalEvent {
   checkShow?: boolean,
   playing: boolean,
   loading: boolean,
-  globalLoading: boolean
+  globalLoading: boolean,
+  currentMusic: CurrentMusic
 }
 
 export interface Singer {

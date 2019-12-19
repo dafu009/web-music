@@ -1,32 +1,23 @@
 <template lang="pug">
   .nav(ref="nav")
-    user-info
-    .nav_content
-      router-link.nav-item(tag="div" to="/recommend")
-        span.nav-link 发现音乐
-      router-link.nav-item(tag="div" to="/singer")
-        span.nav-link 歌手
-      router-link.nav-item(tag="div" to="/rank" )
-        span.nav-link 排行
-      router-link.nav-item(tag="div" to="/search")
-        span.nav-link 搜索
+    user-info.nav_userinfo
+    Tab.nav_tab
+    player.nav_player
 </template>
 <script lang="ts">
 import UserInfo from './components/UserInfo.vue'
+import Tab from './components/Tab.vue'
+import Player from './components/Player.vue'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 @Component({
   components: {
-    UserInfo
+    UserInfo,
+    Tab,
+    Player
   }
 })
 export default class index extends Vue {
   @Ref('') readonly nav!: HTMLDivElement
-  get queryRoute() {
-    return this.$route.name
-  }
-  trigger() {}
-  mounted () {
-  }
 }
 </script>
 <style lang="scss" scoped>
@@ -35,17 +26,17 @@ export default class index extends Vue {
   display: flex;
   background-color: #84959d;
   flex-direction: column;
+
   .nav_userinfo {
-    height: 200px;
-    padding: 50px;
+    flex-shrink: 0;
+    padding: 60px 0 10px
   }
-  .nav-item {
-    text-align: center;
-    padding: 15px 0;
-    cursor: pointer;
+  .nav_tab {
+    flex-shrink: 1;
+    padding: 20px 0;
   }
-  .router-link-active {
-    background-color: red
+  .nav_player {
+    flex-shrink: 0;
   }
 }
 </style>

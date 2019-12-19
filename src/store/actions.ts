@@ -52,8 +52,40 @@ const actions: ActionTree<CONFIG, any> = {
       }
     })
     if (hotSongs.length > 20) hotSongs.splice(20, 50)
-    const detail = {...artist, hotSongs }
+    const detail = { ...artist, hotSongs }
     commit('setSingerDetail', detail)
+  },
+  async GetCurrentMusic ({ commit, state: CONFIG }, ID) {
+    const { songs, code: code1 } = await api.song.getSongDetail({
+      params: {
+        ids: ID
+      }
+    })
+    const { data, code: code2 } = await api.song.getSongUrl({
+      params: {
+        id: ID
+      }
+    })
+    const [{ id, name, al, ar }] = songs
+    const [{ url }] = data
+    const imgUrl = al.picUrl
+    const [singer] = ar
+    const songName = name
+    const songUrl = url
+    const songId = id
+    const artist = singer.name
+    const singerId = singer.id
+    const CurrentMusic = {
+      imgUrl,
+      artist,
+      songName,
+      songUrl,
+      songId,
+      singerId
+    }
+    if (code1 === ERR_OK && code2 === ERR_OK) {
+      commit('setCurrentSong', CurrentMusic)
+    }
   }
 }
 export default actions

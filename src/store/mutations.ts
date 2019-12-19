@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { CONFIG, UserInfo, GlobalEvent, Singer } from './types';
+import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic } from './types';
 import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
@@ -53,6 +53,14 @@ const mutations: MutationTree<CONFIG> = {
   },
   setSingerDetail (state: CONFIG, data: {}) {
     state.singer.detail = data
+  },
+  async setCurrentSong (state: CONFIG, data: CurrentMusic) {
+    state.globalEvent.currentMusic.artist = data.artist
+    state.globalEvent.currentMusic.songName = data.songName
+    state.globalEvent.currentMusic.songUrl = data.songUrl
+    state.globalEvent.currentMusic.imgUrl = data.imgUrl
+    state.globalEvent.currentMusic.songId = data.songId
+    state.globalEvent.currentMusic.singerId = data.singerId
   }
 }
 

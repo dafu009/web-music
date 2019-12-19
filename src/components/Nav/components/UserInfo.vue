@@ -14,7 +14,6 @@ export default class UserInfo extends Vue {}
 </script>
 <style lang="scss" scoped>
 .userinfo {
-  padding: 100px;
   .avatar {
     width: 100px;
     height: 100px;
