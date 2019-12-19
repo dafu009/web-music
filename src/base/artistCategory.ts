@@ -1,20 +1,22 @@
 type category = {
-  '入驻歌手': number,
-  '华语男歌手': number,
-  '华语女歌手': number,
-  '华语组合': number,
-  '欧美男歌手': number,
-  '欧美女歌手': number,
-  '欧美组合': number,
-  '日本男歌手': number,
-  '日本女歌手': number,
-  '日本组合': number,
-  '韩国男歌手': number,
-  '韩国女歌手': number,
+  '热门歌手': number
+  '入驻歌手': number
+  '华语男歌手': number
+  '华语女歌手': number
+  '华语组合': number
+  '欧美男歌手': number
+  '欧美女歌手': number
+  '欧美组合': number
+  '日本男歌手': number
+  '日本女歌手': number
+  '日本组合': number
+  '韩国男歌手': number
+  '韩国女歌手': number
   '韩国组合': number
 }
 
 const artistCategory: category = {
+  '热门歌手': 0,
   '入驻歌手': 5001,
   '华语男歌手': 1001,
   '华语女歌手': 1002,

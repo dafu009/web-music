@@ -51,6 +51,7 @@ const actions: ActionTree<CONFIG, any> = {
         id
       }
     })
+    if (hotSongs.length > 20) hotSongs.splice(20, 50)
     const detail = {...artist, hotSongs }
     commit('setSingerDetail', detail)
   }

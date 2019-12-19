@@ -4,7 +4,7 @@
       :class="{'active': currentItem === item.value}"
       v-for="(item, index) in categoryList"
       :key="item.value"
-      @click="checkout(item.value)"
+      @click="checkout(item.value, item.name)"
     ) {{ item.name }}
 </template>
 <script lang="ts">
@@ -24,9 +24,11 @@ export default class Nav extends Vue {
   }
 
   @Emit('checkout')
-  checkout(value: number) {
+  checkout(value: number, name: string) {
     this.currentItem = value
-    return value
+    return {
+      name, value
+    }
   }
 
   mounted() {

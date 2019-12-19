@@ -35,6 +35,7 @@ export default class List extends Vue {
       height: 100px;
       border: 2px solid #ccc;
       border-radius: 50%;
+      display: flex;
       img {
         width: 100%;
         border-radius: 50%;

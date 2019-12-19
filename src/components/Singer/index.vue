@@ -5,19 +5,11 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
-    components: {
-        
-    }
+  components: {}
 })
 export default class index extends Vue {
   @Prop() private show?: boolean
-  mounted () {
-  }
-
-
+  mounted() {}
 }
 </script>
-<style lang="scss" scoped >
-.singer {
-}
-</style>
+<style lang="scss" scoped></style>

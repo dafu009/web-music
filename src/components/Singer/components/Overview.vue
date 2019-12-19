@@ -1,6 +1,6 @@
 <template lang="pug">
 .overview
-  .title {{ '热门歌手' }}
+  .title {{ title }}
   .singer-content
     category-nav(@checkout="checkoutCategory")
     lists(:lists="totalList")
@@ -29,6 +29,7 @@ export default class Overview extends Vue {
   @Action('GetTopArtistList') GetTopArtistList: any
   @Action('GetArtistList') GetArtistList: any
 
+  private title: string = '热门歌手'
   private totalList = []
   private currentCategory: number = 0
 
@@ -58,11 +59,16 @@ export default class Overview extends Vue {
     this.totalList = []
   }
 
-  async checkoutCategory(value: number) {
+  async checkoutCategory(data: any) {
     this.setGlobalLoading(true)
-    this.currentCategory = value
+    this.title = data.name
+    this.currentCategory = data.value
     await this._resetSinger()
-    await this.GetArtistList({ cat: value })
+    if (data.value === 0) {
+      await this.GetTopArtistList()
+    } else {
+      await this.GetArtistList({ cat: data.value })
+    }
     this.totalList = this.singer.artists
     this.setGlobalLoading(false)
   }
