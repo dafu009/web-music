@@ -15,6 +15,7 @@ export interface GlobalEvent {
 }
 
 export interface Singer {
+  detail: {},
   artists: [],
   pageNum: number,
   pageSize: number

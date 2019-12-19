@@ -15,6 +15,7 @@ const state: CONFIG = {
     globalLoading: false
   },
   singer: {
+    detail: {},
     artists: [],
     pageNum: 0,
     pageSize: 20

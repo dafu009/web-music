@@ -7,6 +7,10 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '*',
+    component: () => {'@/components/NotFound/index.vue'}
+  },
+  {
     path: '/',
     component: () => import('@/components/Recommend/index.vue')
   },

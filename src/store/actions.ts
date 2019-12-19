@@ -44,6 +44,15 @@ const actions: ActionTree<CONFIG, any> = {
     if (code === ERR_OK) {
       commit('setSingerList', artists)
     }
+  },
+  async GetArtistDetail ({ commit, state: CONFIG }, id) {
+    const { code, hotSongs, artist } = await api.singer.getArtistDetail({
+      params: {
+        id
+      }
+    })
+    const detail = {...artist, hotSongs }
+    commit('setSingerDetail', detail)
   }
 }
 export default actions

@@ -50,6 +50,9 @@ const mutations: MutationTree<CONFIG> = {
   },
   setSingerList (state: CONFIG, data: []) {
     state.singer.artists = data
+  },
+  setSingerDetail (state: CONFIG, data: {}) {
+    state.singer.detail = data
   }
 }
 
