@@ -29,15 +29,6 @@ export default class index extends Vue {
 }
 </script>
 <style type="text/css" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
-
 @keyframes loading {
   0% {
     transform: translate(6px, 40px) scale(0);
@@ -118,6 +109,7 @@ export default class index extends Vue {
   position: relative;
 }
 .load-more {
+  cursor: pointer;
   display: inline-block;
   height: 100px;
   line-height: 80px;

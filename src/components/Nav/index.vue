@@ -2,8 +2,7 @@
   .nav(ref="nav")
     user-info.nav_userinfo
     Tab.nav_tab
-    transition(name="fade")
-      player.nav_player()
+    player.nav_player
 </template>
 <script lang="ts">
 import UserInfo from './components/UserInfo.vue'

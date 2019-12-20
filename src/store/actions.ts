@@ -20,19 +20,31 @@ const actions: ActionTree<CONFIG, any> = {
     commit('resetUserInfo')
     commit('removeToken')
   },
-  async GetTopArtistList ({ commit, state: CONFIG }, params) {
+  async GetTopArtistList ({ commit, state: CONFIG }, { root }) {
+    commit('setGlobalLoading', true)
     let requestConfig = {
       params: {
         offset: state.singer.pageNum * state.singer.pageSize,
         limit: state.singer.pageSize,
       }
     }
-    const { code, artists } = await api.singer.getTopArtistList(requestConfig)
-    if (code === ERR_OK) {
-      commit('setSingerList', artists)
-    }
+    await api.singer.getTopArtistList(requestConfig)
+      .then(data => {
+        if (data.code === ERR_OK) {
+          commit('setSingerList', data.artists)
+        }
+      })
+      .catch(() => {
+        root.$message({
+          type: 'error',
+          message: '数据请求失败请重试'
+        })
+        commit('setGlobalLoading', false)
+      })
+    commit('setGlobalLoading', false)
   },
-  async GetArtistList ({ commit, state: CONFIG }, { cat }) {
+  async GetArtistList ({ commit, state: CONFIG }, { cat, root }) {
+    commit('setGlobalLoading', true)
     let requestConfig = {
       params: {
         cat,
@@ -40,10 +52,21 @@ const actions: ActionTree<CONFIG, any> = {
         limit: state.singer.pageSize,
       }
     }
-    const { code, artists } = await api.singer.getArtistList(requestConfig)
-    if (code === ERR_OK) {
-      commit('setSingerList', artists)
-    }
+    await api.singer.getArtistList(requestConfig)
+      .then(data => {
+        if (data.code === ERR_OK) {
+          commit('setSingerList', data.artists)
+        }
+      })
+      .catch(() => {
+        root.$message({
+          type: 'error',
+          message: '数据请求失败请重试'
+        })
+        commit('setGlobalLoading', false)
+      })
+    commit('setGlobalLoading', false)
+
   },
   async GetArtistDetail ({ commit, state: CONFIG }, id) {
     const { code, hotSongs, artist } = await api.singer.getArtistDetail({
@@ -66,7 +89,7 @@ const actions: ActionTree<CONFIG, any> = {
         id: ID
       }
     })
-    const { lrc: { lyric }} = await api.song.getLyric({
+    const { lrc: { lyric } } = await api.song.getLyric({
       params: {
         id: ID
       }

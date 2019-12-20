@@ -25,7 +25,6 @@ export default class Overview extends Vue {
   @Mutation('setLoading') setLoading: any
   @Mutation('setSingerPageNum') setSingerPageNum: any
   @Mutation('reSetSingerConfig') reSetSingerConfig: any
-  @Mutation('setGlobalLoading') setGlobalLoading: any
   @Action('GetTopArtistList') GetTopArtistList: any
   @Action('GetArtistList') GetArtistList: any
 
@@ -34,7 +33,7 @@ export default class Overview extends Vue {
   private currentCategory: number = 0
 
   async created() {
-    await this.GetTopArtistList()
+    await this.GetTopArtistList({root: this})
     this.pageLoad()
   }
   pageLoad() {
@@ -45,9 +44,9 @@ export default class Overview extends Vue {
       if (this.singer.artists.length === 0) return
       await this.setSingerPageNum(this.singer.pageNum + 1)
       if (this.currentCategory === 0) {
-        await this.GetTopArtistList()
+        await this.GetTopArtistList({root: this})
       } else {
-        await this.GetArtistList({ cat: this.currentCategory })
+        await this.GetArtistList({ cat: this.currentCategory, root: this })
       }
       this.totalList = this.totalList.concat(this.singer.artists)
       this.setLoading(false)
@@ -60,17 +59,15 @@ export default class Overview extends Vue {
   }
 
   async checkoutCategory(data: any) {
-    this.setGlobalLoading(true)
     this.title = data.name
     this.currentCategory = data.value
     await this._resetSinger()
     if (data.value === 0) {
-      await this.GetTopArtistList()
+      await this.GetTopArtistList({ root: this })
     } else {
-      await this.GetArtistList({ cat: data.value })
+      await this.GetArtistList({ cat: data.value, root: this })
     }
     this.totalList = this.singer.artists
-    this.setGlobalLoading(false)
   }
 }
 </script>
