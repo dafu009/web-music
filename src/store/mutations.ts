@@ -64,6 +64,7 @@ const mutations: MutationTree<CONFIG> = {
     state.globalEvent.currentMusic.imgUrl = data.imgUrl
     state.globalEvent.currentMusic.songId = data.songId
     state.globalEvent.currentMusic.singerId = data.singerId
+    state.globalEvent.currentMusic.lyric = data.lyric
   },
 
   async setPlayList (state: CONFIG, data: CurrentMusic) {

@@ -45,6 +45,11 @@ const routes = [
     component: () => import('@/components/Search/index.vue')
   },
   {
+    path: '/playList',
+    name: 'playList',
+    component: () => import('@/components/MusicPlayList/index.vue')
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/components/login.vue')

@@ -1,5 +1,5 @@
 <template lang="pug">
-.player
+.player(@click="toPlayList")
   .player-wrap
     ProgressCircle(:percent="percent")
       .cover
@@ -9,13 +9,14 @@
       p.name {{ currentMusic.songName }}
       p.singer {{ currentMusic.artist }}
     .contorl
-      p.play(@click="play") {{ playText }}
-      p.next(@click="EndOrNext") 下一首
+      p.play(@click.stop="play") {{ playText }}
+      p.next(@click.stop="EndOrNext") 下一首
     audio(ref="audio" :src="currentMusic.songUrl" @timeupdate="updateTime" @ended="EndOrNext")
   //- progress-bar
   
 </template>
 <script lang="ts">
+import Lyric from 'lyric-parser'
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
 import ProgressBar from './ProgressBar.vue'
@@ -40,9 +41,10 @@ export default class Player extends Vue {
 
   private playText: string = '播放'
   private currentTime: number = 0
+  private currentLyric: string = ''
   private duration: number = 0
 
-  get percent () {
+  get percent() {
     return this.currentTime / this.duration || 0
   }
 
@@ -52,11 +54,16 @@ export default class Player extends Vue {
       this.audio.play()
     }
   }
-  updateTime (e: any) {
+  @Watch('currentIndex')
+  changeLyric(index: number) {
+    this.currentLyric = this.playList[index].lyric
+    // const lyric = new Lyric(this.currentLyric, )
+  }
+  updateTime(e: any) {
     this.duration = e.target.duration
     this.currentTime = e.target.currentTime
   }
-  setIndex () {
+  setIndex() {
     if (this.currentIndex === this.playList.length - 1) {
       this.setCurrentIndex(0)
     } else {
@@ -74,10 +81,13 @@ export default class Player extends Vue {
       await this.setPlaying(true)
     }
   }
-  async EndOrNext () {
+  async EndOrNext() {
     this.setIndex()
     await this.setCurrentSong(this.playList[this.currentIndex])
     this.audio.play()
+  }
+  toPlayList() {
+    this.$router.push('/playList')
   }
 }
 </script>
@@ -88,6 +98,16 @@ export default class Player extends Vue {
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+@keyframes wordsLoop {
+  0% {
+    transform: translateX(0px);
+    -webkit-transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
   }
 }
 .playing {
@@ -126,11 +146,13 @@ export default class Player extends Vue {
     .info {
       flex-shrink: 1;
       align-self: center;
+      width: 200px;
       p {
         margin: 0;
       }
       .name {
-        font-size: 20px;
+        white-space: nowrap;
+        font-size: 18px;
       }
       .singer {
         font-size: 16px;

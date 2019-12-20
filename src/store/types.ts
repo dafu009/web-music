@@ -13,7 +13,8 @@ export interface CurrentMusic {
   imgUrl: string,
   artist: string,
   singerId: number,
-  songId: number
+  songId: number,
+  lyric: string
 }
 
 export interface GlobalEvent {

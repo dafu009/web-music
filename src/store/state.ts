@@ -20,7 +20,8 @@ const state: CONFIG = {
       imgUrl: '',
       artist: '',
       singerId: 0,
-      songId: 0
+      songId: 0,
+      lyric: ''
     },
     playList: []
   },

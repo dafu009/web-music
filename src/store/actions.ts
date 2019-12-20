@@ -66,6 +66,11 @@ const actions: ActionTree<CONFIG, any> = {
         id: ID
       }
     })
+    const { lrc: { lyric }} = await api.song.getLyric({
+      params: {
+        id: ID
+      }
+    })
     const [{ id, name, al, ar }] = songs
     const [{ url }] = data
     const imgUrl = al.picUrl
@@ -81,7 +86,8 @@ const actions: ActionTree<CONFIG, any> = {
       songName,
       songUrl,
       songId,
-      singerId
+      singerId,
+      lyric
     }
     return CurrentMusic
     // if (code1 === ERR_OK && code2 === ERR_OK) {

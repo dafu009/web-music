@@ -11,3 +11,9 @@ declare module 'vue-content-placeholders' {
   const vueContentPlaceholders: any
   export default vueContentPlaceholders
 }
+
+declare module 'better-scroll' {
+  const scroll: any
+  export default scroll
+}
+
