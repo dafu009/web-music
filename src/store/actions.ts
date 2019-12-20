@@ -83,9 +83,10 @@ const actions: ActionTree<CONFIG, any> = {
       songId,
       singerId
     }
-    if (code1 === ERR_OK && code2 === ERR_OK) {
-      commit('setCurrentSong', CurrentMusic)
-    }
+    return CurrentMusic
+    // if (code1 === ERR_OK && code2 === ERR_OK) {
+    //   commit('setCurrentSong', CurrentMusic)
+    // }
   }
 }
 export default actions

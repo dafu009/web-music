@@ -13,6 +13,7 @@ const state: CONFIG = {
     playing: false,
     loading: false,
     globalLoading: false,
+    currentIndex: 0,
     currentMusic: {
       songName: '',
       songUrl: '',
@@ -20,7 +21,8 @@ const state: CONFIG = {
       artist: '',
       singerId: 0,
       songId: 0
-    }
+    },
+    playList: []
   },
   singer: {
     detail: {},

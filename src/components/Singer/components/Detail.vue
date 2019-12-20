@@ -1,6 +1,6 @@
 <template lang="pug">
   .detail
-    .back(@click="backToSinger") 返回 >
+    el-page-header(@back="backToSinger" content="歌手")
     .info
       .avatar
         img(v-lazy="singerDetail.img1v1Url")
@@ -17,8 +17,11 @@
             .text
               p.song-name {{ item.name }}
               p.album-name {{ item.al.name }}
-            .play(@click="play(item.id)")
-              img(src="@/assets/image/play.png")
+            .operating
+              .operating_item.add(@click="add(item.id)")
+                img(src="@/assets/image/add.png")
+              .operating_item.play(@click="play(item.id)")
+                img(src="@/assets/image/play.png")
       loading(@loadMore="loadmore" v-if="!isHide")
       
 </template>
@@ -35,7 +38,16 @@ import Loading from '@/components/Loading/index.vue'
 export default class Overview extends Vue {
   @Ref('item') readonly item!: any
   @State(state => state.singer.detail) singerDetail: any
+  @State(state => state.globalEvent.playList) playList: any
+  @State(state => state.globalEvent.currentIndex) currentIndex: any
+  @State(state => state.globalEvent.currentMusic) currentMusic: any
+
   @Mutation('setLoading') setLoading: any
+  @Mutation('setPlaying') setPlaying: any
+  @Mutation('setPlayList') setPlayList: any
+  @Mutation('setCurrentIndex') setCurrentIndex: any
+  @Mutation('setCurrentSong') setCurrentSong: any
+
   @Action('GetCurrentMusic') GetCurrentMusic: any
 
   private isHide: boolean = false
@@ -54,24 +66,33 @@ export default class Overview extends Vue {
         this.isHide = true
     }, 1000)
   }
-  backToSinger () {
+  backToSinger() {
     this.$router.go(-1)
   }
-  async play (id: number) {
-    await this.GetCurrentMusic(id)
+  async play(id: number) {
+    await this.setPlaying(false)
+    const CurrentMusic = await this.GetCurrentMusic(id)
+    await this.setPlayList(CurrentMusic)
+    await this.setCurrentIndex(this.playList.length - 1)
+    await this.setCurrentSong(this.playList[this.currentIndex])
+    await this.setPlaying(true)
+  }
+  async add(id: number) {
+    const CurrentMusic = await this.GetCurrentMusic(id)
+    await this.setPlayList(CurrentMusic)
+    this.$message({
+      message: '成功添加到播放列表',
+      type: 'success'
+    })
   }
 }
 </script>
 <style lang="scss" scoped>
 .detail {
   position: relative;
-  .back {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
   .info {
     display: flex;
+    margin-top: 20px;
     .avatar {
       flex-shrink: 0;
       width: 200px;
@@ -147,14 +168,18 @@ export default class Overview extends Vue {
               overflow: hidden;
             }
           }
-          .play {
+          .operating {
             position: absolute;
             right: 30px;
             bottom: 10px;
-            width: 40px;
-            height: 40px;
-            img {
-              width: 100%;
+            display: flex;
+            .operating_item {
+              padding: 10px;
+              width: 30px;
+              height: 30px;
+              img {
+                width: 100%;
+              }
             }
           }
         }

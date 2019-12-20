@@ -21,7 +21,9 @@ export interface GlobalEvent {
   playing: boolean,
   loading: boolean,
   globalLoading: boolean,
-  currentMusic: CurrentMusic
+  currentIndex: number,
+  currentMusic: CurrentMusic,
+  playList: CurrentMusic[]
 }
 
 export interface Singer {

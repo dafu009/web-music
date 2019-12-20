@@ -31,8 +31,8 @@ const mutations: MutationTree<CONFIG> = {
     const globalEvent = state.globalEvent
     globalEvent.checkShow = data.checkShow || false
   },
-  setPlaying (state: CONFIG, data: GlobalEvent) {
-    state.globalEvent.playing = data.playing || false
+  async setPlaying (state: CONFIG, value: boolean) {
+    state.globalEvent.playing = value
   },
   setLoading (state: CONFIG, value: boolean) {
     state.globalEvent.loading = value
@@ -54,6 +54,9 @@ const mutations: MutationTree<CONFIG> = {
   setSingerDetail (state: CONFIG, data: {}) {
     state.singer.detail = data
   },
+  async setCurrentIndex (state: CONFIG, value: number) {
+    state.globalEvent.currentIndex = value
+  },
   async setCurrentSong (state: CONFIG, data: CurrentMusic) {
     state.globalEvent.currentMusic.artist = data.artist
     state.globalEvent.currentMusic.songName = data.songName
@@ -61,6 +64,11 @@ const mutations: MutationTree<CONFIG> = {
     state.globalEvent.currentMusic.imgUrl = data.imgUrl
     state.globalEvent.currentMusic.songId = data.songId
     state.globalEvent.currentMusic.singerId = data.singerId
+  },
+
+  async setPlayList (state: CONFIG, data: CurrentMusic) {
+    const List: CurrentMusic[] = state.globalEvent.playList
+    state.globalEvent.playList = List.concat(data)
   }
 }
 

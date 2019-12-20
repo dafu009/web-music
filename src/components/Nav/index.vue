@@ -26,7 +26,7 @@ export default class index extends Vue {
   display: flex;
   background-color: #84959d;
   flex-direction: column;
-
+  justify-content: space-between;
   .nav_userinfo {
     flex-shrink: 0;
     padding: 60px 0 10px
