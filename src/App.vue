@@ -14,8 +14,9 @@
       .drawer-content(slot="drawer" ref="drawerContent")
         Nav
       .content(slot="content" :class="{'drawer_active': drawerShow}")
-        keep-alive
-          router-view
+        transition(name="fade")
+          keep-alive
+            router-view
 </template>
 <script lang="ts">
 import Nav from '@/components/Nav/index.vue'
@@ -41,6 +42,14 @@ export default class App extends Vue {
 }
 </script>
 <style lang="scss">
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
 #app {
   user-select: none;
   .drawer-content {

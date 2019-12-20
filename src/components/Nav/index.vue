@@ -2,7 +2,8 @@
   .nav(ref="nav")
     user-info.nav_userinfo
     Tab.nav_tab
-    player.nav_player
+    transition(name="fade")
+      player.nav_player()
 </template>
 <script lang="ts">
 import UserInfo from './components/UserInfo.vue'
@@ -26,7 +27,7 @@ export default class index extends Vue {
   display: flex;
   background-color: #84959d;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   .nav_userinfo {
     flex-shrink: 0;
     padding: 60px 0 10px
