@@ -148,7 +148,7 @@ export default class Overview extends Vue {
             }
           }
           .text {
-            max-width: 200px;
+            max-width: 160px;
             p {
               margin: 0;
             }

@@ -6,7 +6,7 @@
         .image(:class="{playing: GlobalPlaying}")
           img(v-lazy="currentMusic.imgUrl")
     .info
-      p.name {{ currentMusic.songName }}
+      p.name.animate {{ currentMusic.songName }}
       p.singer {{ currentMusic.artist }}
     .contorl
       p.play(@click.stop="play") {{ playText }}
@@ -146,13 +146,19 @@ export default class Player extends Vue {
     .info {
       flex-shrink: 1;
       align-self: center;
-      width: 200px;
+      max-width: 110px;
+      overflow: hidden;
       p {
         margin: 0;
       }
       .name {
+        padding-left: 110px;
+        display: inline-block;
         white-space: nowrap;
         font-size: 18px;
+      }
+      .animate {
+        animation: 10s wordsLoop linear infinite normal;
       }
       .singer {
         font-size: 16px;
