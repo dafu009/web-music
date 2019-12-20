@@ -14,6 +14,7 @@ const state: CONFIG = {
     loading: false,
     globalLoading: false,
     currentIndex: 0,
+    drawerShow: false,
     currentMusic: {
       songName: '',
       songUrl: '',
@@ -21,7 +22,8 @@ const state: CONFIG = {
       artist: '',
       singerId: 0,
       songId: 0,
-      lyric: ''
+      lyric: '',
+      album: ''
     },
     playList: []
   },

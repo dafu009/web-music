@@ -24,7 +24,7 @@ export default class Content extends Vue {}
     cursor: pointer;
   }
   .router-link-active {
-    background-color: red;
+    background-image: linear-gradient(135deg, #fde1a2 10%, #6f9bf7 100%);
   }
 }
 </style>

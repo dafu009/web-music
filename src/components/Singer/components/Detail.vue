@@ -7,6 +7,7 @@
       .des
         p.name {{ singerDetail.name }}
         p.desc {{ singerDetail.briefDesc }}
+        p.more 
     .music-list
       p.title 热门歌曲
       ul.list
@@ -22,6 +23,8 @@
                 img(src="@/assets/image/add.png")
               .operating_item.play(@click="play(item.id)")
                 img(src="@/assets/image/play.png")
+            transition(name="fade")
+              blow(v-if="currentMusic.songId === item.id")
       loading(@loadMore="loadmore" v-if="!isHide")
       
 </template>
@@ -29,9 +32,11 @@
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import Loading from '@/components/Loading/index.vue'
+import Blow from '@/common/components/Blow.vue';
 
 @Component({
   components: {
+    Blow,
     Loading
   }
 })
@@ -71,11 +76,20 @@ export default class Overview extends Vue {
   }
   async play(id: number) {
     await this.setPlaying(false)
-    const CurrentMusic = await this.GetCurrentMusic(id)
-    await this.setPlayList(CurrentMusic)
-    await this.setCurrentIndex(this.playList.length - 1)
-    await this.setCurrentSong(this.playList[this.currentIndex])
-    await this.setPlaying(true)
+    this.GetCurrentMusic(id)
+      .then(async (CurrentMusic: any) => {
+        await this.setPlayList()
+        await this.setPlayList(CurrentMusic)
+        await this.setCurrentIndex(this.playList.length - 1)
+        await this.setCurrentSong(this.playList[this.currentIndex])
+        await this.setPlaying(true)
+      })
+      .catch(() => {
+        this.$message({
+          type: 'error',
+          message: '播放失败请重试'
+        })
+      })
   }
   async add(id: number) {
     const CurrentMusic = await this.GetCurrentMusic(id)
@@ -115,6 +129,11 @@ export default class Overview extends Vue {
       }
       .desc {
         max-width: 800px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 5;
+        -webkit-box-orient: vertical;
       }
     }
   }
@@ -174,7 +193,9 @@ export default class Overview extends Vue {
             bottom: 10px;
             display: flex;
             .operating_item {
-              padding: 10px;
+              cursor: pointer;
+              padding: 10px 0;
+              margin: 0 10px;
               width: 30px;
               height: 30px;
               img {

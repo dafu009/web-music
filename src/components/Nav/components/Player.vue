@@ -1,5 +1,5 @@
 <template lang="pug">
-.player(@click="toPlayList")
+.player(v-if="playList.length > 0")
   .player-wrap
     ProgressCircle(:percent="percent")
       .cover
@@ -8,22 +8,32 @@
     .info
       p.name.animate {{ currentMusic.songName }}
       p.singer {{ currentMusic.artist }}
-    .contorl
-      p.play(@click.stop="play") {{ playText }}
-      p.next(@click.stop="EndOrNext") 下一首
-    audio(ref="audio" :src="currentMusic.songUrl" @timeupdate="updateTime" @ended="EndOrNext")
-  //- progress-bar
-  
+  .contorl
+    p.prev(@click.stop="prev")
+      img(src="@/assets/image/previous.png")
+    p.play(@click.stop="play")
+      transition(name="fade")
+        img(v-if="GlobalPlaying" src="@/assets/image/pause.png")
+      transition(name="fade")
+        img(v-if="!GlobalPlaying" src="@/assets/image/play.png")
+    p.next(@click.stop="next")
+      img(src="@/assets/image/next.png")
+    p.musiclist(@click.stop="toList")
+      img(src="@/assets/image/musiclist.png")
+    audio(
+      ref="audio"
+      :src="currentMusic.songUrl"
+      @timeupdate="updateTime"
+      @ended="end"
+    )
 </template>
 <script lang="ts">
 import Lyric from 'lyric-parser'
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
-import ProgressBar from './ProgressBar.vue'
 import ProgressCircle from '@/common/components/ProgressCircle.vue'
 @Component({
   components: {
-    ProgressBar,
     ProgressCircle
   }
 })
@@ -33,6 +43,7 @@ export default class Player extends Vue {
   @State(state => state.globalEvent.playList) playList: any
   @State(state => state.globalEvent.currentIndex) currentIndex: any
 
+  @Mutation('setDrawer') setDrawer: any
   @Mutation('setPlaying') setPlaying: any
   @Mutation('setCurrentIndex') setCurrentIndex: any
   @Mutation('setCurrentSong') setCurrentSong: any
@@ -51,24 +62,36 @@ export default class Player extends Vue {
   @Watch('GlobalPlaying')
   PlayStatusChange(val: boolean) {
     if (val) {
-      this.audio.play()
+      setTimeout(() => {
+        this.audio.play()
+      }, 1000)
     }
-  }
-  @Watch('currentIndex')
-  changeLyric(index: number) {
-    this.currentLyric = this.playList[index].lyric
-    // const lyric = new Lyric(this.currentLyric, )
   }
   updateTime(e: any) {
     this.duration = e.target.duration
     this.currentTime = e.target.currentTime
   }
-  setIndex() {
-    if (this.currentIndex === this.playList.length - 1) {
-      this.setCurrentIndex(0)
-    } else {
-      this.setCurrentIndex(this.currentIndex + 1)
+  async setCurrentSongIndex(type: boolean) {
+    if (this.playList.length === 1) {
+      this.audio.play()
+      return
     }
+    const lastIndex = this.playList.length === 0 ? 0 : this.playList.length - 1
+    if (type) {
+      if (this.currentIndex === lastIndex) {
+        await this.setCurrentIndex(0)
+      } else {
+        await this.setCurrentIndex(this.currentIndex + 1)
+      }
+    } else {
+      if (this.currentIndex === 0) {
+        await this.setCurrentIndex(lastIndex)
+      } else {
+        await this.setCurrentIndex(this.currentIndex - 1)
+      }
+    }
+    await this.setCurrentSong(this.playList[this.currentIndex])
+    this.audio.play()
   }
   async play() {
     if (this.GlobalPlaying) {
@@ -81,13 +104,17 @@ export default class Player extends Vue {
       await this.setPlaying(true)
     }
   }
-  async EndOrNext() {
-    this.setIndex()
-    await this.setCurrentSong(this.playList[this.currentIndex])
-    this.audio.play()
+  async end() {
+    await this.setCurrentSongIndex(true)
   }
-  toPlayList() {
-    this.$router.push('/playList')
+  async next() {
+    await this.setCurrentSongIndex(true)
+  }
+  async prev() {
+    await this.setCurrentSongIndex(false)
+  }
+  async toList() {
+    await this.setDrawer(true)
   }
 }
 </script>
@@ -120,7 +147,7 @@ export default class Player extends Vue {
   padding: 20px;
   .player-wrap {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     .cover {
       box-sizing: border-box;
       flex-shrink: 0;
@@ -146,13 +173,13 @@ export default class Player extends Vue {
     .info {
       flex-shrink: 1;
       align-self: center;
-      max-width: 110px;
+      max-width: 140px;
       overflow: hidden;
       p {
         margin: 0;
       }
       .name {
-        padding-left: 110px;
+        padding-left: 140px;
         display: inline-block;
         white-space: nowrap;
         font-size: 18px;
@@ -161,17 +188,26 @@ export default class Player extends Vue {
         animation: 10s wordsLoop linear infinite normal;
       }
       .singer {
+        text-align: center;
         font-size: 16px;
         color: #fff;
       }
     }
-    .contorl {
-      flex-shrink: 0;
-      align-self: center;
+  }
+  .contorl {
+      display: flex;
+      justify-content: center;
       p {
-        margin: 0;
+        cursor: pointer;
+        margin: 0 10px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        img {
+          width: 100%
+        }
       }
     }
-  }
 }
 </style>

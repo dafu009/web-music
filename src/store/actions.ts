@@ -74,6 +74,7 @@ const actions: ActionTree<CONFIG, any> = {
     const [{ id, name, al, ar }] = songs
     const [{ url }] = data
     const imgUrl = al.picUrl
+    const album = al.name
     const [singer] = ar
     const songName = name
     const songUrl = url
@@ -87,12 +88,12 @@ const actions: ActionTree<CONFIG, any> = {
       songUrl,
       songId,
       singerId,
-      lyric
+      lyric,
+      album
     }
-    return CurrentMusic
-    // if (code1 === ERR_OK && code2 === ERR_OK) {
-    //   commit('setCurrentSong', CurrentMusic)
-    // }
+    if (code1 === ERR_OK && code2 === ERR_OK) {
+      return CurrentMusic
+    }
   }
 }
 export default actions

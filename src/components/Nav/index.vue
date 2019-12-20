@@ -25,9 +25,9 @@ export default class index extends Vue {
 .nav {
   height: 100%;
   display: flex;
-  background-color: #84959d;
   flex-direction: column;
   justify-content: flex-start;
+  background-image: linear-gradient( 135deg, #FFD26F 10%, #3677FF 100%);
   .nav_userinfo {
     flex-shrink: 0;
     padding: 60px 0 10px

@@ -1,6 +1,7 @@
 <template lang="pug">
   #app
     global-loading
+    music-play-list
     vue-drawer-layout(
       ref="drawer"
       :drawer-width="300"
@@ -20,12 +21,14 @@
 </template>
 <script lang="ts">
 import Nav from '@/components/Nav/index.vue'
+import MusicPlayList from '@/components/MusicPlayList/index.vue'
+import GlobalLoading from '@/common/components/GlobalLoading.vue'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
-import GlobalLoading from '@/common/components/GlobalLoading.vue';
 @Component({
   components: {
     Nav,
-    GlobalLoading
+    GlobalLoading,
+    MusicPlayList
   }
 })
 export default class App extends Vue {
@@ -60,7 +63,7 @@ export default class App extends Vue {
     padding: 60px;
   }
   .drawer_active {
-    width: calc(100% - 300px)
+    width: calc(100% - 300px);
   }
   .content-wrap {
     overflow-y: auto;

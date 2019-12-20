@@ -16,17 +16,9 @@ export default class GlobalLoading extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
 .global-loading {
   position: fixed;
-  z-index: 800;
+  z-index: 999;
   top: 0;
   right: 0;
   left: 0;

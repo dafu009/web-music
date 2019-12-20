@@ -58,18 +58,18 @@ const mutations: MutationTree<CONFIG> = {
     state.globalEvent.currentIndex = value
   },
   async setCurrentSong (state: CONFIG, data: CurrentMusic) {
-    state.globalEvent.currentMusic.artist = data.artist
-    state.globalEvent.currentMusic.songName = data.songName
-    state.globalEvent.currentMusic.songUrl = data.songUrl
-    state.globalEvent.currentMusic.imgUrl = data.imgUrl
-    state.globalEvent.currentMusic.songId = data.songId
-    state.globalEvent.currentMusic.singerId = data.singerId
-    state.globalEvent.currentMusic.lyric = data.lyric
+    state.globalEvent.currentMusic = data   
   },
-
+  async setDrawer (state: CONFIG, value: boolean) {
+    state.globalEvent.drawerShow = value
+  },
   async setPlayList (state: CONFIG, data: CurrentMusic) {
-    const List: CurrentMusic[] = state.globalEvent.playList
-    state.globalEvent.playList = List.concat(data)
+    if (data) {
+      const List: CurrentMusic[] = state.globalEvent.playList
+      state.globalEvent.playList = List.concat(data)
+    } else {
+      state.globalEvent.playList = []
+    }
   }
 }
 

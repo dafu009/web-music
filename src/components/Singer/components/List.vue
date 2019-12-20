@@ -31,6 +31,7 @@ export default class List extends Vue {
   margin-bottom: 100px;
   .item {
     .avatar {
+      cursor: pointer;
       margin: 30px 30px 10px 30px;
       width: 100px;
       height: 100px;

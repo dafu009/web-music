@@ -20,7 +20,7 @@ export default class UserInfo extends Vue {}
     margin: 0 auto;
     text-align: center;
     border-radius: 50%;
-    border: 2px solid #ccc;
+    border: 2px solid #82bbe4;
     overflow: hidden;
   }
   .nickname {

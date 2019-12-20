@@ -1,5 +1,5 @@
 <template lang="pug">
-  .rank 排行
+  .rank
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';

@@ -1,6 +1,5 @@
 <template lang="pug">
   .search
-    input
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator';
