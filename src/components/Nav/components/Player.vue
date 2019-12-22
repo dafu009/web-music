@@ -62,14 +62,15 @@ export default class Player extends Vue {
   }
   @Watch('currentIndex')
   async setCurrentPlay(index: number) {
+    document.title = `
+      ${this.currentMusic.songName} - ${this.currentMusic.artist}
+    `
     this.setPlaying(false)
     await this.GetCurrentMusic(this.playList[index].songId)
-      .then(
-        (data: any) => {
-          const current = {...data, ...this.playList[index]}
-          this.setCurrentSong(current)
-        }
-      )
+      .then((data: any) => {
+        const current = { ...data, ...this.playList[index] }
+        this.setCurrentSong(current)
+      })
       .catch(() => {
         this.$message({
           type: 'error',
@@ -81,10 +82,14 @@ export default class Player extends Vue {
   @Watch('GlobalPlaying')
   PlayStatusChange(val: boolean) {
     if (val) {
+      document.title = `
+        ${this.currentMusic.songName} - ${this.currentMusic.artist}
+      `
       setTimeout(() => {
         this.audio.play()
       }, 1000)
     } else {
+      document.title = 'web-music'
       this.audio.pause()
       this.setPlaying(false)
     }
@@ -226,9 +231,9 @@ export default class Player extends Vue {
       border-radius: 50%;
       overflow: hidden;
       img {
-        width: 100%
+        width: 100%;
       }
     }
-    }
+  }
 }
 </style>

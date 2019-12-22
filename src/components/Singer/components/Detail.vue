@@ -27,7 +27,8 @@
               .operating_item.play(@click="play(item)")
                 img(src="@/assets/image/play.png")
             transition(name="fade")
-              blow.blow-position(v-if="currentMusic.songId === item.id")
+              blow.blow-position(
+                v-if="currentMusic.songId === item.id && GlobalPlaying")
       loading(@loadMore="loadmore" v-if="!isHide")
       
 </template>
@@ -93,10 +94,6 @@ export default class Overview extends Vue {
     let list = this.playList
     list.push(lists)
     await this.setPlayList(list)
-    this.$message({
-      type: 'success',
-      message: '添加成功'
-    })
   }
   async play(item: any) {
     const CurrentMusic = this.__setPlayLists(item)
@@ -106,6 +103,10 @@ export default class Overview extends Vue {
   async add(item: any) {
     const CurrentMusic = this.__setPlayLists(item)
     await this.__pushList(CurrentMusic)
+    this.$message({
+      type: 'success',
+      message: '添加成功'
+    })
   }
   async playAll () {
     let list: any = []
@@ -114,6 +115,10 @@ export default class Overview extends Vue {
     })
     list.map((item: any) => {
       this.__pushList(item)
+    })
+    this.$message({
+      type: 'success',
+      message: '添加成功'
     })
     if (this.GlobalPlaying) {
       return

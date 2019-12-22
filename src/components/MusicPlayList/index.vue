@@ -6,7 +6,7 @@ el-drawer(
   :direction="'ltr'"
   :before-close="closeDrawer"
   size="500px")
-  .play-list(v-if="drawerShow" @click.stop="")
+  .play-list(v-if="drawerShow")
     ul.list
       li.item(v-for="(item, index) in playList")
         .cover
@@ -24,6 +24,8 @@ el-drawer(
             transition(name="fade")
               img(@click="playOrPause(index)" v-if="!GlobalPlaying || currentMusic.songId !== item.songId" src="@/assets/image/play.png")
           img(@click="deleteSong(index)" src="@/assets/image/cancel.png")
+    .clear(@click="clear")
+      p 清空播放列表
 </template>
 <script lang="ts">
 import { Mutation, State, Action } from 'vuex-class'
@@ -66,6 +68,11 @@ export default class index extends Vue {
       await this.setCurrentIndex(index)
       await this.setPlaying(true)
     }
+  }
+  async clear () {
+    this.setPlayList([])
+    this.closeDrawer()
+    await this.setPlaying(false)
   }
 }
 </script>
@@ -128,6 +135,16 @@ export default class index extends Vue {
           }
         }
       }
+    }
+  }
+  .clear {
+    cursor: pointer;
+    p {
+      margin: 0 auto;
+      width: 200px;
+      text-align: center;
+      padding: 10px 60px 30px;
+      border-top: 1px solid #e6e6e6;
     }
   }
 }

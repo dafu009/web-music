@@ -35,18 +35,18 @@ ul.play-list {
     list-style: none;
     width: 250px;
     background-color: #fff;
-    padding: 10px;
+    padding: 8px;
     margin: 20px;
     border-radius: 10px;
     .cover {
+      margin: 0 auto;
       background-color: #f3f3f3;
       box-sizing: border-box;
       width: 230px;
       height: 230px;
       border: 1px solid #f3f3f3;
-      padding: 5px;
+      padding: 8px;
       text-align: center;
-      margin-right: 20px;
       border-radius: 10px;
       img {
         border-radius: 10px;
