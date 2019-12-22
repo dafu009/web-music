@@ -1,31 +1,32 @@
 <template lang="pug">
-.player(v-if="playList.length > 0")
-  .player-wrap
-    ProgressCircle(:percent="percent")
-      .cover
-        .image(:class="{playing: GlobalPlaying}")
-          img(v-lazy="currentMusic.imgUrl")
-    .info
-      p.name.animate {{ currentMusic.songName }}
-      p.singer {{ currentMusic.artist }}
-  .contorl
-    p.prev(@click.stop="prev")
-      img(src="@/assets/image/previous.png")
-    p.play(@click.stop="play")
-      transition(name="fade")
-        img(v-if="GlobalPlaying" src="@/assets/image/pause.png")
-      transition(name="fade")
-        img(v-if="!GlobalPlaying" src="@/assets/image/play.png")
-    p.next(@click.stop="next")
-      img(src="@/assets/image/next.png")
-    p.musiclist(@click.stop="toList")
-      img(src="@/assets/image/musiclist.png")
-    audio(
-      ref="audio"
-      :src="currentMusic.songUrl"
-      @timeupdate="updateTime"
-      @ended="end"
-    )
+transition(name="fade")
+  .player(v-if="playList.length > 0")
+    .player-wrap
+      ProgressCircle(:percent="percent")
+        .cover
+          .image(:class="{playing: GlobalPlaying}")
+            img(v-lazy="currentMusic.imgUrl")
+      .info
+        p.name.animate {{ currentMusic.songName }}
+        p.singer {{ currentMusic.artist }}
+    .contorl
+      p.prev(@click.stop="prev")
+        img(src="@/assets/image/previous.png")
+      p.play(@click.stop="play")
+        transition(name="fade")
+          img(v-if="GlobalPlaying" src="@/assets/image/pause.png")
+        transition(name="fade")
+          img(v-if="!GlobalPlaying" src="@/assets/image/play.png")
+      p.next(@click.stop="next")
+        img(src="@/assets/image/next.png")
+      p.musiclist(@click.stop="toList")
+        img(src="@/assets/image/musiclist.png")
+      audio(
+        ref="audio"
+        :src="currentMusic.songUrl"
+        @timeupdate="updateTime"
+        @ended="end"
+      )
 </template>
 <script lang="ts">
 import Lyric from 'lyric-parser'
@@ -50,7 +51,6 @@ export default class Player extends Vue {
 
   @Ref() readonly audio!: HTMLAudioElement
 
-  private playText: string = '播放'
   private currentTime: number = 0
   private currentLyric: string = ''
   private duration: number = 0
@@ -58,13 +58,19 @@ export default class Player extends Vue {
   get percent() {
     return this.currentTime / this.duration || 0
   }
+  @Watch('percent')
+  checkLogin(val: number) {
 
+  }
   @Watch('GlobalPlaying')
   PlayStatusChange(val: boolean) {
     if (val) {
       setTimeout(() => {
         this.audio.play()
       }, 1000)
+    } else {
+      this.audio.pause()
+      this.setPlaying(false)
     }
   }
   updateTime(e: any) {
@@ -94,12 +100,14 @@ export default class Player extends Vue {
     this.audio.play()
   }
   async play() {
+    if (this.currentIndex === -1) {
+      await this.setCurrentIndex(0)
+      await this.setCurrentSong(this.playList[this.currentIndex])
+    }
     if (this.GlobalPlaying) {
-      this.playText = '播放'
       this.audio.pause()
       await this.setPlaying(false)
     } else {
-      this.playText = '暂停'
       this.audio.play()
       await this.setPlaying(true)
     }
@@ -195,19 +203,19 @@ export default class Player extends Vue {
     }
   }
   .contorl {
-      display: flex;
-      justify-content: center;
-      p {
-        cursor: pointer;
-        margin: 0 10px;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        overflow: hidden;
-        img {
-          width: 100%
-        }
+    display: flex;
+    justify-content: center;
+    p {
+      cursor: pointer;
+      margin: 0 10px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      overflow: hidden;
+      img {
+        width: 100%
       }
+    }
     }
 }
 </style>

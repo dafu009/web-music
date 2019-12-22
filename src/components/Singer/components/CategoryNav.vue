@@ -45,14 +45,14 @@ export default class Nav extends Vue {
   li.item {
     list-style: none;
     width: 100px;
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
     margin: 0 5px;
     text-align: center;
   }
   .active {
     background-color: #e3e3e3;
-    border-radius: 20px;
+    border-radius: 10px;
   }
 }
 </style>

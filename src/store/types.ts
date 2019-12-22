@@ -36,8 +36,13 @@ export interface Singer {
   pageSize: number
 }
 
+export interface Recommend {
+  banners: []
+}
+
 export interface CONFIG {
   userInfo: UserInfo
   globalEvent: GlobalEvent
   singer: Singer
+  recommend: Recommend
 }

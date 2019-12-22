@@ -13,7 +13,7 @@ const state: CONFIG = {
     playing: false,
     loading: false,
     globalLoading: false,
-    currentIndex: 0,
+    currentIndex: -1,
     drawerShow: false,
     currentMusic: {
       songName: '',
@@ -32,6 +32,9 @@ const state: CONFIG = {
     artists: [],
     pageNum: 0,
     pageSize: 20
+  },
+  recommend: {
+    banners: []
   }
 }
 export default state

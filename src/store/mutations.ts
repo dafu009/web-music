@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic } from './types';
+import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend } from './types';
 import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
@@ -63,13 +63,11 @@ const mutations: MutationTree<CONFIG> = {
   async setDrawer (state: CONFIG, value: boolean) {
     state.globalEvent.drawerShow = value
   },
-  async setPlayList (state: CONFIG, data: CurrentMusic) {
-    if (data) {
-      const List: CurrentMusic[] = state.globalEvent.playList
-      state.globalEvent.playList = List.concat(data)
-    } else {
-      state.globalEvent.playList = []
-    }
+  async setPlayList (state: CONFIG, data) {
+    state.globalEvent.playList = data
+  },
+  async setBanner (state: CONFIG, data: Recommend) {
+    state.recommend.banners = data.banners
   }
 }
 

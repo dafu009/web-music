@@ -68,5 +68,6 @@ export default class App extends Vue {
   .content-wrap {
     overflow-y: auto;
   }
+  .content-wrap::-webkit-scrollbar { width: 0 !important }
 }
 </style>

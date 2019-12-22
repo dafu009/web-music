@@ -14,8 +14,7 @@ export default class Blow extends Vue {}
 <style lang='scss' scoped >
 .blow {
   position: absolute;
-  bottom: 10px;
-  right: 30px;
+
   width: 50px;
   height: 50px;
   border-radius: 50%;

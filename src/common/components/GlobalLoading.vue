@@ -23,7 +23,7 @@ export default class GlobalLoading extends Vue {
   right: 0;
   left: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.15);
   &_wrapper {
     position: fixed;
     top: 50%;

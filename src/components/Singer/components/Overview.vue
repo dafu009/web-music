@@ -25,7 +25,8 @@ export default class Overview extends Vue {
   @Mutation('setLoading') setLoading: any
   @Mutation('setSingerPageNum') setSingerPageNum: any
   @Mutation('reSetSingerConfig') reSetSingerConfig: any
-  @Action('GetTopArtistList') GetTopArtistList: any
+  @Mutation('setGlobalLoading') setGlobalLoading: any
+
   @Action('GetArtistList') GetArtistList: any
 
   private title: string = '热门歌手'
@@ -33,23 +34,46 @@ export default class Overview extends Vue {
   private currentCategory: number = 0
 
   async created() {
-    await this.GetTopArtistList({root: this})
-    this.pageLoad()
+    this.setGlobalLoading(true)
+    this._getGetArtistList(true, this.pageLoad)
+  }
+  async _getGetArtistList(isTop: boolean, cb: any, cat?: number) {
+    this.GetArtistList({ isTop, cat })
+      .then((data: boolean) => {
+        if (data) {
+          cb()
+        } else {
+          this.$message({
+            type: 'error',
+            message: '请求失败请重试'
+          })
+          this.setGlobalLoading(false)
+          this.setLoading(false)
+        }
+      })
+      .catch(() => {})
   }
   pageLoad() {
     this.totalList = this.singer.artists
+    this.setGlobalLoading(false)
+  }
+  concatList() {
+    this.totalList = this.totalList.concat(this.singer.artists)
+    this.setLoading(false)
   }
   async loadmore() {
     setTimeout(async () => {
       if (this.singer.artists.length === 0) return
       await this.setSingerPageNum(this.singer.pageNum + 1)
       if (this.currentCategory === 0) {
-        await this.GetTopArtistList({root: this})
+        await this._getGetArtistList(true, this.concatList)
       } else {
-        await this.GetArtistList({ cat: this.currentCategory, root: this })
+        await this._getGetArtistList(
+          false,
+          this.concatList,
+          this.currentCategory
+        )
       }
-      this.totalList = this.totalList.concat(this.singer.artists)
-      this.setLoading(false)
     }, 1000)
   }
 
@@ -59,15 +83,15 @@ export default class Overview extends Vue {
   }
 
   async checkoutCategory(data: any) {
+    this.setGlobalLoading(true)
     this.title = data.name
     this.currentCategory = data.value
     await this._resetSinger()
     if (data.value === 0) {
-      await this.GetTopArtistList({ root: this })
+      await this._getGetArtistList(true, this.pageLoad)
     } else {
-      await this.GetArtistList({ cat: data.value, root: this })
+      await this._getGetArtistList(false, this.pageLoad, data.value)
     }
-    this.totalList = this.singer.artists
   }
 }
 </script>

@@ -20,53 +20,38 @@ const actions: ActionTree<CONFIG, any> = {
     commit('resetUserInfo')
     commit('removeToken')
   },
-  async GetTopArtistList ({ commit, state: CONFIG }, { root }) {
-    commit('setGlobalLoading', true)
-    let requestConfig = {
+  async GetArtistList ({ commit, state: CONFIG }, { isTop, cat }) {
+    let requestConfig: any= {
       params: {
         offset: state.singer.pageNum * state.singer.pageSize,
-        limit: state.singer.pageSize,
+        limit: state.singer.pageSize
       }
     }
-    await api.singer.getTopArtistList(requestConfig)
-      .then(data => {
-        if (data.code === ERR_OK) {
-          commit('setSingerList', data.artists)
-        }
-      })
-      .catch(() => {
-        root.$message({
-          type: 'error',
-          message: '数据请求失败请重试'
-        })
-        commit('setGlobalLoading', false)
-      })
-    commit('setGlobalLoading', false)
-  },
-  async GetArtistList ({ commit, state: CONFIG }, { cat, root }) {
-    commit('setGlobalLoading', true)
-    let requestConfig = {
-      params: {
-        cat,
-        offset: state.singer.pageNum * state.singer.pageSize,
-        limit: state.singer.pageSize,
-      }
+    let method = null
+    let flag = false
+    if (isTop) {
+      method = api.singer.getTopArtistList
+    } else {
+      method = api.singer.getArtistList
+      requestConfig.params.cat  = cat
     }
-    await api.singer.getArtistList(requestConfig)
-      .then(data => {
-        if (data.code === ERR_OK) {
-          commit('setSingerList', data.artists)
-        }
-      })
-      .catch(() => {
-        root.$message({
-          type: 'error',
-          message: '数据请求失败请重试'
-        })
-        commit('setGlobalLoading', false)
-      })
-    commit('setGlobalLoading', false)
-
+    await method(requestConfig)
+            .then((data) => {
+              flag = true
+              if (data.code === ERR_OK) {
+                commit('setSingerList', data.artists)
+              }
+            })
+            .catch(() => {
+              flag = false
+            })
+    return new Promise((resolve, reject) => {
+      if (flag) {
+        resolve(flag)
+      } else {
+        resolve(flag)
+      }
+    })
   },
   async GetArtistDetail ({ commit, state: CONFIG }, id) {
     const { code, hotSongs, artist } = await api.singer.getArtistDetail({
@@ -117,6 +102,23 @@ const actions: ActionTree<CONFIG, any> = {
     if (code1 === ERR_OK && code2 === ERR_OK) {
       return CurrentMusic
     }
+  },
+  async getBanner ({ commit, state: CONFIG }) {
+    api.recommend.getBanner()
+      .then((data) => {
+        if (data.code === ERR_OK) {
+          commit('setBanner', data)
+        }
+      })
+      .catch(
+        () => {
+          api.recommend.getBanner().then((data) => {
+            if (data.code === ERR_OK) {
+              commit('setBanner', data)
+            }
+          })
+        }
+      )
   }
 }
 export default actions

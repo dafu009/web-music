@@ -24,7 +24,7 @@
               .operating_item.play(@click="play(item.id)")
                 img(src="@/assets/image/play.png")
             transition(name="fade")
-              blow(v-if="currentMusic.songId === item.id")
+              blow.blow-position(v-if="currentMusic.songId === item.id")
       loading(@loadMore="loadmore" v-if="!isHide")
       
 </template>
@@ -32,7 +32,7 @@
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import Loading from '@/components/Loading/index.vue'
-import Blow from '@/common/components/Blow.vue';
+import Blow from '@/common/components/Blow.vue'
 
 @Component({
   components: {
@@ -75,11 +75,12 @@ export default class Overview extends Vue {
     this.$router.go(-1)
   }
   async play(id: number) {
-    await this.setPlaying(false)
     this.GetCurrentMusic(id)
       .then(async (CurrentMusic: any) => {
-        await this.setPlayList()
-        await this.setPlayList(CurrentMusic)
+        await this.setPlaying(false)
+        let list = this.playList
+        list.push(CurrentMusic)
+        await this.setPlayList(list)
         await this.setCurrentIndex(this.playList.length - 1)
         await this.setCurrentSong(this.playList[this.currentIndex])
         await this.setPlaying(true)
@@ -92,12 +93,22 @@ export default class Overview extends Vue {
       })
   }
   async add(id: number) {
-    const CurrentMusic = await this.GetCurrentMusic(id)
-    await this.setPlayList(CurrentMusic)
-    this.$message({
-      message: '成功添加到播放列表',
-      type: 'success'
-    })
+    this.GetCurrentMusic(id)
+      .then(async (CurrentMusic: any) => {
+        let list = this.playList
+        list.push(CurrentMusic)
+        await this.setPlayList(list)
+        this.$message({
+          message: '成功添加到播放列表',
+          type: 'success'
+        })
+      })
+      .catch(() => {
+        this.$message({
+          type: 'error',
+          message: '添加失败请重试'
+        })
+      })
   }
 }
 </script>
@@ -128,7 +139,6 @@ export default class Overview extends Vue {
         font-size: 30px;
       }
       .desc {
-        max-width: 800px;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
@@ -144,9 +154,9 @@ export default class Overview extends Vue {
     ul.list {
       display: flex;
       flex-wrap: wrap;
-      justify-content: space-around;
       li.item {
         list-style: none;
+        margin-left: 2px;
         .item-wrap {
           position: relative;
           width: 400px;
@@ -202,6 +212,10 @@ export default class Overview extends Vue {
                 width: 100%;
               }
             }
+          }
+          .blow-position {
+            bottom: 10px;
+            right: 30px;
           }
         }
       }
