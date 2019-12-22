@@ -10,7 +10,7 @@ el-drawer(
     ul.list
       li.item(v-for="(item, index) in playList")
         .cover
-          img(v-lazy="item.imgUrl")
+          img(v-lazy="item.picUrl")
         .info
           span.singer {{ item.artist }}
           span.song {{ item.songName }}
@@ -44,7 +44,6 @@ export default class index extends Vue {
   @Mutation('setPlaying') setPlaying: any
   @Mutation('setDrawer') setDrawer: any
   @Mutation('setPlayList') setPlayList: any
-  @Mutation('setCurrentSong') setCurrentSong: any
   @Mutation('setCurrentIndex') setCurrentIndex: any
 
   closeDrawer() {
@@ -65,7 +64,6 @@ export default class index extends Vue {
     } else {
       await this.setPlaying(false)
       await this.setCurrentIndex(index)
-      await this.setCurrentSong(this.playList[this.currentIndex])
       await this.setPlaying(true)
     }
   }

@@ -34,7 +34,8 @@ const state: CONFIG = {
     pageSize: 20
   },
   recommend: {
-    banners: []
+    banners: [],
+    playList: []
   }
 }
 export default state

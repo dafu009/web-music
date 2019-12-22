@@ -5,7 +5,7 @@ transition(name="fade")
       ProgressCircle(:percent="percent")
         .cover
           .image(:class="{playing: GlobalPlaying}")
-            img(v-lazy="currentMusic.imgUrl")
+            img(v-lazy="currentMusic.picUrl")
       .info
         p.name.animate {{ currentMusic.songName }}
         p.singer {{ currentMusic.artist }}
@@ -49,6 +49,8 @@ export default class Player extends Vue {
   @Mutation('setCurrentIndex') setCurrentIndex: any
   @Mutation('setCurrentSong') setCurrentSong: any
 
+  @Action('GetCurrentMusic') GetCurrentMusic: any
+
   @Ref() readonly audio!: HTMLAudioElement
 
   private currentTime: number = 0
@@ -58,9 +60,23 @@ export default class Player extends Vue {
   get percent() {
     return this.currentTime / this.duration || 0
   }
-  @Watch('percent')
-  checkLogin(val: number) {
-
+  @Watch('currentIndex')
+  async setCurrentPlay(index: number) {
+    this.setPlaying(false)
+    await this.GetCurrentMusic(this.playList[index].songId)
+      .then(
+        (data: any) => {
+          const current = {...data, ...this.playList[index]}
+          this.setCurrentSong(current)
+        }
+      )
+      .catch(() => {
+        this.$message({
+          type: 'error',
+          message: '播放失败'
+        })
+      })
+    this.setPlaying(true)
   }
   @Watch('GlobalPlaying')
   PlayStatusChange(val: boolean) {
@@ -96,13 +112,10 @@ export default class Player extends Vue {
         await this.setCurrentIndex(this.currentIndex - 1)
       }
     }
-    await this.setCurrentSong(this.playList[this.currentIndex])
-    this.audio.play()
   }
   async play() {
     if (this.currentIndex === -1) {
       await this.setCurrentIndex(0)
-      await this.setCurrentSong(this.playList[this.currentIndex])
     }
     if (this.GlobalPlaying) {
       this.audio.pause()

@@ -22,6 +22,8 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 })
 export default class banner extends Vue {
   @State(state => state.recommend.banners) banners: any
+  @Action('getBanner') getBanner: any
+
   private swiperOption = {
     autoplay: {
       delay: 3000,
@@ -33,6 +35,10 @@ export default class banner extends Vue {
       clickable: true
     }
   }
+
+  async created() {
+    await this.getBanner()
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -40,7 +46,8 @@ export default class banner extends Vue {
   width: 900px;
   margin: 0 auto;
   img {
-    width: 100%
+    width: 100%;
+    border-radius: 10px;
   }
 }
 .swiper {
@@ -50,6 +57,7 @@ export default class banner extends Vue {
     width: 100%;
     img {
       width: 100%;
+      border-radius: 10px;
     }
   }
 }

@@ -64,12 +64,7 @@ const actions: ActionTree<CONFIG, any> = {
     commit('setSingerDetail', detail)
   },
   async GetCurrentMusic ({ commit, state: CONFIG }, ID) {
-    const { songs, code: code1 } = await api.song.getSongDetail({
-      params: {
-        ids: ID
-      }
-    })
-    const { data, code: code2 } = await api.song.getSongUrl({
+    const { data } = await api.song.getSongUrl({
       params: {
         id: ID
       }
@@ -79,29 +74,13 @@ const actions: ActionTree<CONFIG, any> = {
         id: ID
       }
     })
-    const [{ id, name, al, ar }] = songs
     const [{ url }] = data
-    const imgUrl = al.picUrl
-    const album = al.name
-    const [singer] = ar
-    const songName = name
     const songUrl = url
-    const songId = id
-    const artist = singer.name
-    const singerId = singer.id
     const CurrentMusic = {
-      imgUrl,
-      artist,
-      songName,
       songUrl,
-      songId,
-      singerId,
-      lyric,
-      album
+      lyric
     }
-    if (code1 === ERR_OK && code2 === ERR_OK) {
-      return CurrentMusic
-    }
+    return CurrentMusic
   },
   async getBanner ({ commit, state: CONFIG }) {
     api.recommend.getBanner()
@@ -119,6 +98,22 @@ const actions: ActionTree<CONFIG, any> = {
           })
         }
       )
+  },
+  async getRecommendPlayList ({commit, state: CONFIG}) {
+    api.recommend.getRecommendPlayList()
+      .then(data => {
+        if (data.code === ERR_OK) {
+          commit('setRecommendPlayList', data.result)
+        }
+      })
+      .catch(() => {
+        api.recommend.getRecommendPlayList()
+          .then(data => {
+            if (data.code === ERR_OK) {
+              commit('setRecommendPlayList', data.result)
+            }
+          })
+      })
   }
 }
 export default actions

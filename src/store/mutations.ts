@@ -68,6 +68,9 @@ const mutations: MutationTree<CONFIG> = {
   },
   async setBanner (state: CONFIG, data: Recommend) {
     state.recommend.banners = data.banners
+  },
+  async setRecommendPlayList (state: CONFIG, data) {
+    state.recommend.playList = data
   }
 }
 

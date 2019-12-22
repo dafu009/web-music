@@ -9,7 +9,10 @@
         p.desc {{ singerDetail.briefDesc }}
         p.more 
     .music-list
-      p.title 热门歌曲
+      .title 
+        p.txt 热门歌曲
+        .playAll(@click="playAll")
+          img(src="@/assets/image/playAll.png")
       ul.list
         li.item(ref="item" v-for="(item, index) in singerDetail.hotSongs" v-show="index < limit")
           .item-wrap
@@ -19,9 +22,9 @@
               p.song-name {{ item.name }}
               p.album-name {{ item.al.name }}
             .operating
-              .operating_item.add(@click="add(item.id)")
+              .operating_item.add(@click="add(item)")
                 img(src="@/assets/image/add.png")
-              .operating_item.play(@click="play(item.id)")
+              .operating_item.play(@click="play(item)")
                 img(src="@/assets/image/play.png")
             transition(name="fade")
               blow.blow-position(v-if="currentMusic.songId === item.id")
@@ -42,6 +45,7 @@ import Blow from '@/common/components/Blow.vue'
 })
 export default class Overview extends Vue {
   @Ref('item') readonly item!: any
+  @State(state => state.globalEvent.playing) GlobalPlaying: any
   @State(state => state.singer.detail) singerDetail: any
   @State(state => state.globalEvent.playList) playList: any
   @State(state => state.globalEvent.currentIndex) currentIndex: any
@@ -51,7 +55,6 @@ export default class Overview extends Vue {
   @Mutation('setPlaying') setPlaying: any
   @Mutation('setPlayList') setPlayList: any
   @Mutation('setCurrentIndex') setCurrentIndex: any
-  @Mutation('setCurrentSong') setCurrentSong: any
 
   @Action('GetCurrentMusic') GetCurrentMusic: any
 
@@ -74,41 +77,49 @@ export default class Overview extends Vue {
   backToSinger() {
     this.$router.go(-1)
   }
-  async play(id: number) {
-    this.GetCurrentMusic(id)
-      .then(async (CurrentMusic: any) => {
-        await this.setPlaying(false)
-        let list = this.playList
-        list.push(CurrentMusic)
-        await this.setPlayList(list)
-        await this.setCurrentIndex(this.playList.length - 1)
-        await this.setCurrentSong(this.playList[this.currentIndex])
-        await this.setPlaying(true)
-      })
-      .catch(() => {
-        this.$message({
-          type: 'error',
-          message: '播放失败请重试'
-        })
-      })
+  __setPlayLists(detail: any) {
+    const { al: album, ar: artist, name, id } = detail
+    const CurrentMusic = {
+      album: album.name,
+      picUrl: album.picUrl,
+      artist: artist[0].name,
+      artistId: artist[0].id,
+      songName: name,
+      songId: id
+    }
+    return CurrentMusic
   }
-  async add(id: number) {
-    this.GetCurrentMusic(id)
-      .then(async (CurrentMusic: any) => {
-        let list = this.playList
-        list.push(CurrentMusic)
-        await this.setPlayList(list)
-        this.$message({
-          message: '成功添加到播放列表',
-          type: 'success'
-        })
-      })
-      .catch(() => {
-        this.$message({
-          type: 'error',
-          message: '添加失败请重试'
-        })
-      })
+  async __pushList (lists: any) {
+    let list = this.playList
+    list.push(lists)
+    await this.setPlayList(list)
+    this.$message({
+      type: 'success',
+      message: '添加成功'
+    })
+  }
+  async play(item: any) {
+    const CurrentMusic = this.__setPlayLists(item)
+    await this.__pushList(CurrentMusic)
+    await this.setCurrentIndex(this.playList.length - 1)
+  }
+  async add(item: any) {
+    const CurrentMusic = this.__setPlayLists(item)
+    await this.__pushList(CurrentMusic)
+  }
+  async playAll () {
+    let list: any = []
+    this.singerDetail.hotSongs.map((item: any) => {
+      list.push(this.__setPlayLists(item))
+    })
+    list.map((item: any) => {
+      this.__pushList(item)
+    })
+    if (this.GlobalPlaying) {
+      return
+    } else {
+      this.setCurrentIndex(0)
+    }
   }
 }
 </script>
@@ -149,7 +160,24 @@ export default class Overview extends Vue {
   }
   .music-list {
     .title {
-      font-size: 24px;
+      display: flex;
+      margin: 25px 0;
+      p {
+        margin: 0;
+      }
+      .txt {
+        font-size: 24px;
+        margin-right: 30px;
+      }
+      .playAll {
+        cursor: pointer;
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        img {
+          width: 100%
+        }
+      }
     }
     ul.list {
       display: flex;
