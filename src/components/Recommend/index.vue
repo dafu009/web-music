@@ -1,37 +1,15 @@
 <template lang="pug">
   .recommend
-    banner.banner
-    .recommend-content
-      play-list
-        
-        
+    transition(name="fade")
+      router-view
 </template>
 <script lang="ts">
-import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import Banner from './components/banner.vue'
-import PlayList from './components/playList.vue'
 @Component({
-  components: {
-    Banner,
-    PlayList
-  }
+  components: {}
 })
-export default class index extends Vue {}
-</script>
-<style lang="scss" scoped>
-.recommend {
-  .banner {
-    margin-bottom: 30px;
-  }
-  .recommend-content::-webkit-scrollbar {
-    width: 0 !important;
-  }
-  .recommend-content {
-    width: 100%;
-    background-color: #f3f3f3;
-    padding: 30px 0;
-    border-radius: 10px;
-  }
+export default class index extends Vue {
+  mounted() {}
 }
-</style>
+</script>
+<style lang="scss" scoped></style>

@@ -71,6 +71,10 @@ const mutations: MutationTree<CONFIG> = {
   },
   async setRecommendPlayList (state: CONFIG, data) {
     state.recommend.playList = data
+  },
+  setPlayListDetail (state: CONFIG, data) {
+    console.log(data)
+    state.recommend.playListDetail = data
   }
 }
 

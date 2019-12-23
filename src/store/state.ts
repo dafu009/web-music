@@ -35,7 +35,8 @@ const state: CONFIG = {
   },
   recommend: {
     banners: [],
-    playList: []
+    playList: [],
+    playListDetail: {}
   }
 }
 export default state

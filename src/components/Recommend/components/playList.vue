@@ -1,6 +1,6 @@
 <template lang="pug">
   ul.play-list
-    li.item(v-for="(item, index) in playList" :key="index")
+    li.item(@click="detail(item.id)" v-for="(item, index) in playList" :key="index")
       .cover
         img(v-lazy="item.picUrl")
       .text
@@ -17,8 +17,25 @@ export default class playList extends Vue {
   @State(state => state.recommend.playList) playList: any
 
   @Action('getRecommendPlayList') getRecommendPlayList: any
+  @Action('getPlayListDetail') getPlayListDetail: any
+
   created() {
     this.getRecommendPlayList()
+  }
+
+  detail (id: number) {
+     this.getPlayListDetail(id)
+      .then(() => {
+        this.$router.push({
+          path: `/recommend/${id}`
+        })
+      })
+      .catch(() => {
+        this.$message({
+          type: 'error',
+          message: '网络错误请重试'
+        })
+      })
   }
 }
 </script>
@@ -61,7 +78,7 @@ ul.play-list {
         margin: 0;
         padding: 5px 0;
       }
-      .type{
+      .type {
         color: #3a3a3a;
       }
     }

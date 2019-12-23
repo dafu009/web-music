@@ -12,7 +12,7 @@
       .title 
         p.txt 热门歌曲
         .playAll(@click="playAll")
-          img(src="@/assets/image/playAll.png")
+          span.iconfont(@click="playAll") &#xe636
       ul.list
         li.item(ref="item" v-for="(item, index) in singerDetail.hotSongs" v-show="index < limit")
           .item-wrap
@@ -23,9 +23,9 @@
               p.album-name {{ item.al.name }}
             .operating
               .operating_item.add(@click="add(item)")
-                img(src="@/assets/image/add.png")
+                span.iconfont &#xe6a0
               .operating_item.play(@click="play(item)")
-                img(src="@/assets/image/play.png")
+                span.iconfont &#xe6a4
             transition(name="fade")
               blow.blow-position(
                 v-if="currentMusic.songId === item.id && GlobalPlaying")
@@ -175,12 +175,12 @@ export default class Overview extends Vue {
         margin-right: 30px;
       }
       .playAll {
-        cursor: pointer;
         width: 40px;
         height: 40px;
         text-align: center;
-        img {
-          width: 100%
+        .iconfont {
+          cursor: pointer;
+          font-size: 40px;
         }
       }
     }
@@ -241,8 +241,9 @@ export default class Overview extends Vue {
               margin: 0 10px;
               width: 30px;
               height: 30px;
-              img {
-                width: 100%;
+              .iconfont {
+                font-size: 30px;
+                color: #515151;
               }
             }
           }

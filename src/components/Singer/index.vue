@@ -9,7 +9,6 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
   components: {}
 })
 export default class index extends Vue {
-  @Prop() private show?: boolean
   mounted() {}
 }
 </script>

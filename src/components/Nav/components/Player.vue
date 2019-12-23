@@ -11,16 +11,17 @@ transition(name="fade")
         p.singer {{ currentMusic.artist }}
     .contorl
       p.prev(@click.stop="prev")
-        img(src="@/assets/image/previous.png")
+        span.iconfont &#xe69f
       p.play(@click.stop="play")
         transition(name="fade")
-          img(v-if="GlobalPlaying" src="@/assets/image/pause.png")
+          span.iconfont(v-if="GlobalPlaying") &#xe69e
         transition(name="fade")
-          img(v-if="!GlobalPlaying" src="@/assets/image/play.png")
+          span.iconfont(v-if="!GlobalPlaying") &#xe6a4
       p.next(@click.stop="next")
-        img(src="@/assets/image/next.png")
+        span.iconfont &#xe69d
       p.musiclist(@click.stop="toList")
-        img(src="@/assets/image/musiclist.png")
+        span.iconfont &#xe69c
+      volume-control
       audio(
         ref="audio"
         :src="currentMusic.songUrl"
@@ -33,9 +34,11 @@ import Lyric from 'lyric-parser'
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
 import ProgressCircle from '@/common/components/ProgressCircle.vue'
+import VolumeControl from './VolumeControl.vue';
 @Component({
   components: {
-    ProgressCircle
+    ProgressCircle,
+    VolumeControl
   }
 })
 export default class Player extends Vue {
@@ -225,13 +228,14 @@ export default class Player extends Vue {
     justify-content: center;
     p {
       cursor: pointer;
-      margin: 0 10px;
+      margin: 0 8px;
       width: 50px;
       height: 50px;
       border-radius: 50%;
       overflow: hidden;
-      img {
-        width: 100%;
+      .iconfont {
+        font-size: 40px;
+        color: #515151;
       }
     }
   }

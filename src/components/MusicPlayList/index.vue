@@ -20,10 +20,10 @@ el-drawer(
             transition(name="fade")
               blow.blow-position(v-if="GlobalPlaying && currentMusic.songId === item.songId")
             transition(name="fade")
-              img(@click="playOrPause(index)" v-if="GlobalPlaying && currentMusic.songId === item.songId" src="@/assets/image/pause.png")
+              span.iconfont(@click="playOrPause(index)" v-if="GlobalPlaying && currentMusic.songId === item.songId") &#xe69e
             transition(name="fade")
-              img(@click="playOrPause(index)" v-if="!GlobalPlaying || currentMusic.songId !== item.songId" src="@/assets/image/play.png")
-          img(@click="deleteSong(index)" src="@/assets/image/cancel.png")
+              span.iconfont(@click="playOrPause(index)" v-if="!GlobalPlaying || currentMusic.songId !== item.songId") &#xe6a4
+          span.iconfont(@click="deleteSong(index)") &#xe698
     .clear(@click="clear")
       p 清空播放列表
 </template>
@@ -56,6 +56,7 @@ export default class index extends Vue {
     list.splice(index, 1)
     await this.setPlayList(list)
     if (this.playList.length === 0) {
+      await this.setPlaying(false)
       this.closeDrawer()
     }
   }
@@ -116,21 +117,20 @@ export default class index extends Vue {
         flex: 1;
         overflow: hidden;
         text-align: right;
-        img {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
+        .iconfont{
           cursor: pointer;
+          font-size: 40px;
         }
         .control {
           position: relative;
-          img {
+          .iconfont {
+            font-size: 40px;
             position: absolute;
             top: 0;
             right: 40px;
           }
           .blow-position {
-            top: -5px;
+            top: -3px;
             right: 35px;
           }
         }

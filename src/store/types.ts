@@ -38,7 +38,8 @@ export interface Singer {
 
 export interface Recommend {
   banners: [],
-  playList: []
+  playList: [],
+  playListDetail: {}
 }
 
 export interface CONFIG {

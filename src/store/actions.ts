@@ -114,6 +114,31 @@ const actions: ActionTree<CONFIG, any> = {
             }
           })
       })
+  },
+  async getPlayListDetail ({commit, state: CONFIG}, id: number) {
+    const { playlist, code } = await api.song.getPlayListDetail({
+      params: {
+        id
+      }
+    })
+    if (code === ERR_OK) {
+      const {
+        coverImgUrl: picUrl,
+        description: desc,
+        tags,
+        tracks,
+        name,
+        id
+      } = playlist
+      commit('setPlayListDetail', {
+        id,
+        name,
+        tags,
+        tracks,
+        desc,
+        picUrl
+      })
+    }
   }
 }
 export default actions
