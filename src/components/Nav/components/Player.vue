@@ -21,7 +21,7 @@ transition(name="fade")
         span.iconfont &#xe69d
       p.musiclist(@click.stop="toList")
         span.iconfont &#xe69c
-      volume-control
+      volume-control(@change="volumeChange")
       audio(
         ref="audio"
         :src="currentMusic.songUrl"
@@ -144,6 +144,10 @@ export default class Player extends Vue {
   }
   async toList() {
     await this.setDrawer(true)
+  }
+
+  volumeChange (volume: number) {
+    this.audio.volume = volume
   }
 }
 </script>
