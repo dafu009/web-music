@@ -17,14 +17,4 @@ declare module 'better-scroll' {
   export default scroll
 }
 
-declare module 'vue-awesome-swiper' {
-  export const swiper: any
-  export const swiperSlide: any
-  export const VueAwesomeSwiper: any
-}
-
-declare module 'vue-waterfall-easy' {
-  const VueWaterfallEasy: any
-  export default VueWaterfallEasy
-}
 
