@@ -12,7 +12,7 @@ const routes = [
   },
   {
     path: '/',
-    component: () => import('@/components/Recommend/index.vue')
+    component: () => import('@/components/Recommend/components/overview.vue')
   },
   {
     path: '/recommend',
