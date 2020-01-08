@@ -8,6 +8,17 @@ const state: CONFIG = {
     createTime: '',
     phone: 0,
   },
+  singer: {
+    detail: {},
+    artists: [],
+    pageNum: 0,
+    pageSize: 20
+  },
+  recommend: {
+    banners: [],
+    playList: [],
+    playListDetail: {}
+  },
   globalEvent: {
     checkShow: false,
     playing: false,
@@ -26,17 +37,6 @@ const state: CONFIG = {
       album: ''
     },
     playList: []
-  },
-  singer: {
-    detail: {},
-    artists: [],
-    pageNum: 0,
-    pageSize: 20
-  },
-  recommend: {
-    banners: [],
-    playList: [],
-    playListDetail: {}
   }
 }
 export default state
