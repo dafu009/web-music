@@ -11,27 +11,36 @@
       li.item(v-for="(item, index) in playListDetail.tags") {{ item }}  
       .play-all
         span.iconfont(@click="playAll") &#xe636
-    ul.list
-      li.item(v-for="(item, index) in playListDetail.tracks")
-        .cover-wrap(@mouseover="over(index)")
-          img(v-lazy="item.al.picUrl")
-          transition(name="fade")
-            .mask(v-if="currentIndex === index")
-              .play(@click.stop="play(item)")
-                span.iconfont(v-if="GlobalPlaying && currentMusic.songId === item.id") &#xe69e
-                span.iconfont(v-if="!GlobalPlaying || currentMusic.songId !== item.id") &#xe6a4
-        .info
-          p.name 《{{item.name}}》
-          p.artise {{item.ar[0].name}}
+    .list(ref="wrapper")
+      waterfall(ref="waterfall" :list="playListDetail.tracks" :gutter="5" :width="200" backgroundColor="#f3f3f3" :phoneCol="3")
+        template(slot="item" slot-scope="props")
+          .item
+            .cover-wrap
+              img(v-lazy="props.data.al.picUrl")
+              transition(name="fade")
+                .mask
+                  .play(@click.stop="play(props.data)")
+                    span.iconfont(v-if="GlobalPlaying && currentMusic.songId === props.data.id") &#xe69e
+                    span.iconfont(v-if="!GlobalPlaying || currentMusic.songId !== props.data.id") &#xe6a4
+            .info
+              p.name 《{{props.data.name}}》
+              p.artise {{props.data.ar[0].name}}
 </template>
 <script lang="ts">
+import Detector from 'element-resize-detector'
+import Waterfall from 'vue-waterfall-plugin'
 import { Mutation, State, Action } from 'vuex-class'
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import Player from '../../Nav/components/Player.vue';
 @Component({
-  components: {}
+  components: {
+    Waterfall
+  }
 })
 export default class detail extends Vue {
+  @Ref('wrapper') readonly wrapper!: any
+  @Ref('waterfall') readonly waterfall!: any
+
   @State(state => state.globalEvent.playing) GlobalPlaying: any
   @State(state => state.recommend.playListDetail) playListDetail: any
   @State(state => state.globalEvent.playList) playList: any
@@ -40,13 +49,21 @@ export default class detail extends Vue {
   @Mutation('setPlayList') setPlayList: any
   @Mutation('setCurrentIndex') setCurrentIndex: any
 
-  private currentIndex: number = 0
-
   created() {
     if (!this.playListDetail.id) {
       this.$router.push('/recommend')
       return
     }
+  }
+
+  mounted() {
+    const erd = Detector()
+    const self = this
+    erd.listenTo(this.wrapper, function(el: HTMLDivElement) {
+      if (el) {
+        self.waterfall.refresh()
+      }
+    })
   }
 
   __setPlayLists(detail: any) {
@@ -84,9 +101,6 @@ export default class detail extends Vue {
     } else {
       this.setCurrentIndex(0)
     }
-  }
-  over (index: number) {
-    this.currentIndex = index
   }
 
   async play (item: any) {
@@ -156,16 +170,11 @@ ul > li {
     }
   }
   .list {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
     .item {
-      margin: 0 5px 10px;
+      margin: 10px 5px;
       .cover-wrap{
         box-sizing: border-box;
         width: 150px;
-        height: 150px;
         position: relative;
         margin: 0 auto;
         overflow: hidden;
@@ -179,8 +188,8 @@ ul > li {
           top: 0;
           right: 0;
           width: 100%;
-          height: 100%;
-          background-color: rgba(0,0,0,0.6);
+          height: calc(100% - 5px);
+          background-color: rgba(0,0,0,0.35);
           border-radius: 10px;
           .play {
             width: 50px;
@@ -205,10 +214,10 @@ ul > li {
       .info {
         margin-top: 10px;
         p {
-          margin: 0;
+          margin: 0 auto;
           font-size: 14px;
           text-align: center;
-          min-width: 180px;
+          width: 150px;
           overflow: hidden;
         }
       }

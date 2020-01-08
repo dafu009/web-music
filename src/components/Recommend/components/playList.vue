@@ -1,19 +1,36 @@
 <template lang="pug">
-  ul.play-list
-    li.item(@click="detail(item.id)" v-for="(item, index) in playList" :key="index")
-      .cover
-        img(v-lazy="item.picUrl")
-      .text
-        p.type {{ item.copywriter }}
-        p {{ item.name }}
+  .play-list(ref="wrapper")
+    waterfall(ref="waterfall" :list="playList" :gutter="5" :width="300" backgroundColor="#f3f3f3" :phoneCol="3")
+      template(slot="item" slot-scope="props")
+        .item(@click="detail(props.data.id)")
+          .cover
+            img(:src="props.data.picUrl")
+          .text
+            p.type {{ props.data.copywriter }}
+            p {{ props.data.name }}   
 </template>
 <script lang="ts">
+import Detector from 'element-resize-detector'
+import Waterfall from 'vue-waterfall-plugin'
 import { Mutation, State, Action } from 'vuex-class'
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
+import mutations from '../../../store/mutations'
 @Component({
-  components: {}
+  components: {
+    Waterfall
+  },
+  directives: {
+    resize: {
+      inserted: el => {
+        console.log(el)
+      }
+    }
+  }
 })
 export default class playList extends Vue {
+  @Ref('wrapper') readonly wrapper!: any
+  @Ref('waterfall') readonly waterfall!: any
+
   @State(state => state.recommend.playList) playList: any
 
   @Action('getRecommendPlayList') getRecommendPlayList: any
@@ -22,9 +39,18 @@ export default class playList extends Vue {
   created() {
     this.getRecommendPlayList()
   }
+  mounted() {
+    const erd = Detector()
+    const self = this
+    erd.listenTo(this.wrapper, function(el: HTMLDivElement) {
+      if (el) {
+        self.waterfall.refresh()
+      }
+    })
+  }
 
-  detail (id: number) {
-     this.getPlayListDetail(id)
+  detail(id: number) {
+    this.getPlayListDetail(id)
       .then(() => {
         this.$router.push({
           path: `/recommend/${id}`
@@ -40,20 +66,17 @@ export default class playList extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-ul.play-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+.play-list {
   margin: 0 auto;
   padding: 0;
-  li.item {
+  .item {
     box-sizing: border-box;
     cursor: pointer;
     list-style: none;
     width: 250px;
     background-color: #fff;
     padding: 8px;
-    margin: 20px;
+    margin: 10px auto;
     border-radius: 10px;
     .cover {
       margin: 0 auto;

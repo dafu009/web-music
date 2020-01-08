@@ -17,4 +17,16 @@ declare module 'better-scroll' {
   export default scroll
 }
 
-
+declare module 'vue-awesome-swiper' {
+  export const swiper: any
+  export const swiperSlide: any
+  export const VueAwesomeSwiper: any
+}
+declare module 'vue-waterfall-plugin' {
+  const VueWaterfallPlugin: any
+  export default VueWaterfallPlugin
+}
+declare module 'element-resize-detector' {
+  const ElementResizeDetector: any
+  export default ElementResizeDetector
+}
