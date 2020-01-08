@@ -12,7 +12,7 @@ const routes = [
   },
   {
     path: '/',
-    component: () => import('@/components/Recommend/components/overview.vue')
+    component: () => import('@/components/Recommend/index.vue')
   },
   {
     path: '/recommend',
@@ -20,7 +20,7 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'home',
+        name: 'recommend',
         component: () => import('@/components/Recommend/components/overview.vue')
       },
       {

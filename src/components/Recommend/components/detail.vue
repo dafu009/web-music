@@ -168,6 +168,8 @@ ul > li {
         height: 150px;
         position: relative;
         margin: 0 auto;
+        overflow: hidden;
+        border-radius: 10px;
         img {
           width: 100%;
           border-radius: 10px;
