@@ -25,6 +25,8 @@ export default class search extends Vue {
 
   @Action('getSearchSongs') getSearchSongs: any
   @Action('getSearchArtists') getSearchArtists: any
+  @Action('getSearchPlaylist') getSearchPlaylist: any
+
   private keywords: string = ''
   private Pagination = {
     songs: {
@@ -40,6 +42,7 @@ export default class search extends Vue {
     await this.setSearchKeywords(this.keywords)
     this.getSearchSongs()
     this.getSearchArtists()
+    this.getSearchPlaylist()
   }
 }
 </script>

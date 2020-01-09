@@ -183,6 +183,17 @@ const actions: ActionTree<CONFIG, any> = {
       .catch(err => {
         console.log(err)
       })
-  }
+  },
+  async getSearchPlaylist ({ commit, state: CONFIG }) {
+    const genre: string = 'playList'
+    const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
+    api.search.monolayer(requestConfig)
+      .then(data => {
+        commit('setSearchPlayList', data.result.playlists)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
 }
 export default actions
