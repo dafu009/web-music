@@ -37,8 +37,8 @@ export interface Singer {
 }
 
 export interface Recommend {
-  banners: [],
-  playList: [],
+  banners: []
+  playList: []
   playListDetail: {}
 }
 
@@ -47,4 +47,19 @@ export interface CONFIG {
   globalEvent: GlobalEvent
   singer: Singer
   recommend: Recommend
+  search: Search
+}
+export interface SearchParams {
+  type: number
+  limit: number
+  offset: number
+  result: []
+}
+export interface Search {
+  [key: string]: any
+  keywords: string
+  songs: SearchParams
+  artists: SearchParams
+  mv: SearchParams
+  playList: SearchParams
 }

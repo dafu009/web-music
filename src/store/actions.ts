@@ -1,8 +1,30 @@
 import { ActionTree } from 'vuex'
 import { CONFIG } from './types';
-import state from './state'
+import state from './state';
 import api from '@/api'
-import { ERR_OK } from '@/common/ts/config';
+import { ERR_OK } from '@/common/ts/config'
+import { AxiosRequestConfig } from 'axios'
+interface SearchParams {
+  type?: number
+  offset?: number
+  limit?: number
+  keywords?: string
+}
+function initSearchParams (state: CONFIG, genre: string) {
+  let data: SearchParams = {}
+  data.type = state.search[genre].type
+  data.limit = state.search[genre].limit
+  data.offset = state.search[genre].offset
+  data.keywords = state.search.keywords
+  return {
+    params: {
+      type: data.type,
+      offset: data.offset,
+      limit: data.limit,
+      keywords: data.keywords
+    }
+  }
+}
 
 const actions: ActionTree<CONFIG, any> = {
   async SET_CONFIGINFO ({ commit, state: CONFIG }, data: CONFIG) {
@@ -21,7 +43,7 @@ const actions: ActionTree<CONFIG, any> = {
     commit('removeToken')
   },
   async GetArtistList ({ commit, state: CONFIG }, { isTop, cat }) {
-    let requestConfig: any= {
+    let requestConfig: AxiosRequestConfig = {
       params: {
         offset: state.singer.pageNum * state.singer.pageSize,
         limit: state.singer.pageSize
@@ -33,18 +55,18 @@ const actions: ActionTree<CONFIG, any> = {
       method = api.singer.getTopArtistList
     } else {
       method = api.singer.getArtistList
-      requestConfig.params.cat  = cat
+      requestConfig.params.cat = cat
     }
     await method(requestConfig)
-            .then((data) => {
-              flag = true
-              if (data.code === ERR_OK) {
-                commit('setSingerList', data.artists)
-              }
-            })
-            .catch(() => {
-              flag = false
-            })
+      .then((data) => {
+        flag = true
+        if (data.code === ERR_OK) {
+          commit('setSingerList', data.artists)
+        }
+      })
+      .catch(() => {
+        flag = false
+      })
     return new Promise((resolve, reject) => {
       if (flag) {
         resolve(flag)
@@ -99,7 +121,7 @@ const actions: ActionTree<CONFIG, any> = {
         }
       )
   },
-  async getRecommendPlayList ({commit, state: CONFIG}) {
+  async getRecommendPlayList ({ commit, state: CONFIG }) {
     api.recommend.getRecommendPlayList()
       .then(data => {
         if (data.code === ERR_OK) {
@@ -115,7 +137,7 @@ const actions: ActionTree<CONFIG, any> = {
           })
       })
   },
-  async getPlayListDetail ({commit, state: CONFIG}, id: number) {
+  async getPlayListDetail ({ commit, state: CONFIG }, id: number) {
     const { playlist, code } = await api.song.getPlayListDetail({
       params: {
         id
@@ -139,6 +161,28 @@ const actions: ActionTree<CONFIG, any> = {
         picUrl
       })
     }
+  },
+  async getSearchSongs ({ commit, state: CONFIG }) {
+    const genre: string = 'songs'
+    const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
+    api.search.monolayer(requestConfig)
+      .then(data => {
+        commit('setSearchSongs', data.result.songs)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
+  async getSearchArtists ({ commit, state: CONFIG }) {
+    const genre: string = 'artists'
+    const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
+    api.search.monolayer(requestConfig)
+      .then(data => {
+        commit('setSearchArtists', data.result.artists)
+      })
+      .catch(err => {
+        console.log(err)
+      })
   }
 }
 export default actions

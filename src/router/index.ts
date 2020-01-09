@@ -51,13 +51,19 @@ const routes = [
   },
   {
     path: '/search',
-    name: 'search',
-    component: () => import('@/components/Search/index.vue')
+    component: () => import('@/components/Search/index.vue'),
+    children: [
+      {
+        path: '',
+        name: 'search',
+        component: () => import('@/components/Search/components/overview.vue'),
+      }
+    ]
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/components/login.vue')
+    component: () => import('@/components/login.vue'),
   }
 ]
 

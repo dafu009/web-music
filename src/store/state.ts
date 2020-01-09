@@ -37,6 +37,33 @@ const state: CONFIG = {
       album: ''
     },
     playList: []
+  },
+  search: {
+    keywords: '',
+    songs: {
+      type: 1,
+      limit: 10,
+      offset: 0,
+      result: []
+    },
+    artists: {
+      type: 100,
+      limit: 10,
+      offset: 0,
+      result: []
+    },
+    playList: {
+      type: 1000,
+      limit: 10,
+      offset: 0,
+      result: []
+    },
+    mv: {
+      type: 1006,
+      limit: 10,
+      offset: 0,
+      result: []
+    }
   }
 }
 export default state

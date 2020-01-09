@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend } from './types';
+import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search } from './types';
 import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
@@ -73,8 +73,22 @@ const mutations: MutationTree<CONFIG> = {
     state.recommend.playList = data
   },
   setPlayListDetail (state: CONFIG, data) {
-    console.log(data)
     state.recommend.playListDetail = data
+  },
+  async setSearchKeywords (state: CONFIG, value: string) {
+    state.search.keywords = value
+  },
+  async setSearchSongs (state: CONFIG, data) {
+    state.search.songs.result = data
+  },
+  async setSearchMvs (state: CONFIG, data) {
+    state.search.mv.result = data
+  },
+  async setSearchArtists (state: CONFIG, data) {
+    state.search.artists.result = data
+  },
+  async setSearchPlayList (state: CONFIG, data) {
+    state.search.playList.result = data
   }
 }
 

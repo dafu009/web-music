@@ -1,17 +1,13 @@
 <template lang="pug">
   .search
+    transition(name="fade")
+      router-view
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator';
+import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
-    components: {
-        
-    }
+  components: {}
 })
-export default class index extends Vue {
-
-}
+export default class index extends Vue {}
 </script>
-<style lang="scss" scoped >
-
-</style>
+<style lang="scss" scoped></style>
