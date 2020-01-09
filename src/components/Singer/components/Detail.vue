@@ -12,7 +12,7 @@
       .title 
         p.txt 热门歌曲
         .playAll(@click="playAll")
-          span.iconfont(@click="playAll") &#xe636
+          span.iconfont &#xe636
       ul.list
         li.item(ref="item" v-for="(item, index) in singerDetail.hotSongs" v-show="index < limit")
           .item-wrap

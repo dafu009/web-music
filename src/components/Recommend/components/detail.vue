@@ -170,7 +170,7 @@ ul > li {
   }
   .list {
     .item {
-      margin: 10px 5px;
+      margin: 20px 5px 10px;
       .cover-wrap{
         box-sizing: border-box;
         width: 150px;
