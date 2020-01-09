@@ -52,14 +52,14 @@ const state: CONFIG = {
       offset: 0,
       result: []
     },
-    playList: {
+    playLists: {
       type: 1000,
       limit: 10,
       offset: 0,
       result: []
     },
-    mv: {
-      type: 1006,
+    mvs: {
+      type: 1004,
       limit: 10,
       offset: 0,
       result: []

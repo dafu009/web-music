@@ -153,11 +153,10 @@ ul > li {
     }
     .item {
       font-size: 14px;
-      width: 40px;
       text-align: center;
       border: 2px solid #515151;
       border-radius: 10px;
-      padding: 3px 8px;
+      padding: 4px 10px;
       margin: 0 5px;
     }
     .play-all {

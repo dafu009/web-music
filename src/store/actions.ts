@@ -122,14 +122,19 @@ const actions: ActionTree<CONFIG, any> = {
       )
   },
   async getRecommendPlayList ({ commit, state: CONFIG }) {
-    api.recommend.getRecommendPlayList()
+    const requestConfig: AxiosRequestConfig = {
+      params: {
+        limit: 40
+      }
+    }
+    api.recommend.getRecommendPlayList(requestConfig)
       .then(data => {
         if (data.code === ERR_OK) {
           commit('setRecommendPlayList', data.result)
         }
       })
       .catch(() => {
-        api.recommend.getRecommendPlayList()
+        api.recommend.getRecommendPlayList(requestConfig)
           .then(data => {
             if (data.code === ERR_OK) {
               commit('setRecommendPlayList', data.result)
@@ -185,11 +190,22 @@ const actions: ActionTree<CONFIG, any> = {
       })
   },
   async getSearchPlaylist ({ commit, state: CONFIG }) {
-    const genre: string = 'playList'
+    const genre: string = 'playLists'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
       .then(data => {
         commit('setSearchPlayList', data.result.playlists)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  },
+  async getSearchMv ({ commit, state: CONFIG }) {
+    const genre: string = 'mvs'
+    const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
+    api.search.monolayer(requestConfig)
+      .then(data => {
+        commit('setSearchMvs', data.result.mvs)
       })
       .catch(err => {
         console.log(err)
