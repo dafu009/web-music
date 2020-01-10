@@ -12,6 +12,7 @@
             span {{ item.title }}
     .content-wrap
       songs(:currentIndex="currentIndex")
+      albums(:currentIndex="currentIndex")
       artists(:currentIndex="currentIndex")
       playLists(:currentIndex="currentIndex")
       mvs(:currentIndex="currentIndex")
@@ -21,6 +22,7 @@ import { State } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
 import Songs from './components/songs.vue'
+import Albums from './components/albums.vue'
 import Artists from './components/artists.vue'
 import PlayLists from './components/playLists.vue'
 import Mvs from './components/mvs.vue'
@@ -28,6 +30,7 @@ import Mvs from './components/mvs.vue'
 @Component({
   components: {
     Songs,
+    Albums,
     Artists,
     PlayLists,
     Mvs
@@ -45,6 +48,11 @@ export default class searchResult extends Vue {
       icon: 'icon-Music'
     },
     {
+      title: '专辑',
+      name: 'albums',
+      icon: 'icon-zhuanji'
+    },
+    {
       title: '歌手',
       name: 'artists',
       icon: 'icon-personal'
@@ -58,7 +66,7 @@ export default class searchResult extends Vue {
       title: 'MV',
       name: 'mvs',
       icon: 'icon-MV'
-    }
+    },
   ]
   private currentIndex = 0
 
@@ -113,12 +121,15 @@ export default class searchResult extends Vue {
         transition: transform 0.3s;
       }
       li:first-child.tab-current ~ li:last-child::before {
-        transform: translateX(-300%);
+        transform: translateX(-400%);
       }
       li:nth-child(2).tab-current ~ li:last-child::before {
-        transform: translateX(-200%);
+        transform: translateX(-300%);
       }
       li:nth-child(3).tab-current ~ li:last-child::before {
+        transform: translateX(-200%);
+      }
+      li:nth-child(4).tab-current ~ li:last-child::before {
         transform: translateX(-100%);
       }
       li.tab-current p {

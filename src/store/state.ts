@@ -46,13 +46,13 @@ const state: CONFIG = {
       offset: 0,
       result: []
     },
-    artists: {
-      type: 100,
+    albums: {
+      type: 10,
       limit: 10,
       offset: 0,
       result: []
     },
-    albums: {
+    artists: {
       type: 100,
       limit: 10,
       offset: 0,

@@ -1,6 +1,6 @@
 <template lang="pug">
 transition(name="fade")
-  section.songs(v-if="currentIndex === 1")
+  section.songs(v-if="currentIndex === 2")
     template(v-for="(item, index) in artists")
       .item(:key="item.id") {{ item.name }}
 </template>

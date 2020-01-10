@@ -53,7 +53,7 @@ export default class playList extends Vue {
     this.getPlayListDetail(id)
       .then(() => {
         this.$router.push({
-          path: `/recommend/${id}`
+          path: `/play-list/${id}`
         })
       })
       .catch(() => {

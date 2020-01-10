@@ -42,7 +42,7 @@ export default class check extends Vue {
   }
 
   get randomImage() {
-    return `https://picsum.photos/id/${this.randomImgId}/200/200`
+    return `https://source.unsplash.com/user/erondu/200x200`
   }
   get randomRotate() {
     return `rotate(${this.rotate}deg)`
@@ -65,7 +65,6 @@ export default class check extends Vue {
     this.checkSuccess = false
     this.checkFail = false
     this.offsetX = 0
-    this.randomImgId = this.RandomNum(1, 1000)
     this.rotate = this.RandomNum(60, 300)
   }
   close() {
@@ -74,7 +73,6 @@ export default class check extends Vue {
     })
   }
   imageError() {
-    this.randomImgId = this.RandomNum(1, 500)
   }
   RandomNum(Min: number, Max: number) {
     let Range = Max - Min

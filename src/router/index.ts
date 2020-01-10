@@ -22,10 +22,6 @@ const routes = [
         path: '',
         name: 'recommend',
         component: () => import('@/components/Recommend/components/overview.vue')
-      },
-      {
-        path: ':id',
-        component: () => import('@/components/Recommend/components/detail.vue')
       }
     ]
   },
@@ -57,6 +53,16 @@ const routes = [
         path: '',
         name: 'search',
         component: () => import('@/components/Search/components/overview.vue'),
+      }
+    ]
+  },
+  {
+    path: '/play-list',
+    component: () => import('@/components/PlayList/index.vue'),
+    children: [
+      {
+        path: ':id',
+        component: () => import('@/components/PlayList/component/detail.vue')
       }
     ]
   },

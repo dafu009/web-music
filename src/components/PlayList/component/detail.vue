@@ -7,7 +7,7 @@
         .name 《 {{playListDetail.name}} 》
         .desc {{playListDetail.desc}}
     ul.tags
-      img(src="@/assets/image/tags.png")
+      img(src="@/assets/image/tags.png" v-if="playListDetail.tags.length > 0")
       li.item(v-for="(item, index) in playListDetail.tags") {{ item }}  
       .play-all
         span.iconfont(@click="playAll") &#xe636

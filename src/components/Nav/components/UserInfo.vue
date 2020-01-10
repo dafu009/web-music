@@ -1,7 +1,7 @@
 <template lang="pug">
   .userinfo
     .avatar
-      img(src="https://picsum.photos/id/187/200/200")
+      img(src="https://source.unsplash.com/user/erondu/200x200")
     .nickname
       span username
 </template>
