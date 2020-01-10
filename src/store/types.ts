@@ -60,6 +60,7 @@ export interface Search {
   keywords: string
   songs: SearchParams
   artists: SearchParams
+  albums: SearchParams
   mvs: SearchParams
   playLists: SearchParams
 }

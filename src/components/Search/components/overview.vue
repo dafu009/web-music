@@ -7,7 +7,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import Search from './search.vue'
-import SearchResult from './search-result.vue'
+import SearchResult from './searchResult/index.vue'
 import { Mutation } from 'vuex-class'
 @Component({
   components: {

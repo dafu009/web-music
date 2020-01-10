@@ -20,10 +20,10 @@
 import { State } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 
-import Songs from './songs.vue'
-import Artists from './artists.vue'
-import PlayLists from './playLists.vue'
-import Mvs from './mvs.vue'
+import Songs from './components/songs.vue'
+import Artists from './components/artists.vue'
+import PlayLists from './components/playLists.vue'
+import Mvs from './components/mvs.vue'
 
 @Component({
   components: {

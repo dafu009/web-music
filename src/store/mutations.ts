@@ -87,6 +87,9 @@ const mutations: MutationTree<CONFIG> = {
   async setSearchArtists (state: CONFIG, data) {
     state.search.artists.result = data
   },
+  async setSearchAlbums (state: CONFIG, data) {
+    state.search.albums.result = data
+  },
   async setSearchPlayList (state: CONFIG, data) {
     state.search.playLists.result = data
   }

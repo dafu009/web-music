@@ -24,6 +24,7 @@ export default class search extends Vue {
 
   @Action('getSearchSongs') getSearchSongs: any
   @Action('getSearchArtists') getSearchArtists: any
+  @Action('getSearchAlbums') getSearchAlbums: any
   @Action('getSearchPlaylist') getSearchPlaylist: any
   @Action('getSearchMv') getSearchMv: any
 
@@ -39,6 +40,7 @@ export default class search extends Vue {
     await this.setSearchKeywords(this.keywords)
     this.getSearchSongs()
     this.getSearchArtists()
+    this.getSearchAlbums()
     this.getSearchPlaylist()
     this.getSearchMv()
     this.searchEvent()

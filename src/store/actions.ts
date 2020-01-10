@@ -179,6 +179,17 @@ const actions: ActionTree<CONFIG, any> = {
         this.dispatch('getSearchArtists')
       })
   },
+  async getSearchAlbums({ commit, state: CONFIG }) {
+    const genre: string = 'albums'
+    const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
+    api.search.monolayer(requestConfig)
+      .then(data => {
+        commit('setSearchAlbums', data.result.artists)
+      })
+      .catch(err => {
+        this.dispatch('getSearchAlbums')
+      })
+  },
   async getSearchPlaylist ({ commit, state: CONFIG }) {
     const genre: string = 'playLists'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)

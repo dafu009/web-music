@@ -52,6 +52,12 @@ const state: CONFIG = {
       offset: 0,
       result: []
     },
+    albums: {
+      type: 100,
+      limit: 10,
+      offset: 0,
+      result: []
+    },
     playLists: {
       type: 1000,
       limit: 10,
