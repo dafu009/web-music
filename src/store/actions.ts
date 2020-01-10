@@ -111,13 +111,8 @@ const actions: ActionTree<CONFIG, any> = {
           commit('setBanner', data)
         }
       })
-      .catch(
-        () => {
-          api.recommend.getBanner().then((data) => {
-            if (data.code === ERR_OK) {
-              commit('setBanner', data)
-            }
-          })
+      .catch(() => {
+          this.dispatch('getBanner')
         }
       )
   },
@@ -134,12 +129,7 @@ const actions: ActionTree<CONFIG, any> = {
         }
       })
       .catch(() => {
-        api.recommend.getRecommendPlayList(requestConfig)
-          .then(data => {
-            if (data.code === ERR_OK) {
-              commit('setRecommendPlayList', data.result)
-            }
-          })
+        this.dispatch('getRecommendPlayList')
       })
   },
   async getPlayListDetail ({ commit, state: CONFIG }, id: number) {
@@ -175,7 +165,7 @@ const actions: ActionTree<CONFIG, any> = {
         commit('setSearchSongs', data.result.songs)
       })
       .catch(err => {
-        console.log(err)
+        this.dispatch('getSearchSongs')
       })
   },
   async getSearchArtists ({ commit, state: CONFIG }) {
@@ -186,7 +176,7 @@ const actions: ActionTree<CONFIG, any> = {
         commit('setSearchArtists', data.result.artists)
       })
       .catch(err => {
-        console.log(err)
+        this.dispatch('getSearchArtists')
       })
   },
   async getSearchPlaylist ({ commit, state: CONFIG }) {
@@ -197,7 +187,7 @@ const actions: ActionTree<CONFIG, any> = {
         commit('setSearchPlayList', data.result.playlists)
       })
       .catch(err => {
-        console.log(err)
+        this.dispatch('getSearchPlaylist')
       })
   },
   async getSearchMv ({ commit, state: CONFIG }) {
@@ -208,7 +198,7 @@ const actions: ActionTree<CONFIG, any> = {
         commit('setSearchMvs', data.result.mvs)
       })
       .catch(err => {
-        console.log(err)
+        this.dispatch('getSearchMv')
       })
   },
 }
