@@ -5,17 +5,17 @@
         li.tab(
           v-for="(item, index) in tabs"
           :key="item.name"
-          @click="switchTab(index)"
-          :class="[index === currentIndex ? 'tab-current' : '']")
+          @click="switchTab(item.name)"
+          :class="[item.name === currentName ? 'tab-current' : '']")
           p
             span.iconfont(:class="item.icon")
             span {{ item.title }}
     .content-wrap
-      songs(:currentIndex="currentIndex")
-      albums(:currentIndex="currentIndex")
-      artists(:currentIndex="currentIndex")
-      playLists(:currentIndex="currentIndex")
-      mvs(:currentIndex="currentIndex")
+      songs(:currentName="currentName")
+      albums(:currentName="currentName")
+      artists(:currentName="currentName")
+      playLists(:currentName="currentName")
+      mvs(:currentName="currentName")
 </template>
 <script lang="ts">
 import { State } from 'vuex-class'
@@ -68,12 +68,12 @@ export default class searchResult extends Vue {
       icon: 'icon-MV'
     },
   ]
-  private currentIndex = 0
+  private currentName: string = 'songs'
 
   mounted() {}
 
-  switchTab(index: number) {
-    this.currentIndex = index
+  switchTab(name: string) {
+    this.currentName = name
   }
 }
 </script>

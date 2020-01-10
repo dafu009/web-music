@@ -31,7 +31,7 @@ const routes = [
     children: [
       {
         path: '',
-        name: 'overview',
+        name: 'singer',
         component: () => import('@/components/Singer/components/Overview.vue'),
       },
       {

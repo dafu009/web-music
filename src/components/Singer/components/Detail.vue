@@ -1,6 +1,6 @@
 <template lang="pug">
   .detail
-    el-page-header(@back="backToSinger" content="歌手")
+    el-page-header(@back="backToSinger" :content="backTo")
     .info
       .avatar
         img(v-lazy="singerDetail.img1v1Url")
@@ -61,6 +61,23 @@ export default class Overview extends Vue {
 
   private isHide: boolean = false
   private limit: number = 10
+  private backTo: string = ''
+
+  beforeRouteEnter(to: Route, from: Route, next: Function): void {
+    next((vm: Vue) => {
+      let title = ''
+      switch(from.name) {
+        case 'search':
+          title = '搜索'
+          break
+        case 'singer':
+          title = '歌手'
+          break
+      }
+      vm.$data.backTo = title
+    })
+  }
+
   created() {
     if (!this.singerDetail.id) {
       this.$router.push('/singer')

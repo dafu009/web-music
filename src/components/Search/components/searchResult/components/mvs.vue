@@ -1,6 +1,6 @@
 <template lang="pug">
 transition(name="fade")
-  section.songs(v-if="currentIndex === 4")
+  section.mvs(v-if="currentName === 'mvs'")
     template(v-for="(item, index) in mvs")
       .item(:key="item.id") {{ item.name }}
 </template>
@@ -11,7 +11,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
   components: {}
 })
 export default class mvs extends Vue {
-  @Prop(Number) private currentIndex!:number
+  @Prop(String) private currentName!:string
 
   @State(state => state.search.mvs.result) mvs: any
 }

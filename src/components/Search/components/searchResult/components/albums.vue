@@ -1,6 +1,6 @@
 <template lang="pug">
 transition(name="fade")
-  section.songs(v-if="currentIndex === 1")
+  section.albums(v-if="currentName === 'albums'")
     template(v-for="(item, index) in albums")
       .item(:key="item.id") {{ item.name }}
 </template>
@@ -11,7 +11,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
   components: {}
 })
 export default class artists extends Vue {
-  @Prop(Number) private currentIndex!:number
+  @Prop(String) private currentName!:string
 
   @State(state => state.search.albums.result) albums: any
 }

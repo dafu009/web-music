@@ -1,8 +1,8 @@
 <template lang="pug">
 transition(name="fade")
-  section.songs(v-if="currentIndex === 3")
+  section.playLists(v-if="currentName === 'playLists'")
     template(v-for="(item, index) in playLists")
-      .item(@click="detail(item.id)")
+      .item(@click="detail(item.id)" :key="item.id")
         .cover
           img(v-lazy="item.coverImgUrl")
         .name {{item.name}}
@@ -14,7 +14,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
   components: {}
 })
 export default class playLists extends Vue {
-  @Prop(Number) private currentIndex!: number
+  @Prop(String) private currentName!: string
 
   @Action('getPlayListDetail') getPlayListDetail: any
 
@@ -37,7 +37,7 @@ export default class playLists extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.songs {
+.playLists {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -55,7 +55,8 @@ export default class playLists extends Vue {
     }
     .name {
       font-size: 14px;
-      color: #515151
+      color: #515151;
+      padding: 10px 5px 0;
     }
   }
 }
