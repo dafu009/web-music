@@ -7,11 +7,10 @@
         type="text"
         v-model="keywords"
         placeholder="歌曲, 歌单, 歌手, MV..."
-        @keyup.enter="search"
-        @blur="keywords = ''")
+        @keyup.enter="search")
 </template>
 <script lang="ts">
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import { Action, State, Mutation } from 'vuex-class'
 @Component({
   components: {
@@ -28,16 +27,13 @@ export default class search extends Vue {
   @Action('getSearchPlaylist') getSearchPlaylist: any
   @Action('getSearchMv') getSearchMv: any
 
+  @Emit('searchEvent')
+  searchEvent () {
+    return true
+  }
+
   private keywords: string = ''
   private Pagination = {
-    songs: {
-      limit: 10,
-      offset: 0
-    },
-    artists: {
-      limit: 10,
-      offset: 0
-    }
   }
   async search () {
     await this.setSearchKeywords(this.keywords)
@@ -45,6 +41,7 @@ export default class search extends Vue {
     this.getSearchArtists()
     this.getSearchPlaylist()
     this.getSearchMv()
+    this.searchEvent()
   }
 }
 </script>

@@ -1,7 +1,8 @@
 <template lang="pug">
   .overview
-    search
-    search-result
+    search(@searchEvent="isSearch")
+    transition(name="fade")
+      search-result(v-if="resultShow")
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
@@ -15,6 +16,10 @@ import { Mutation } from 'vuex-class'
   }
 })
 export default class overview extends Vue {
+  private resultShow:boolean = false 
+  isSearch (key: boolean) {
+    this.resultShow = key
+  }
 }
 </script>
 <style lang="scss" scoped></style>
