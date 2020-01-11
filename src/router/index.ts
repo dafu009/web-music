@@ -67,6 +67,16 @@ const routes = [
     ]
   },
   {
+    path: '/album',
+    component: () => import('@/components/Album/index.vue'),
+    children: [
+      {
+        path: ':id',
+        component: () => import('@/components/Album/component/detail.vue')
+      }
+    ]
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/components/login.vue'),

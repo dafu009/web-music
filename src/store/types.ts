@@ -41,13 +41,13 @@ export interface Recommend {
   playList: []
   playListDetail: {}
 }
-
 export interface CONFIG {
   userInfo: UserInfo
   globalEvent: GlobalEvent
   singer: Singer
   recommend: Recommend
   search: Search
+  album: {}
 }
 export interface SearchParams {
   type: number

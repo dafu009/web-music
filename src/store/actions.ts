@@ -112,8 +112,8 @@ const actions: ActionTree<CONFIG, any> = {
         }
       })
       .catch(() => {
-          this.dispatch('getBanner')
-        }
+        this.dispatch('getBanner')
+      }
       )
   },
   async getRecommendPlayList ({ commit, state: CONFIG }) {
@@ -157,6 +157,12 @@ const actions: ActionTree<CONFIG, any> = {
       })
     }
   },
+  async getAlbumDetail ({ commit, state: CONFIG }, id: number) {
+    const { code, songs, album } = await api.album.getAlbumDetail({ params: { id } })
+    if (code === ERR_OK) {
+      commit('setAlbumDetail', { songs, album })
+    }
+  },
   async getSearchSongs ({ commit, state: CONFIG }) {
     const genre: string = 'songs'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
@@ -179,7 +185,7 @@ const actions: ActionTree<CONFIG, any> = {
         this.dispatch('getSearchArtists')
       })
   },
-  async getSearchAlbums({ commit, state: CONFIG }) {
+  async getSearchAlbums ({ commit, state: CONFIG }) {
     const genre: string = 'albums'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)

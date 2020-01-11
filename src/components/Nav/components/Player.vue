@@ -71,6 +71,13 @@ export default class Player extends Vue {
     this.setPlaying(false)
     await this.GetCurrentMusic(this.playList[index].songId)
       .then((data: any) => {
+        if (!data.songUrl) {
+          this.$message({
+            type: 'warning',
+            message: '没有音源'
+          })
+          return
+        }
         const current = { ...data, ...this.playList[index] }
         this.setCurrentSong(current)
       })

@@ -153,4 +153,16 @@ export default class index extends Vue {
 .el-drawer__body {
   overflow-y: auto;
 }
+.el-drawer__body::-webkit-scrollbar {
+  width: 8px;
+  background-color: #fff
+}
+  .el-drawer__body::-webkit-scrollbar-track {
+  background-color: #fff
+}
+
+.el-drawer__body::-webkit-scrollbar-thumb {
+  background: rgb(146, 181, 255);
+  border-radius: 20px;
+}
 </style>

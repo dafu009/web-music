@@ -18,13 +18,6 @@ import mutations from '../../../store/mutations'
 @Component({
   components: {
     Waterfall
-  },
-  directives: {
-    resize: {
-      inserted: el => {
-        console.log(el)
-      }
-    }
   }
 })
 export default class playList extends Vue {
@@ -40,13 +33,15 @@ export default class playList extends Vue {
     this.getRecommendPlayList()
   }
   mounted() {
-    const erd = Detector()
-    const self = this
-    erd.listenTo(this.wrapper, function(el: HTMLDivElement) {
-      if (el) {
-        self.waterfall.refresh()
-      }
-    })
+    if (this.playList.length > 0) {
+      const erd = Detector()
+      const self = this
+      erd.listenTo(this.wrapper, function(el: HTMLDivElement) {
+        if (el) {
+          self.waterfall.refresh()
+        }
+      })
+    }
   }
 
   detail(id: number) {

@@ -75,6 +75,9 @@ const mutations: MutationTree<CONFIG> = {
   setPlayListDetail (state: CONFIG, data) {
     state.recommend.playListDetail = data
   },
+  setAlbumDetail (state: CONFIG, data) {
+    state.album = data
+  },
   async setSearchKeywords (state: CONFIG, value: string) {
     state.search.keywords = value
   },

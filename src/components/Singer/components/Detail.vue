@@ -1,6 +1,6 @@
 <template lang="pug">
   .detail
-    el-page-header(@back="backToSinger" :content="backTo")
+    el-page-header(@back="goBack" :content="backTo")
     .info
       .avatar
         img(v-lazy="singerDetail.img1v1Url")
@@ -63,7 +63,7 @@ export default class Overview extends Vue {
   private limit: number = 10
   private backTo: string = ''
 
-  beforeRouteEnter(to: Route, from: Route, next: Function): void {
+  beforeRouteEnter(to: any, from: any, next: Function): void {
     next((vm: Vue) => {
       let title = ''
       switch(from.name) {
@@ -80,7 +80,7 @@ export default class Overview extends Vue {
 
   created() {
     if (!this.singerDetail.id) {
-      this.$router.push('/singer')
+      this.$router.go(-1)
       return
     }
   }
@@ -92,7 +92,7 @@ export default class Overview extends Vue {
         this.isHide = true
     }, 1000)
   }
-  backToSinger() {
+  goBack() {
     this.$router.go(-1)
   }
   __setPlayLists(detail: any) {

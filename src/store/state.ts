@@ -38,6 +38,7 @@ const state: CONFIG = {
     },
     playList: []
   },
+  album: {},
   search: {
     keywords: '',
     songs: {

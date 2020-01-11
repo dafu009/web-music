@@ -66,7 +66,7 @@ export default class searchResult extends Vue {
       title: 'MV',
       name: 'mvs',
       icon: 'icon-MV'
-    },
+    }
   ]
   private currentName: string = 'songs'
 
@@ -95,7 +95,7 @@ export default class searchResult extends Vue {
         position: relative;
         margin: 0;
         flex: 1;
-        height: 60px;
+        height: 50px;
         text-align: center;
         p {
           margin: 0;
@@ -134,16 +134,19 @@ export default class searchResult extends Vue {
       }
       li.tab-current p {
         color: #447df5;
-        transform: translateY(8px);
+        transform: translateY(6px);
       }
     }
   }
   .content-wrap {
-    padding: 30px 10px;
+    padding: 10px;
     position: relative;
-    min-height: 400px;
+    min-height: 500px;
     section {
       position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
     }
   }
 }

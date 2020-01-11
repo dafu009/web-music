@@ -37,13 +37,15 @@ export default class search extends Vue {
   private Pagination = {
   }
   async search () {
-    await this.setSearchKeywords(this.keywords)
-    this.getSearchSongs()
-    this.getSearchArtists()
-    this.getSearchAlbums()
-    this.getSearchPlaylist()
-    this.getSearchMv()
-    this.searchEvent()
+    if (this.keywords) {
+      await this.setSearchKeywords(this.keywords)
+      this.getSearchSongs()
+      this.getSearchArtists()
+      this.getSearchAlbums()
+      this.getSearchPlaylist()
+      this.getSearchMv()
+      this.searchEvent()
+    }
   }
 }
 </script>

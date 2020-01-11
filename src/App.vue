@@ -68,6 +68,23 @@ export default class App extends Vue {
   .content-wrap {
     overflow-y: auto;
   }
-  .content-wrap::-webkit-scrollbar { width: 0 !important }
+  .content-wrap::-webkit-scrollbar {
+    width: 8px;
+    background-color: #fff
+  }
+  
+  .content-wrap::-webkit-scrollbar:horizontal {
+    height: 8px;
+    background-color: #fff
+  }
+ 
+  .content-wrap::-webkit-scrollbar-track {
+    background-color: #fff
+  }
+
+  .content-wrap::-webkit-scrollbar-thumb {
+    background: rgb(146, 181, 255);
+    border-radius: 20px;
+  }
 }
 </style>

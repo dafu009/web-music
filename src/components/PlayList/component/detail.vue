@@ -57,13 +57,15 @@ export default class detail extends Vue {
   }
 
   mounted() {
-    const erd = Detector()
-    const self = this
-    erd.listenTo(this.wrapper, function(el: HTMLDivElement) {
-      if (el) {
-        self.waterfall.refresh()
-      }
-    })
+    if (this.playListDetail.tracks.length > 0) {
+      const erd = Detector()
+      const self = this
+      erd.listenTo(this.wrapper, function(el: HTMLDivElement) {
+        if (el) {
+          self.waterfall.refresh()
+        }
+      })
+    }
   }
 
   __setPlayLists(detail: any) {
@@ -122,6 +124,8 @@ ul > li {
       width: 250px;
       height: 250px;
       margin-right: 50px;
+      border-radius: 10px;
+      box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.4);
       img {
         width: 100%;
         border-radius: 10px;
