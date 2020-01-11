@@ -33,15 +33,13 @@ export default class playList extends Vue {
     this.getRecommendPlayList()
   }
   mounted() {
-    if (this.playList.length > 0) {
-      const erd = Detector()
-      const self = this
-      erd.listenTo(this.wrapper, function(el: HTMLDivElement) {
-        if (el) {
-          self.waterfall.refresh()
-        }
-      })
-    }
+    const erd = Detector()
+    const self = this
+    erd.listenTo(this.wrapper, function(el: HTMLDivElement) {
+      if (el) {
+        self.waterfall.refresh()
+      }
+    })
   }
 
   detail(id: number) {
@@ -90,13 +88,15 @@ export default class playList extends Vue {
     }
     .text {
       align-self: center;
-      font-size: 16px;
+      font-size: 14px;
       color: #616161;
+      padding: 0 5px;
       p {
         margin: 0;
         padding: 5px 0;
       }
       .type {
+        font-size: 16px;
         color: #3a3a3a;
       }
     }

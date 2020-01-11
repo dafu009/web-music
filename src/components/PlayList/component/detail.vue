@@ -57,15 +57,13 @@ export default class detail extends Vue {
   }
 
   mounted() {
-    if (this.playListDetail.tracks.length > 0) {
-      const erd = Detector()
-      const self = this
-      erd.listenTo(this.wrapper, function(el: HTMLDivElement) {
-        if (el) {
-          self.waterfall.refresh()
-        }
-      })
-    }
+    const erd = Detector()
+    const self = this
+    erd.listenTo(this.wrapper, function(el: HTMLDivElement) {
+      if (el) {
+        self.waterfall.refresh()
+      }
+    })
   }
 
   __setPlayLists(detail: any) {
