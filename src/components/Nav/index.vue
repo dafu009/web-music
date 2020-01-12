@@ -36,7 +36,7 @@ export default class index extends Vue {
     padding: 20px 0;
   }
   .nav_player {
-    flex-shrink: 0;
+    flex: 1;
   }
 }
 </style>

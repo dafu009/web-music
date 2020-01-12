@@ -1,33 +1,34 @@
 <template lang="pug">
 transition(name="fade")
   .player(v-if="playList.length > 0")
-    .player-wrap
-      ProgressCircle(:percent="percent")
-        .cover
-          .image(:class="{playing: GlobalPlaying}")
-            img(v-lazy="currentMusic.picUrl")
-      .info
-        p.name.animate {{ currentMusic.songName }}
-        p.singer {{ currentMusic.artist }}
-    .contorl
-      p.prev(@click.stop="prev")
-        span.iconfont &#xe69f
-      p.play(@click.stop="play")
-        transition(name="fade")
-          span.iconfont(v-if="GlobalPlaying") &#xe69e
-        transition(name="fade")
-          span.iconfont(v-if="!GlobalPlaying") &#xe6a4
-      p.next(@click.stop="next")
-        span.iconfont &#xe69d
-      p.musiclist(@click.stop="toList")
-        span.iconfont &#xe69c
-      volume-control(@change="volumeChange")
-      audio(
-        ref="audio"
-        :src="currentMusic.songUrl"
-        @timeupdate="updateTime"
-        @ended="end"
-      )
+    .wrap
+      .player-wrap
+        ProgressCircle(:percent="percent")
+          .cover
+            .image(:class="{playing: GlobalPlaying}")
+              img(v-lazy="currentMusic.picUrl")
+        .info
+          p.name.animate {{ currentMusic.songName }}
+          p.singer {{ currentMusic.artist }}
+      .contorl
+        p.prev(@click.stop="prev")
+          span.iconfont &#xe69f
+        p.play(@click.stop="play")
+          transition(name="fade")
+            span.iconfont(v-if="GlobalPlaying") &#xe69e
+          transition(name="fade")
+            span.iconfont(v-if="!GlobalPlaying") &#xe6a4
+        p.next(@click.stop="next")
+          span.iconfont &#xe69d
+        p.musiclist(@click.stop="toList")
+          span.iconfont &#xe69c
+        volume-control(@change="volumeChange")
+        audio(
+          ref="audio"
+          :src="currentMusic.songUrl"
+          @timeupdate="updateTime"
+          @ended="end"
+        )
 </template>
 <script lang="ts">
 import Lyric from 'lyric-parser'
@@ -184,69 +185,77 @@ export default class Player extends Vue {
   box-sizing: border-box;
   height: 200px;
   width: 100%;
-  padding: 20px;
-  .player-wrap {
-    display: flex;
-    justify-content: space-around;
-    .cover {
-      box-sizing: border-box;
-      flex-shrink: 0;
-      width: 85px;
-      height: 85px;
-      border-radius: 50%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      padding: 5px;
-      .image {
-        width: 100%;
-        height: 100%;
+  padding: 20px 0;
+  position: relative;
+  .wrap {
+    position: absolute;
+    width: 100%;
+    box-sizing: border-box;
+    bottom: 0;
+    padding: 0 20px 10px;
+    .player-wrap {
+      display: flex;
+      justify-content: space-around;
+      .cover {
+        box-sizing: border-box;
+        flex-shrink: 0;
+        width: 85px;
+        height: 85px;
         border-radius: 50%;
-        overflow: hidden;
-        text-align: center;
-        background-color: #fbe6cc;
-        img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 5px;
+        .image {
+          width: 100%;
           height: 100%;
+          border-radius: 50%;
+          overflow: hidden;
+          text-align: center;
+          background-color: #fbe6cc;
+          img {
+            height: 100%;
+          }
+        }
+      }
+      .info {
+        flex-shrink: 1;
+        align-self: center;
+        max-width: 140px;
+        overflow: hidden;
+        p {
+          margin: 0;
+        }
+        .name {
+          padding-left: 140px;
+          display: inline-block;
+          white-space: nowrap;
+          font-size: 18px;
+        }
+        .animate {
+          animation: 10s wordsLoop linear infinite normal;
+        }
+        .singer {
+          text-align: center;
+          font-size: 16px;
+          color: #fff;
         }
       }
     }
-    .info {
-      flex-shrink: 1;
-      align-self: center;
-      max-width: 140px;
-      overflow: hidden;
+    .contorl {
+      display: flex;
+      justify-content: center;
       p {
-        margin: 0;
-      }
-      .name {
-        padding-left: 140px;
-        display: inline-block;
-        white-space: nowrap;
-        font-size: 18px;
-      }
-      .animate {
-        animation: 10s wordsLoop linear infinite normal;
-      }
-      .singer {
-        text-align: center;
-        font-size: 16px;
-        color: #fff;
-      }
-    }
-  }
-  .contorl {
-    display: flex;
-    justify-content: center;
-    p {
-      cursor: pointer;
-      margin: 0 8px;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      overflow: hidden;
-      .iconfont {
-        font-size: 40px;
-        color: #515151;
+        cursor: pointer;
+        margin: 0 8px;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
+        .iconfont {
+          font-size: 40px;
+          color: #515151;
+        }
       }
     }
   }

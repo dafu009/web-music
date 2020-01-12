@@ -80,7 +80,7 @@ export default class Overview extends Vue {
 
   created() {
     if (!this.singerDetail.id) {
-      this.$router.go(-1)
+      this.$router.push('/singer')
       return
     }
   }

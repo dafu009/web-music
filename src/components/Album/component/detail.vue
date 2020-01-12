@@ -57,7 +57,7 @@ export default class detail extends Vue {
   }
   beforeCreate () {
     if (!this.album && !this.songs) {
-      this.$router.go(-1)
+      this.$router.push('/recommend')
       return
     }
   }
