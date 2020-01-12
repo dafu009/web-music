@@ -58,6 +58,7 @@ export interface SearchParams {
 export interface Search {
   [key: string]: any
   keywords: string
+  status: boolean
   songs: SearchParams
   artists: SearchParams
   albums: SearchParams

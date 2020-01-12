@@ -126,6 +126,8 @@ ul > li {
       box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.4);
       img {
         width: 100%;
+        height: 100%;
+        object-fit: cover;
         border-radius: 10px;
       }
     }

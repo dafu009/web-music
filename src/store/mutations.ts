@@ -81,6 +81,9 @@ const mutations: MutationTree<CONFIG> = {
   async setSearchKeywords (state: CONFIG, value: string) {
     state.search.keywords = value
   },
+  async setSearchStatus (state:CONFIG, value: boolean) {
+    state.search.status = value
+  },
   async setSearchSongs (state: CONFIG, data) {
     state.search.songs.result = data
   },

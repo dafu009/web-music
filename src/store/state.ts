@@ -41,6 +41,7 @@ const state: CONFIG = {
   album: {},
   search: {
     keywords: '',
+    status: false,
     songs: {
       type: 1,
       limit: 10,

@@ -79,7 +79,7 @@ export default class searchResult extends Vue {
 </script>
 <style lang="scss" scoped>
 .search-result {
-  padding: 40px;
+  padding: 0 40px 40px;
   position: relative;
   nav {
     background-color: #fff;
