@@ -104,7 +104,18 @@ const actions: ActionTree<CONFIG, any> = {
     }
     return CurrentMusic
   },
-  async getBanner ({ commit, state: CONFIG }) {
+  async getCurrentMv ({ commit, dispatch, state: CONFIG }, { id, name, artistName, cover }) {
+    api.mv.getMvUrl({ params: { id } })
+      .then(data => {
+        if (data.code === ERR_OK) {
+          commit('setCurrentMv', { url: data.data.url, name, cover, artist: artistName })
+        }
+      })
+      .catch(() => {
+        dispatch('getCurrentMv', { id, name, cover, artistName })
+      })
+  },
+  async getBanner ({ commit, dispatch, state: CONFIG }) {
     api.recommend.getBanner()
       .then((data) => {
         if (data.code === ERR_OK) {
@@ -112,10 +123,10 @@ const actions: ActionTree<CONFIG, any> = {
         }
       })
       .catch(() => {
-        this.dispatch('getBanner')
+        dispatch('getBanner')
       })
   },
-  async getRecommendPlayList ({ commit, state: CONFIG }) {
+  async getRecommendPlayList ({ commit, dispatch, state: CONFIG }) {
     const requestConfig: AxiosRequestConfig = {
       params: {
         limit: 40
@@ -128,7 +139,7 @@ const actions: ActionTree<CONFIG, any> = {
         }
       })
       .catch(() => {
-        this.dispatch('getRecommendPlayList')
+        dispatch('getRecommendPlayList')
       })
   },
   async getPlayListDetail ({ commit, state: CONFIG }, id: number) {
@@ -156,13 +167,13 @@ const actions: ActionTree<CONFIG, any> = {
       })
     }
   },
-  async getAlbumDetail ({ commit, state: CONFIG }, id: number) {
+  async getAlbumDetail ({ commit, dispatch, state: CONFIG }, id: number) {
     const { code, songs, album } = await api.album.getAlbumDetail({ params: { id } })
     if (code === ERR_OK) {
       commit('setAlbumDetail', { songs, album })
     }
   },
-  async getSearchSongs ({ commit, state: CONFIG }) {
+  async getSearchSongs ({ commit, dispatch, state: CONFIG }) {
     const genre: string = 'songs'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
@@ -170,10 +181,10 @@ const actions: ActionTree<CONFIG, any> = {
         commit('setSearchSongs', data.result.songs)
       })
       .catch(err => {
-        this.dispatch('getSearchSongs')
+        dispatch('getSearchSongs')
       })
   },
-  async getSearchArtists ({ commit, state: CONFIG }) {
+  async getSearchArtists ({ commit, dispatch, state: CONFIG }) {
     const genre: string = 'artists'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
@@ -181,10 +192,10 @@ const actions: ActionTree<CONFIG, any> = {
         commit('setSearchArtists', data.result.artists)
       })
       .catch(err => {
-        this.dispatch('getSearchArtists')
+        dispatch('getSearchArtists')
       })
   },
-  async getSearchAlbums ({ commit, state: CONFIG }) {
+  async getSearchAlbums ({ commit, dispatch, state: CONFIG }) {
     const genre: string = 'albums'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
@@ -192,10 +203,10 @@ const actions: ActionTree<CONFIG, any> = {
         commit('setSearchAlbums', data.result.albums)
       })
       .catch(err => {
-        this.dispatch('getSearchAlbums')
+        dispatch('getSearchAlbums')
       })
   },
-  async getSearchPlaylist ({ commit, state: CONFIG }) {
+  async getSearchPlaylist ({ commit, dispatch, state: CONFIG }) {
     const genre: string = 'playLists'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
@@ -203,10 +214,10 @@ const actions: ActionTree<CONFIG, any> = {
         commit('setSearchPlayList', data.result.playlists)
       })
       .catch(err => {
-        this.dispatch('getSearchPlaylist')
+        dispatch('getSearchPlaylist')
       })
   },
-  async getSearchMv ({ commit, state: CONFIG }) {
+  async getSearchMv ({ commit, dispatch, state: CONFIG }) {
     const genre: string = 'mvs'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
@@ -214,7 +225,7 @@ const actions: ActionTree<CONFIG, any> = {
         commit('setSearchMvs', data.result.mvs)
       })
       .catch(err => {
-        this.dispatch('getSearchMv')
+        dispatch('getSearchMv')
       })
   },
 }

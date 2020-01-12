@@ -9,7 +9,7 @@ transition(name="fade")
           .name {{item.name}}
             span(v-if="item.alias.length > 0")  - {{item.alias[0]}}
           .artist {{item.artist.name}}
-    loading(@loadMore="loadMore")
+    loading(@loadMore="loadMore" v-if="loadingShow")
 </template>
 <script lang="ts">
 import { State, Action, Mutation } from 'vuex-class'
@@ -33,9 +33,15 @@ export default class artists extends Vue {
   @Action('getAlbumDetail') getAlbumDetail: any
 
   private total = []
+  private loadingShow = true
 
   get Lists() {
+    if (!this.albums.result || this.albums.result.length === 0) {
+      this.loadingShow = false
+      return this.total
+    }
     if (this.isReset) {
+      this.loadingShow = true
       this.total = this.albums.result
       this.setSearchIsReset(false)
     } else {
@@ -73,6 +79,7 @@ export default class artists extends Vue {
 .albums {
   display: flex;
   flex-direction: column;
+  margin-top: 10px;
   .item:nth-child(2n-1) {
     background-color: #e6e6e6;
   }

@@ -36,7 +36,14 @@ const state: CONFIG = {
       lyric: '',
       album: ''
     },
-    playList: []
+    playList: [],
+    currentMv: {
+      url: '',
+      name: '',
+      cover: '',
+      artist: ''
+    },
+    mvPlayerStatus: false
   },
   album: {},
   search: {

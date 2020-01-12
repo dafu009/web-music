@@ -7,7 +7,7 @@ transition(name="fade")
           .cover
             img(v-lazy="item.coverImgUrl")
           .name {{item.name}}
-    loading(@loadMore="loadMore")
+    loading(@loadMore="loadMore" v-if="loadingShow")
 </template>
 <script lang="ts">
 import { State, Action, Mutation } from 'vuex-class'
@@ -30,9 +30,15 @@ export default class playLists extends Vue {
   @Action('getSearchPlaylist') getSearchPlaylist: any
 
   private total = []
+  private loadingShow = true
 
   get Lists () {
+    if (!this.playLists.result  || this.playLists.result.length === 0) {
+      this.loadingShow = false
+      return this.total
+    }
     if (this.isReset) {
+      this.loadingShow = true
       this.total = this.playLists.result
       this.setSearchIsReset(false)
     } else {

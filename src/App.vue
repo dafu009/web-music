@@ -1,5 +1,7 @@
 <template lang="pug">
   #app
+    transition(name="fade")
+      mv-player
     global-loading
     music-play-list
     vue-drawer-layout(
@@ -24,9 +26,11 @@ import Nav from '@/components/Nav/index.vue'
 import MusicPlayList from '@/components/MusicPlayList/index.vue'
 import GlobalLoading from '@/common/components/GlobalLoading.vue'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
+import MvPlayer from '@/components/MvPlayer/index.vue'
 @Component({
   components: {
     Nav,
+    MvPlayer,
     GlobalLoading,
     MusicPlayList
   }

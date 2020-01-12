@@ -7,7 +7,7 @@ transition(name="fade")
           .avatar
             img(v-lazy="item.img1v1Url")
           .name {{ item.name }}
-    loading(@loadMore="loadMore")
+    loading(@loadMore="loadMore" v-if="loadingShow")
 </template>
 <script lang="ts">
 import { State, Action, Mutation } from 'vuex-class'
@@ -30,9 +30,15 @@ export default class artists extends Vue {
   @Action('getSearchArtists') getSearchArtists: any
 
   private total = []
+  private loadingShow = true
 
   get Lists () {
+    if (!this.artists.result || this.artists.result.length === 0) {
+      this.loadingShow = false
+      return this.total
+    }
     if (this.isReset) {
+      this.loadingShow = true
       this.total = this.artists.result
       this.setSearchIsReset(false)
     } else {

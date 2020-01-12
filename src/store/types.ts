@@ -17,7 +17,12 @@ export interface CurrentMusic {
   lyric: string
   album: string
 }
-
+export interface CurrentMv {
+  url: string
+  name: string
+  cover: string
+  artist: string
+}
 export interface GlobalEvent {
   checkShow?: boolean
   drawerShow: boolean
@@ -27,6 +32,8 @@ export interface GlobalEvent {
   currentIndex: number
   currentMusic: CurrentMusic
   playList: CurrentMusic[]
+  currentMv: CurrentMv
+  mvPlayerStatus: boolean
 }
 
 export interface Singer {

@@ -30,3 +30,8 @@ declare module 'element-resize-detector' {
   const ElementResizeDetector: any
   export default ElementResizeDetector
 }
+
+declare module 'vue-video-player' {
+  const VueVideoPlayer: any
+  export default VueVideoPlayer
+}
