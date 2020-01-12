@@ -50,7 +50,7 @@ export interface CONFIG {
   album: {}
 }
 export interface SearchParams {
-  type: number
+  type?: number
   limit: number
   offset: number
   result: []
@@ -59,6 +59,7 @@ export interface Search {
   [key: string]: any
   keywords: string
   status: boolean
+  reset: boolean
   songs: SearchParams
   artists: SearchParams
   albums: SearchParams

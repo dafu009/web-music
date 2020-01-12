@@ -1,25 +1,45 @@
 <template lang="pug">
 transition(name="fade")
-  section.playLists(v-if="currentName === 'playLists'")
-    template(v-for="(item, index) in playLists")
-      .item(@click="detail(item.id)" :key="item.id")
-        .cover
-          img(v-lazy="item.coverImgUrl")
-        .name {{item.name}}
+  .wrap(v-if="currentName === 'playLists'")
+    section.playLists
+      template(v-for="(item, index) in Lists")
+        .item(:key="index" @click="detail(item.id)")
+          .cover
+            img(v-lazy="item.coverImgUrl")
+          .name {{item.name}}
+    loading(@loadMore="loadMore")
 </template>
 <script lang="ts">
-import { State, Action } from 'vuex-class'
+import { State, Action, Mutation } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import Loading from '@/components/Loading/index.vue'
 @Component({
-  components: {}
+  components: {
+    Loading
+  }
 })
 export default class playLists extends Vue {
   @Prop(String) private currentName!: string
+  @State(state => state.search.playLists) playLists: any
+  @State(state => state.search.reset) isReset: any
 
+  @Mutation('setSearchIsReset') setSearchIsReset: any
+  @Mutation('setLoading') setLoading: any
+  @Mutation('setSearchPlayListsPage') setSearchPlayListsPage: any
   @Action('getPlayListDetail') getPlayListDetail: any
+  @Action('getSearchPlaylist') getSearchPlaylist: any
 
-  @State(state => state.search.playLists.result) playLists: any
+  private total = []
 
+  get Lists () {
+    if (this.isReset) {
+      this.total = this.playLists.result
+      this.setSearchIsReset(false)
+    } else {
+      this.total = this.total.concat(this.playLists.result)
+    }
+    return this.total
+  }
   detail(id: number) {
     this.getPlayListDetail(id)
       .then(() => {
@@ -34,6 +54,14 @@ export default class playLists extends Vue {
         })
       })
   }
+  loadMore () {
+    setTimeout(async () => {
+      const { limit, offset } = this.playLists
+      this.setSearchPlayListsPage(limit + offset)
+      await this.getSearchPlaylist()
+      this.setLoading(false)
+    }, 500)
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -41,6 +69,7 @@ export default class playLists extends Vue {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 20px;
   .item {
     cursor: pointer;
     width: 150px;

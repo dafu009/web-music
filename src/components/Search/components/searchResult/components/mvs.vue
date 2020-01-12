@@ -2,7 +2,7 @@
 transition(name="fade")
   section.mvs(v-if="currentName === 'mvs'")
     template(v-for="(item, index) in mvs")
-      .item(:key="item.id") {{ item.name }}
+      .item(:key="index") {{ item.name }}
 </template>
 <script lang="ts">
 import { State } from 'vuex-class'

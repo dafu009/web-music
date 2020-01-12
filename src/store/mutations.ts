@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search } from './types';
+import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams } from './types';
 import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
@@ -87,17 +87,63 @@ const mutations: MutationTree<CONFIG> = {
   async setSearchSongs (state: CONFIG, data) {
     state.search.songs.result = data
   },
+  setSearchSongsPage (state: CONFIG, value: number) {
+    state.search.songs.offset = value
+  },
   async setSearchMvs (state: CONFIG, data) {
     state.search.mvs.result = data
+  },
+  setSearchMvsPage (state: CONFIG, value: number) {
+    state.search.mvs.offset = value
   },
   async setSearchArtists (state: CONFIG, data) {
     state.search.artists.result = data
   },
+  setSearchArtistsPage (state: CONFIG, value: number) {
+    state.search.artists.offset = value
+  },
   async setSearchAlbums (state: CONFIG, data) {
     state.search.albums.result = data
   },
+  setSearchAlbumsPage (state: CONFIG, value: number) {
+    state.search.albums.offset = value
+  },
   async setSearchPlayList (state: CONFIG, data) {
     state.search.playLists.result = data
+  },
+  setSearchPlayListsPage (state: CONFIG, value: number) {
+    state.search.playLists.offset = value
+  },
+  setSearchIsReset (state: CONFIG, value: boolean) {
+    state.search.reset = value
+  },
+  resetSearchAllConfig (state: CONFIG) {
+    const model: SearchParams = {
+      limit: 10,
+      offset: 0,
+      result: []
+    }
+    state.search.reset = true
+    state.search.songs = {
+      type: 1,
+      ...model
+    }
+    state.search.albums = {
+      type: 10,
+      ...model
+    },
+    state.search.artists = {
+      type: 100,
+      ...model
+    },
+    state.search.playLists = {
+      type: 1000,
+      ...model
+    },
+    state.search.mvs = {
+      type: 1004,
+      ...model
+    }
   }
 }
 

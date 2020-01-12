@@ -77,6 +77,7 @@ export default class Player extends Vue {
             type: 'warning',
             message: '没有音源'
           })
+          this.currentIndex ++
           return
         }
         const current = { ...data, ...this.playList[index] }

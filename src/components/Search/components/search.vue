@@ -18,9 +18,10 @@ import { Action, State, Mutation } from 'vuex-class'
   }
 })
 export default class search extends Vue {
-  @State(state => state.search.songs.result) songs: any
+  @State(state => state.search) searchModel: any
 
   @Mutation('setSearchKeywords') setSearchKeywords: any
+  @Mutation('resetSearchAllConfig') resetSearchAllConfig: any
 
   @Action('getSearchSongs') getSearchSongs: any
   @Action('getSearchArtists') getSearchArtists: any

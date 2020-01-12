@@ -2,7 +2,7 @@
 transition(name="fade")
   section.songs(v-if="currentName === 'songs'")
     template(v-for="(item, index) in songs")
-      .item(:key="item.id") {{ item.name }}
+      .item(:key="index") {{ item.name }}
 </template>
 <script lang="ts">
 import { State } from 'vuex-class'

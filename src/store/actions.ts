@@ -113,8 +113,7 @@ const actions: ActionTree<CONFIG, any> = {
       })
       .catch(() => {
         this.dispatch('getBanner')
-      }
-      )
+      })
   },
   async getRecommendPlayList ({ commit, state: CONFIG }) {
     const requestConfig: AxiosRequestConfig = {

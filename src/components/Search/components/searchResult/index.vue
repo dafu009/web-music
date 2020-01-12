@@ -141,7 +141,8 @@ export default class searchResult extends Vue {
   .content-wrap {
     padding: 10px;
     position: relative;
-    min-height: 500px;
+    max-height: 500px;
+    min-height: 400px;
     section {
       position: absolute;
       left: 50%;

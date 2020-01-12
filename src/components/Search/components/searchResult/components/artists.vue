@@ -1,23 +1,45 @@
 <template lang="pug">
 transition(name="fade")
-  section.artists(v-if="currentName === 'artists'")
-    template(v-for="(item, index) in artists")
-      .item(:key="item.id" @click="detail(item.id)")
-        .avatar
-          img(v-lazy="item.img1v1Url")
-        .name {{ item.name }}
+  .wrap(v-if="currentName === 'artists'")
+    section.artists
+      template(v-for="(item, index) in Lists")
+        .item(:key="index" @click="detail(item.id)")
+          .avatar
+            img(v-lazy="item.img1v1Url")
+          .name {{ item.name }}
+    loading(@loadMore="loadMore")
 </template>
 <script lang="ts">
-import { State, Action } from 'vuex-class'
+import { State, Action, Mutation } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import Loading from '@/components/Loading/index.vue';
 @Component({
-  components: {}
+  components: {
+    Loading
+  }
 })
 export default class artists extends Vue {
   @Prop(String) private currentName!:string
+  @State(state => state.search.reset) isReset: any
+  @State(state => state.search.artists) artists: any
+  @Mutation('setLoading') setLoading: any
+  @Mutation('setSearchIsReset') setSearchIsReset: any
 
-  @State(state => state.search.artists.result) artists: any
+  @Mutation('setSearchArtistsPage') setSearchArtistsPage: any
   @Action('GetArtistDetail') GetArtistDetail: any
+  @Action('getSearchArtists') getSearchArtists: any
+
+  private total = []
+
+  get Lists () {
+    if (this.isReset) {
+      this.total = this.artists.result
+      this.setSearchIsReset(false)
+    } else {
+      this.total = this.total.concat(this.artists.result)
+    }
+    return this.total
+  }
 
   async detail(id: number) {
     this.GetArtistDetail(id)
@@ -33,6 +55,14 @@ export default class artists extends Vue {
         })
       })
   }
+  loadMore () {
+    setTimeout(async () => {
+      const { limit, offset } = this.artists
+      this.setSearchArtistsPage(limit + offset)
+      await this.getSearchArtists()
+      this.setLoading(false)
+    }, 500)
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -40,6 +70,7 @@ export default class artists extends Vue {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin-bottom: 30px;
   .item {
     .avatar {
       cursor: pointer;

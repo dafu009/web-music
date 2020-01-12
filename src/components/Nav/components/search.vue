@@ -24,6 +24,7 @@ export default class search extends Vue {
   private isActive: boolean = false
   @Mutation('setSearchKeywords') setSearchKeywords: any
   @Mutation('setSearchStatus') setSearchStatus: any
+  @Mutation('resetSearchAllConfig') resetSearchAllConfig: any
 
   @Action('getSearchSongs') getSearchSongs: any
   @Action('getSearchArtists') getSearchArtists: any
@@ -33,6 +34,7 @@ export default class search extends Vue {
 
   async search () {
     if (this.keywords) {
+      await this.resetSearchAllConfig()
       await this.setSearchKeywords(this.keywords)
       Promise.all(
         [
