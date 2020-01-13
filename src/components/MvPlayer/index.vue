@@ -1,6 +1,6 @@
 <template lang="pug">
-  .video-wrapper(v-if="mvPlayerStatus")
-    .header
+  .video-wrapper(ref="videoWrapper" v-if="mvPlayerStatus")
+    .header(ref="header" @mousedown="move")
       .close(@click.stop="close") X
     video-player(
       ref="videoPlayer"
@@ -11,7 +11,7 @@
 import { videoPlayer } from 'vue-video-player'
 import 'video.js/dist/lang/zh-CN.js'
 import 'video.js/dist/video-js.css'
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
 @Component({
   components: {
@@ -19,6 +19,8 @@ import { State, Mutation } from 'vuex-class'
   }
 })
 export default class index extends Vue {
+  @Ref('videoWrapper') readonly videoWrapper!: any
+
   @State(state => state.globalEvent.currentMv) currentMv: any
   @State(state => state.globalEvent.mvPlayerStatus) mvPlayerStatus: any
   @State(state => state.globalEvent.currentMusic) currentMusic: any
@@ -54,11 +56,30 @@ export default class index extends Vue {
     }
   }
 
-  close () {
+  close() {
     this.setMvPlayerStatus(false)
     console.log(this.currentMusic)
     if (this.currentMusic.songId) {
       this.setMusicPlaying(true)
+    }
+  }
+
+  move(e: MouseEvent) {
+    const target = e.target
+    let disX = e.clientX - this.videoWrapper.offsetLeft
+    let disY = e.clientY - this.videoWrapper.offsetTop
+    document.onmousemove = (e:MouseEvent) => {
+      let MIN = 0
+      let MAX_TOP = window.innerHeight - 275
+      let MAX_LEFT = window.innerWidth - 400
+      let left = e.clientX - disX < 0 ? MIN : e.clientX - disX > MAX_LEFT ? MAX_LEFT : e.clientX - disX
+      let top = e.clientY - disY < 0 ? MIN : e.clientY - disY > MAX_TOP ? MAX_TOP : e.clientY - disY
+      this.videoWrapper.style.left = left + 'px'
+      this.videoWrapper.style.top = top + 'px'
+    }
+    document.onmouseup = (e:MouseEvent) => {
+      document.onmousemove = null
+      document.onmouseup = null
     }
   }
 }
@@ -73,7 +94,11 @@ export default class index extends Vue {
   .header {
     height: 50px;
     background-color: aquamarine;
-    cursor: grab;
+    cursor: move;
+    .close {
+      width: 50px;
+      cursor: pointer;
+    }
   }
 }
 </style>
