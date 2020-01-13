@@ -1,17 +1,18 @@
 <template lang="pug">
-  .video-wrapper(ref="videoWrapper" v-if="mvPlayerStatus")
+  .video-wrapper(ref="videoWrapper" v-if="mvPlayerStatus" :class="{'shadow': moving}")
     .header(ref="header" @mousedown="move")
-      .close(@click.stop="close") X
+      .close(@click.stop="close" title="关闭") X
     video-player(
       ref="videoPlayer"
       :playsinline="true"
-      :options="playerOptions")
+      :options="playerOptions"
+      @play="onPlayerPlay")
 </template>
 <script lang="ts">
 import { videoPlayer } from 'vue-video-player'
 import 'video.js/dist/lang/zh-CN.js'
 import 'video.js/dist/video-js.css'
-import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
+import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
 @Component({
   components: {
@@ -20,14 +21,22 @@ import { State, Mutation } from 'vuex-class'
 })
 export default class index extends Vue {
   @Ref('videoWrapper') readonly videoWrapper!: any
+  @Ref('videoPlayer') readonly video!: any
 
   @State(state => state.globalEvent.currentMv) currentMv: any
   @State(state => state.globalEvent.mvPlayerStatus) mvPlayerStatus: any
   @State(state => state.globalEvent.currentMusic) currentMusic: any
+  @State(state => state.globalEvent.playing) MusicPlaying: any
 
   @Mutation('setMvPlayerStatus') setMvPlayerStatus: any
   @Mutation('setPlaying') setMusicPlaying: any
 
+  private moving: boolean = false
+
+  @Watch('MusicPlaying')
+  PlayStatusChange (value: boolean) {
+    if (value) this.video.player.pause()
+  }
   get playerOptions() {
     return {
       playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
@@ -55,7 +64,9 @@ export default class index extends Vue {
       }
     }
   }
-
+  onPlayerPlay () {
+    this.setMusicPlaying(false)
+  }
   close() {
     this.setMvPlayerStatus(false)
     console.log(this.currentMusic)
@@ -70,14 +81,16 @@ export default class index extends Vue {
     let disY = e.clientY - this.videoWrapper.offsetTop
     document.onmousemove = (e:MouseEvent) => {
       let MIN = 0
-      let MAX_TOP = window.innerHeight - 275
-      let MAX_LEFT = window.innerWidth - 400
+      let MAX_TOP = window.innerHeight - this.videoWrapper.offsetHeight
+      let MAX_LEFT = window.innerWidth - this.videoWrapper.offsetWidth
       let left = e.clientX - disX < 0 ? MIN : e.clientX - disX > MAX_LEFT ? MAX_LEFT : e.clientX - disX
       let top = e.clientY - disY < 0 ? MIN : e.clientY - disY > MAX_TOP ? MAX_TOP : e.clientY - disY
+      this.moving = true
       this.videoWrapper.style.left = left + 'px'
       this.videoWrapper.style.top = top + 'px'
     }
     document.onmouseup = (e:MouseEvent) => {
+      this.moving = false
       document.onmousemove = null
       document.onmouseup = null
     }
@@ -87,19 +100,23 @@ export default class index extends Vue {
 <style lang="scss" scoped>
 .video-wrapper {
   width: 400px;
+  height: 275px;
   position: fixed;
   left: 20px;
   bottom: 20px;
   z-index: 999;
   .header {
     height: 50px;
-    background-color: aquamarine;
+    background-color: #f9f9f9;
     cursor: move;
     .close {
       width: 50px;
       cursor: pointer;
     }
   }
+}
+.shadow {
+  box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.4);
 }
 </style>
 <style lang="scss">
