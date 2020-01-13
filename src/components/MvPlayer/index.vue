@@ -35,7 +35,7 @@ export default class index extends Vue {
 
   @Watch('MusicPlaying')
   PlayStatusChange (value: boolean) {
-    if (value) this.video.player.pause()
+    if (value && this.video) this.video.player.pause()
   }
   get playerOptions() {
     return {
@@ -69,7 +69,6 @@ export default class index extends Vue {
   }
   close() {
     this.setMvPlayerStatus(false)
-    console.log(this.currentMusic)
     if (this.currentMusic.songId) {
       this.setMusicPlaying(true)
     }
