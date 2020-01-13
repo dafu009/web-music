@@ -104,6 +104,7 @@ export default class index extends Vue {
   left: 20px;
   bottom: 20px;
   z-index: 999;
+  box-shadow: -5px -2px 20px rgba(0,0,0,0.5);
   .header {
     height: 50px;
     background-color: #f9f9f9;
