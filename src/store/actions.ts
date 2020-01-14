@@ -228,5 +228,22 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getSearchMv')
       })
   },
+
+  async getTopRank ({ commit, dispatch, state: CONFIG }, idx: number) {
+    api.rank.getTopRank({ params: { idx } })
+      .then(data => {
+        if (data.code === ERR_OK) {
+          commit('setCurrentRank', {
+            creator: data.playlist.creator,
+            list: data.playlist.tracks,
+            name: data.playlist.name,
+            desc: data.playlist.description
+          })
+        }
+      })
+      .catch(() => {
+        dispatch('getTopRank', idx)
+      })
+  }
 }
 export default actions

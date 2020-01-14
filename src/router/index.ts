@@ -43,7 +43,14 @@ const routes = [
   {
     path: '/rank',
     name: 'rank',
-    component: () => import('@/components/Rank/index.vue')
+    component: () => import('@/components/Rank/index.vue'),
+    children: [
+      {
+        path: ':id',
+        name: 'rank-item',
+        component: () => import('@/components/Rank/components/Rank-item.vue')
+      }
+    ]
   },
   {
     path: '/search',
@@ -82,6 +89,11 @@ const routes = [
     component: () => import('@/components/login.vue'),
   }
 ]
+
+const routerPush: any = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location: any) {
+  return routerPush.call(this, location).catch((error: any)=> error)
+}
 
 const router = new VueRouter({
   mode: 'history',

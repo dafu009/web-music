@@ -5,7 +5,7 @@
     span.nav-link 发现音乐
   router-link.nav-item(tag="div" to="/singer")
     span.nav-link 歌手
-  router-link.nav-item(tag="div" to="/rank" )
+  router-link.nav-item(tag="div" to="/rank/0" )
     span.nav-link 排行
 </template>
 <script lang="ts">

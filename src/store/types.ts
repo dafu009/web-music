@@ -55,6 +55,7 @@ export interface CONFIG {
   recommend: Recommend
   search: Search
   album: {}
+  rank: Rank
 }
 export interface SearchParams {
   type?: number
@@ -72,4 +73,11 @@ export interface Search {
   albums: SearchParams
   mvs: SearchParams
   playLists: SearchParams
+}
+
+export interface Rank {
+  list: []
+  creator: {}
+  name: string
+  desc: string
 }

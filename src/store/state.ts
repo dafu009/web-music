@@ -46,6 +46,12 @@ const state: CONFIG = {
     mvPlayerStatus: false
   },
   album: {},
+  rank: {
+    list: [],
+    creator: {},
+    name: '',
+    desc: ''
+  },
   search: {
     keywords: '',
     status: false,

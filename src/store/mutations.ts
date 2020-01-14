@@ -58,7 +58,7 @@ const mutations: MutationTree<CONFIG> = {
     state.globalEvent.currentIndex = value
   },
   async setCurrentSong (state: CONFIG, data: CurrentMusic) {
-    state.globalEvent.currentMusic = data   
+    state.globalEvent.currentMusic = data
   },
   setCurrentMv (state: CONFIG, data: CurrentMv) {
     state.globalEvent.currentMv = data
@@ -87,7 +87,7 @@ const mutations: MutationTree<CONFIG> = {
   async setSearchKeywords (state: CONFIG, value: string) {
     state.search.keywords = value
   },
-  async setSearchStatus (state:CONFIG, value: boolean) {
+  async setSearchStatus (state: CONFIG, value: boolean) {
     state.search.status = value
   },
   async setSearchSongs (state: CONFIG, data) {
@@ -138,18 +138,24 @@ const mutations: MutationTree<CONFIG> = {
       type: 10,
       ...model
     },
-    state.search.artists = {
-      type: 100,
-      ...model
-    },
-    state.search.playLists = {
-      type: 1000,
-      ...model
-    },
-    state.search.mvs = {
-      type: 1004,
-      ...model
-    }
+      state.search.artists = {
+        type: 100,
+        ...model
+      },
+      state.search.playLists = {
+        type: 1000,
+        ...model
+      },
+      state.search.mvs = {
+        type: 1004,
+        ...model
+      }
+  },
+  setCurrentRank (state: CONFIG, { creator, list, name, desc }) {
+    state.rank.creator = creator
+    state.rank.list = list
+    state.rank.name = name
+    state.rank.desc = desc
   }
 }
 
