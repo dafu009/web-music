@@ -12,22 +12,24 @@
           img(v-lazy="album.artist.picUrl")
           span.name {{ album.artist.name }}
     .lists
-      .playAll(@click="playAll")
-        span.iconfont &#xe636
+      PlayAll.all(:allSongList="songs")
       template(v-for="(item, index) in songs")
         .item(:key="index")
           .name
             span.name 《{{ item.name }}》 
             span(v-if="item.alia.length > 0") （{{item.alia[0]}}）
-          .play(@click="play(item)")
-            span.iconfont(v-if="GlobalPlaying && currentMusic.songId === item.id") &#xe69e
-            span.iconfont(v-if="!GlobalPlaying || currentMusic.songId !== item.id") &#xe6a4
+          play.selfPlay(:song="item")
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { State, Mutation, Action } from 'vuex-class'
+import PlayAll from '@/common/components/playAll.vue'
+import Play from '@/common/components/play.vue'
 @Component({
-  components: {}
+  components: {
+    Play,
+    PlayAll
+  }
 })
 export default class detail extends Vue {
   @State(state => state.album.songs) songs: any
@@ -44,6 +46,7 @@ export default class detail extends Vue {
   beforeRouteEnter(to: any, from: any, next: Function): void {
     next((vm: Vue) => {
       let title = ''
+      const route = vm.$route
       switch(from.name) {
         case 'search':
           title = '搜索'
@@ -51,6 +54,8 @@ export default class detail extends Vue {
         case 'singer':
           title = '歌手'
           break
+        default:
+          title = route.query.singer ? `${route.query.singer}` : ''
       }
       vm.$data.backTo = title
     })
@@ -64,49 +69,6 @@ export default class detail extends Vue {
 
   goBack() {
     this.$router.go(-1)
-  }
-
-  __setPlayLists(detail: any) {
-    const { al: album, ar: artist, name, id } = detail
-    const CurrentMusic = {
-      album: album.name,
-      picUrl: album.picUrl,
-      artist: artist[0].name,
-      artistId: artist[0].id,
-      songName: name,
-      songId: id
-    }
-    return CurrentMusic
-  }
-  async __pushList (lists: any) {
-    let list = this.playList
-    list.push(lists)
-    await this.setPlayList(list)
-  }
-
-  async playAll () {
-    let list: any = []
-    this.songs.map((item: any) => {
-      list.push(this.__setPlayLists(item))
-    })
-    list.map((item: any) => {
-      this.__pushList(item)
-    })
-    this.$message({
-      type: 'success',
-      message: '添加成功'
-    })
-    if (this.GlobalPlaying) {
-      return
-    } else {
-      this.setCurrentIndex(0)
-    }
-  }
-
-  async play (item: any) {
-    const CurrentMusic = this.__setPlayLists(item)
-    await this.__pushList(CurrentMusic)
-    await this.setCurrentIndex(this.playList.length - 1)
   }
 }
 </script>
@@ -165,15 +127,8 @@ export default class detail extends Vue {
   }
   .lists {
     padding: 20px 50px;
-    .playAll {
-      width: 40px;
-      height: 40px;
-      text-align: center;
-      padding-bottom: 20px;
-      .iconfont {
-        cursor: pointer;
-        font-size: 40px;
-      }
+    .all {
+      margin-bottom: 20px
     }
     .item:nth-child(2n) {
       background-color: #e6e6e6;
@@ -187,22 +142,15 @@ export default class detail extends Vue {
       align-items: center;
       border: 1px solid #ccc;
       margin: 5px;
+      position: relative;
       .name {
         flex: 1;
         height: 40px;
         line-height: 40px;
       }
-      .play {
-        position: relative;
-        width: 40px;
-        height: 40px;
-        cursor: pointer;
-        span {
-          font-size: 40px;
-          position: absolute;
-          top: 0;
-          left: 0;
-        }
+      .selfPlay {
+        left: 95%;
+        color: #545454;
       }
     }
   }

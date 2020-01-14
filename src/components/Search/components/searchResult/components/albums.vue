@@ -50,19 +50,11 @@ export default class artists extends Vue {
     return this.total
   }
 
-  toAlbumDetail(id: number) {
-    this.getAlbumDetail(id)
-      .then(() => {
-        this.$router.push({
-          path: `/album/${id}`
-        })
-      })
-      .catch(() => {
-        this.$message({
-          type: 'error',
-          message: '网络错误请重试'
-        })
-      })
+  async toAlbumDetail(id: number) {
+    await this.getAlbumDetail(id)
+    this.$router.push({
+      path: `/album/${id}`
+    })
   }
 
   loadMore() {

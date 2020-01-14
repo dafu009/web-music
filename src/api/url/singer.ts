@@ -9,12 +9,14 @@ interface UrlConfig {
   getTopArtistList: string
   /** 获取歌手详情 */
   getArtistDetail: string
+  getAlbum: string
 }
 
 const path: UrlConfig = {
   getArtistList: `${BASE}/artist/list`,
   getTopArtistList: `${BASE}/top/artists`,
-  getArtistDetail: `${BASE}/artists`
+  getArtistDetail: `${BASE}/artists`,
+  getAlbum: `${BASE}/artist/album`
 } 
 
 export default {

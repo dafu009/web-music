@@ -12,24 +12,37 @@
       .title 
         p.txt 热门歌曲
         play-all(:allSongList="singerDetail.hotSongs")
-      ul.list
-        li.item(ref="item" v-for="(item, index) in singerDetail.hotSongs" v-show="index < limit")
-          .item-wrap
-            .song-cover
-              img(v-lazy="item.al.picUrl")
-            .text
-              p.song-name {{ item.name }}
-              p.album-name {{ item.al.name }}
-            .operating
-              .operating_item.add(@click="add(item)")
-                span.iconfont &#xe6a0
-              .operating_item.play(@click="play(item)")
-                span.iconfont &#xe6a2
-            transition(name="fade")
-              blow.blow-position(
-                v-if="currentMusic.songId === item.id && GlobalPlaying")
-      loading(@loadMore="loadmore" v-if="!isHide")
-      
+      .wrap
+        ul.list
+          template(v-for="(item, index) in singerDetail.hotSongs")
+            li.item(ref="item" v-if="index < limit")
+              .item-wrap
+                .song-cover
+                  img(v-lazy="item.al.picUrl")
+                .text
+                  p.song-name {{ item.name }}
+                  p.album-name {{ item.al.name }}
+                .operating
+                  .operating_item.add(@click="add(item)")
+                    span.iconfont &#xe6a0
+                  .operating_item.play(@click="play(item)")
+                    span.iconfont &#xe6a2
+                transition(name="fade")
+                  blow.blow-position(
+                    v-if="currentMusic.songId === item.id && GlobalPlaying")
+        loading(@loadMore="loadmore" v-if="!isHide")
+    .album-list
+      .title 
+        p.txt 热门专辑
+      .wrap
+        .list
+          template(v-for="(item, index) in singerDetail.hotAlbums")
+            .item(:key="index" @click="toAlbumDetail(item.id, singerDetail.name)")
+              .cover
+                img(:src="item.picUrl")
+              .name {{item.name}}
+                span(v-if="item.alias.length > 0")  - {{item.alias[0]}}
+              .artist {{item.artist.name}}
 </template>
 <script lang="ts">
 import { Mutation, State, Action } from 'vuex-class'
@@ -39,7 +52,7 @@ import { __setPlayLists, __pushList } from '@/common/ts/common'
 import Loading from '@/components/Loading/index.vue'
 import Blow from '@/common/components/Blow.vue'
 import PlayAll from '@/common/components/playAll.vue'
-import { CONFIG } from '@/store/types';
+import { CONFIG } from '@/store/types'
 
 @Component({
   components: {
@@ -57,6 +70,8 @@ export default class Overview extends Vue {
 
   @Mutation('setLoading') setLoading: any
   @Mutation('setCurrentIndex') setCurrentIndex: any
+
+  @Action('getAlbumDetail') getAlbumDetail: any
 
   private isHide: boolean = false
   private limit: number = 10
@@ -107,6 +122,15 @@ export default class Overview extends Vue {
       message: '添加成功'
     })
   }
+  async toAlbumDetail(id: number, singer: string) {
+    await this.getAlbumDetail(id)
+    this.$router.push({
+      path: `/album/${id}`,
+      query: {
+        singer: singer
+      }
+    })
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -144,6 +168,7 @@ export default class Overview extends Vue {
       }
     }
   }
+  
   .music-list {
     .title {
       display: flex;
@@ -165,76 +190,144 @@ export default class Overview extends Vue {
         }
       }
     }
-    ul.list {
-      display: flex;
-      flex-wrap: wrap;
-      li.item {
-        list-style: none;
-        margin-left: 2px;
-        .item-wrap {
-          position: relative;
-          width: 400px;
-          font-size: 18px;
-          display: flex;
-          margin-bottom: 15px;
-          .song-cover {
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            padding: 5px;
-            width: 100px;
-            height: 100px;
-            margin-right: 20px;
-            overflow: hidden;
-            text-align: center;
-            img {
-              height: 100%;
-            }
-          }
-          .text {
-            max-width: 160px;
-            p {
-              margin: 0;
-            }
-            .song-name {
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
-              height: 40px;
-              line-height: 40px;
-            }
-            .album-name {
-              font-size: 14px;
-              color: #5d5d5d;
-              display: -webkit-box;
-              -webkit-box-orient: vertical;
-              -webkit-line-clamp: 3;
-              overflow: hidden;
-            }
-          }
-          .operating {
-            position: absolute;
-            right: 30px;
-            bottom: 10px;
+    .wrap {
+      max-height: 600px;
+      overflow: hidden;
+      overflow-y: scroll;
+      ul.list {
+        display: flex;
+        flex-wrap: wrap;
+        li.item {
+          list-style: none;
+          margin-left: 2px;
+          .item-wrap {
+            position: relative;
+            width: 400px;
+            font-size: 18px;
             display: flex;
-            .operating_item {
-              cursor: pointer;
-              padding: 10px 0;
-              margin: 0 10px;
-              width: 30px;
-              height: 30px;
-              .iconfont {
-                font-size: 30px;
-                color: #515151;
+            margin-bottom: 15px;
+            .song-cover {
+              box-sizing: border-box;
+              border: 1px solid #ccc;
+              padding: 5px;
+              width: 100px;
+              height: 100px;
+              margin-right: 20px;
+              overflow: hidden;
+              text-align: center;
+              img {
+                height: 100%;
               }
             }
+            .text {
+              max-width: 160px;
+              p {
+                margin: 0;
+              }
+              .song-name {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                height: 40px;
+                line-height: 40px;
+              }
+              .album-name {
+                font-size: 14px;
+                color: #5d5d5d;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                overflow: hidden;
+              }
+            }
+            .operating {
+              position: absolute;
+              right: 30px;
+              bottom: 10px;
+              display: flex;
+              .operating_item {
+                cursor: pointer;
+                padding: 10px 0;
+                margin: 0 10px;
+                width: 30px;
+                height: 30px;
+                .iconfont {
+                  font-size: 30px;
+                  color: #515151;
+                }
+              }
+            }
+            .blow-position {
+              bottom: 10px;
+              right: 30px;
+            }
           }
-          .blow-position {
-            bottom: 10px;
-            right: 30px;
+        }
+      }
+    
+    }
+  }
+  .album-list {
+    margin-top: 20px;
+    
+    .title {
+      margin: 25px 0;
+      p {
+        margin: 0;
+      }
+      .txt {
+        font-size: 24px;
+        margin-right: 30px;
+      }
+    }
+    .wrap {
+      max-height: 600px;
+      overflow: hidden;
+      overflow-y: scroll;
+      .list {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+        .item:nth-child(2n-1) {
+          background-color: #e6e6e6;
+        }
+        .item {
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          cursor: pointer;
+          .cover {
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            margin-right: 20px;
+            img {
+              width: 100%;
+            }
+          }
+          .name {
+            flex: 2;
+          }
+          .artist {
+            flex: 1;
+            text-align: center;
           }
         }
       }
     }
   }
+}
+.wrap::-webkit-scrollbar {
+  width: 8px;
+  background-color: #fff
+}
+
+.wrap::-webkit-scrollbar-track {
+  background-color: #fff
+}
+
+.wrap::-webkit-scrollbar-thumb {
+  background: rgb(146, 181, 255);
+  border-radius: 20px;
 }
 </style>

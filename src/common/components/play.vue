@@ -42,7 +42,6 @@ export default class play extends Vue {
     right: 0;
     position: absolute;
     font-size: 50px;
-    color: #fff;
   }
 }
 </style>

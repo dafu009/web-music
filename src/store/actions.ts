@@ -75,15 +75,27 @@ const actions: ActionTree<CONFIG, any> = {
       }
     })
   },
-  async GetArtistDetail ({ commit, state: CONFIG }, id) {
-    const { code, hotSongs, artist } = await api.singer.getArtistDetail({
-      params: {
-        id
-      }
-    })
-    if (hotSongs.length > 20) hotSongs.splice(20, 50)
-    const detail = { ...artist, hotSongs }
-    commit('setSingerDetail', detail)
+  async GetArtistDetail ({ commit, dispatch }, id) {
+    Promise.all([
+      api.singer.getAlbum({ params: { id } }),
+      api.singer.getArtistDetail({ params: { id } })
+    ]).then(
+      (
+        [
+          { code: req_code_1, hotAlbums },
+          { code: req_code_2, hotSongs, artist }
+        ]
+      ) => {
+        if (req_code_1 === ERR_OK && req_code_2 === ERR_OK) {
+          if (hotSongs.length > 20) hotSongs.splice(20, 50)
+          if (hotAlbums.length > 20) hotAlbums.splice(20, 50)
+          const detail = { ...artist, hotSongs, hotAlbums }
+          commit('setSingerDetail', detail)
+        }
+      })
+      .catch(() => {
+        dispatch('GetArtistDetail', id)
+      })
   },
   async GetCurrentMusic ({ commit, state: CONFIG }, ID) {
     const { data } = await api.song.getSongUrl({
@@ -168,10 +180,15 @@ const actions: ActionTree<CONFIG, any> = {
     }
   },
   async getAlbumDetail ({ commit, dispatch, state: CONFIG }, id: number) {
-    const { code, songs, album } = await api.album.getAlbumDetail({ params: { id } })
-    if (code === ERR_OK) {
-      commit('setAlbumDetail', { songs, album })
-    }
+    await api.album.getAlbumDetail({ params: { id } })
+      .then(({ code, songs, album }) => {
+        if (code === ERR_OK) {
+          commit('setAlbumDetail', { songs, album })
+        }
+      })
+      .catch(() => {
+        dispatch('getAlbumDetail', id)
+      })
   },
   async getSearchSongs ({ commit, dispatch, state: CONFIG }) {
     const genre: string = 'songs'

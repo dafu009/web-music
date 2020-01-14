@@ -20,7 +20,7 @@
               img(v-lazy="item.al.picUrl")
               transition(name="fade")
                 .mask
-                  play(:song="item")
+                  play.selfPlay(:song="item")
             .info
               p.name 《{{item.name}}》
               p.artise {{item.ar[0].name}}
@@ -133,6 +133,9 @@ export default class RankItem extends Vue {
           height: calc(100% - 5px);
           background-color: rgba(0,0,0,0.35);
           border-radius: 10px;
+          .selfPlay {
+            color: #fff;
+          }
         }
       }
       .info {

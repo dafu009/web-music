@@ -16,19 +16,10 @@ export default class List extends Vue {
   @Action('GetArtistDetail') GetArtistDetail: any
 
   async detail(id: number) {
-    this.GetArtistDetail(id)
-      .then(() => {
-        this.$router.push({
-          path: `/singer/${id}`
-        })
-      })
-      .catch(() => {
-        this.$message({
-          type: 'error',
-          message: '网络错误请重试'
-        })
-      })
-
+    await this.GetArtistDetail(id)
+    this.$router.push({
+      path: `/singer/${id}`
+    })
   }
 }
 </script>

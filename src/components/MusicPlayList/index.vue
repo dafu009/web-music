@@ -98,6 +98,8 @@ export default class index extends Vue {
         margin-right: 20px;
         img {
           height: 100%;
+          width: 100%;
+          object-fit: contain;
         }
       }
       .info {
