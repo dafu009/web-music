@@ -25,10 +25,10 @@ type category = {
   '云音乐说唱榜': number
   '云音乐古典音乐榜': number
   '抖音排行榜': number
+  '新声榜': number
+  '云音乐韩语榜': number
+  '英国Q杂志中文版周榜': number
   '电竞音乐榜': number
-  '云音乐欧美热歌榜': number
-  '云音乐欧美新歌榜': number
-  '说唱TOP榜': number
 }
 const RankCategory: category = {
   '云音乐新歌榜': 0,
@@ -57,9 +57,9 @@ const RankCategory: category = {
   '云音乐说唱榜': 23,
   '云音乐古典音乐榜': 24,
   '抖音排行榜': 26,
-  '电竞音乐榜': 27,
-  '云音乐欧美热歌榜': 28,
-  '云音乐欧美新歌榜': 29,
-  '说唱TOP榜': 30
+  '新声榜': 27,
+  '云音乐韩语榜': 28,
+  '英国Q杂志中文版周榜': 29,
+  '电竞音乐榜': 30
 }
 export default RankCategory

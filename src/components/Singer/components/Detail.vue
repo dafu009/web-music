@@ -11,8 +11,7 @@
     .music-list
       .title 
         p.txt 热门歌曲
-        .playAll(@click="playAll")
-          span.iconfont &#xe636
+        play-all(:allSongList="singerDetail.hotSongs")
       ul.list
         li.item(ref="item" v-for="(item, index) in singerDetail.hotSongs" v-show="index < limit")
           .item-wrap
@@ -35,29 +34,29 @@
 <script lang="ts">
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
+import { __setPlayLists, __pushList } from '@/common/ts/common'
+
 import Loading from '@/components/Loading/index.vue'
 import Blow from '@/common/components/Blow.vue'
+import PlayAll from '@/common/components/playAll.vue'
+import { CONFIG } from '@/store/types';
 
 @Component({
   components: {
     Blow,
-    Loading
+    Loading,
+    PlayAll
   }
 })
 export default class Overview extends Vue {
   @Ref('item') readonly item!: any
-  @State(state => state.globalEvent.playing) GlobalPlaying: any
-  @State(state => state.singer.detail) singerDetail: any
-  @State(state => state.globalEvent.playList) playList: any
-  @State(state => state.globalEvent.currentIndex) currentIndex: any
-  @State(state => state.globalEvent.currentMusic) currentMusic: any
+  @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying: any
+  @State((state: CONFIG) => state.singer.detail) singerDetail: any
+  @State((state: CONFIG) => state.globalEvent.playList) playList: any
+  @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic: any
 
   @Mutation('setLoading') setLoading: any
-  @Mutation('setPlaying') setPlaying: any
-  @Mutation('setPlayList') setPlayList: any
   @Mutation('setCurrentIndex') setCurrentIndex: any
-
-  @Action('GetCurrentMusic') GetCurrentMusic: any
 
   private isHide: boolean = false
   private limit: number = 10
@@ -95,53 +94,18 @@ export default class Overview extends Vue {
   goBack() {
     this.$router.go(-1)
   }
-  __setPlayLists(detail: any) {
-    const { al: album, ar: artist, name, id } = detail
-    const CurrentMusic = {
-      album: album.name,
-      picUrl: album.picUrl,
-      artist: artist[0].name,
-      artistId: artist[0].id,
-      songName: name,
-      songId: id
-    }
-    return CurrentMusic
-  }
-  async __pushList (lists: any) {
-    let list = this.playList
-    list.push(lists)
-    await this.setPlayList(list)
-  }
   async play(item: any) {
-    const CurrentMusic = this.__setPlayLists(item)
-    await this.__pushList(CurrentMusic)
+    const CurrentMusic = __setPlayLists(item)
+    await __pushList(CurrentMusic)
     await this.setCurrentIndex(this.playList.length - 1)
   }
   async add(item: any) {
-    const CurrentMusic = this.__setPlayLists(item)
-    await this.__pushList(CurrentMusic)
+    const CurrentMusic = __setPlayLists(item)
+    await __pushList(CurrentMusic)
     this.$message({
       type: 'success',
       message: '添加成功'
     })
-  }
-  async playAll () {
-    let list: any = []
-    this.singerDetail.hotSongs.map((item: any) => {
-      list.push(this.__setPlayLists(item))
-    })
-    list.map((item: any) => {
-      this.__pushList(item)
-    })
-    this.$message({
-      type: 'success',
-      message: '添加成功'
-    })
-    if (this.GlobalPlaying) {
-      return
-    } else {
-      this.setCurrentIndex(0)
-    }
   }
 }
 </script>

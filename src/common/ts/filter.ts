@@ -11,14 +11,5 @@ export function formatDate (value: number, type: string) {
   let m = date.getMinutes()
   let s = date.getSeconds()
 
-  // if (type === 'MM-DD') {
-    // return `${isDou(M)}/${isDou(D)}`
-  // }
-  // if (type === 'YY-MM') {
-  //   return `${Y}/${isDou(M)}`
-  // }
-  // if (type === 'YY-MM-DD') {
-    return `${Y}年${isDou(M)}月${isDou(D)}日`
-  // }
-  // return `${Y}/${isDou(M)}/${isDou(D)} \n ${isDou(h)}:${isDou(m)}:${isDou(s)}`
+  return `${Y}年${isDou(M)}月${isDou(D)}日`
 }

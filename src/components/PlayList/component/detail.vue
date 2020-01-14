@@ -9,8 +9,7 @@
     ul.tags
       img(src="@/assets/image/tags.png" v-if="playListDetail.tags.length > 0")
       li.item(v-for="(item, index) in playListDetail.tags") {{ item }}  
-      .play-all
-        span.iconfont(@click="playAll") &#xe636
+      play-all.all(:allSongList="playListDetail.tracks")
     .list(ref="wrapper")
       waterfall(ref="waterfall" :list="playListDetail.tracks" :gutter="5" :width="200" backgroundColor="#f3f3f3" :phoneCol="3")
         template(slot="item" slot-scope="props")
@@ -19,9 +18,7 @@
               img(v-lazy="props.data.al.picUrl")
               transition(name="fade")
                 .mask
-                  .play(@click.stop="play(props.data)")
-                    span.iconfont(v-if="GlobalPlaying && currentMusic.songId === props.data.id") &#xe69e
-                    span.iconfont(v-if="!GlobalPlaying || currentMusic.songId !== props.data.id") &#xe6a2
+                  play(:song="props.data")
             .info
               p.name 《{{props.data.name}}》
               p.artise {{props.data.ar[0].name}}
@@ -31,9 +28,12 @@ import Detector from 'element-resize-detector'
 import Waterfall from 'vue-waterfall-plugin'
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
-import Player from '../../Nav/components/Player.vue';
+import Play from '@/common/components/play.vue';
+import PlayAll from '@/common/components/playAll.vue';
 @Component({
   components: {
+    Play,
+    PlayAll,
     Waterfall
   }
 })
@@ -41,13 +41,8 @@ export default class detail extends Vue {
   @Ref('wrapper') readonly wrapper!: any
   @Ref('waterfall') readonly waterfall!: any
 
-  @State(state => state.globalEvent.playing) GlobalPlaying: any
   @State(state => state.recommend.playListDetail) playListDetail: any
   @State(state => state.globalEvent.playList) playList: any
-  @State(state => state.globalEvent.currentMusic) currentMusic: any
-
-  @Mutation('setPlayList') setPlayList: any
-  @Mutation('setCurrentIndex') setCurrentIndex: any
 
   created() {
     if (!this.playListDetail.id) {
@@ -64,49 +59,6 @@ export default class detail extends Vue {
         self.waterfall.refresh()
       }
     })
-  }
-
-  __setPlayLists(detail: any) {
-    const { al: album, ar: artist, name, id } = detail
-    const CurrentMusic = {
-      album: album.name,
-      picUrl: album.picUrl,
-      artist: artist[0].name,
-      artistId: artist[0].id,
-      songName: name,
-      songId: id
-    }
-    return CurrentMusic
-  }
-  async __pushList (lists: any) {
-    let list = this.playList
-    list.push(lists)
-    await this.setPlayList(list)
-  }
-
-  async playAll () {
-    let list: any = []
-    this.playListDetail.tracks.map((item: any) => {
-      list.push(this.__setPlayLists(item))
-    })
-    list.map((item: any) => {
-      this.__pushList(item)
-    })
-    this.$message({
-      type: 'success',
-      message: '添加成功'
-    })
-    if (this.GlobalPlaying) {
-      return
-    } else {
-      this.setCurrentIndex(0)
-    }
-  }
-
-  async play (item: any) {
-    const CurrentMusic = this.__setPlayLists(item)
-    await this.__pushList(CurrentMusic)
-    await this.setCurrentIndex(this.playList.length - 1)
   }
 }
 </script>
@@ -163,13 +115,8 @@ ul > li {
       padding: 4px 10px;
       margin: 0 5px;
     }
-    .play-all {
-      flex: 1;
-      text-align: right;
-      .iconfont {
-        cursor: pointer;
-        font-size: 40px;
-      }
+    .all {
+      text-align: right
     }
   }
   .list {
@@ -194,24 +141,6 @@ ul > li {
           height: calc(100% - 5px);
           background-color: rgba(0,0,0,0.35);
           border-radius: 10px;
-          .play {
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            text-align: center;
-            margin: 0 auto;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            .iconfont {
-              top: 0;
-              right: 0;
-              position: absolute;
-              font-size: 50px;
-              color: #fff;
-            }
-          }
         }
       }
       .info {

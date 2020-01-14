@@ -90,6 +90,7 @@ export default class Nav extends Vue {
     width: 25px;
     height: 25px;
     border-radius: 50%;
+    transform: rotate(45deg);
     img {
       width: 100%;
       border-radius: 50%;

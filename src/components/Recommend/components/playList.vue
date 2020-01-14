@@ -14,7 +14,6 @@ import Detector from 'element-resize-detector'
 import Waterfall from 'vue-waterfall-plugin'
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
-import mutations from '../../../store/mutations'
 @Component({
   components: {
     Waterfall
