@@ -151,11 +151,13 @@ const mutations: MutationTree<CONFIG> = {
         ...model
       }
   },
-  setCurrentRank (state: CONFIG, { creator, list, name, desc }) {
+  setCurrentRank (state: CONFIG, { creator, list, name, desc , cover, updateTime }) {
     state.rank.creator = creator
     state.rank.list = list
     state.rank.name = name
     state.rank.desc = desc
+    state.rank.cover = cover
+    state.rank.updateTime = updateTime
   }
 }
 

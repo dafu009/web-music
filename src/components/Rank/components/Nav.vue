@@ -1,11 +1,14 @@
 <template lang="pug">
   .nav(:style="{ maxHeight: `${windowHeight}px` }")
     .base-line(:style="{ top: `${(currentIndex + 1) * 54}px` }")
+      .loading
+        img(src="@/assets/image/loading.gif")
     template(v-for="(item, index) in categoryList")
       .nav-item(
         :key="item.value"
         :class="{'active': currentIndex === index}"
         @click="current(index, item.value)") {{ item.name }}
+      
 </template>
 <script lang="ts">
 import RankCategory from '@/base/rankCategory'
@@ -17,10 +20,11 @@ import { CONFIG, Rank } from '@/store/types'
 })
 export default class Nav extends Vue {
   @State((state: CONFIG) => state.rank) CurrnetRank!: Rank
-
   @Action('getTopRank') getTopRank: any
+
   private currentIndex: number = 0
-  get windowHeight () {
+
+  get windowHeight() {
     return window.innerHeight
   }
   get categoryList() {
@@ -29,16 +33,13 @@ export default class Nav extends Vue {
       value
     }))
   }
-  async created () {
+  async created() {
     await this.current()
   }
 
   async current(index: number = 0, id: number = 0) {
-    await this.getTopRank(id)
     this.currentIndex = index
-    this.$router.push({
-      path: `/rank/${id}`
-    })
+    await this.getTopRank(id)
   }
 }
 </script>
@@ -74,15 +75,28 @@ export default class Nav extends Vue {
   .nav-item:hover::after {
     transform: scaleX(1);
   }
+  .base-line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: #447df5;
+    border-radius: 20px;
+  }
+  .loading {
+    position: absolute;
+    right: 5px;
+    top: -38px;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    img {
+      width: 100%;
+      border-radius: 50%;
+    }
+  }
 }
-.base-line {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 5px;
-  background: #447df5;
-  border-radius: 20px;
-}
+
 .nav::-webkit-scrollbar {
   width: 8px;
   background-color: #fff;

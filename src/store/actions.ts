@@ -237,7 +237,9 @@ const actions: ActionTree<CONFIG, any> = {
             creator: data.playlist.creator,
             list: data.playlist.tracks,
             name: data.playlist.name,
-            desc: data.playlist.description
+            desc: data.playlist.description,
+            cover: data.playlist.coverImgUrl,
+            updateTime: data.playlist.trackUpdateTime
           })
         }
       })

@@ -50,7 +50,9 @@ const state: CONFIG = {
     list: [],
     creator: {},
     name: '',
-    desc: ''
+    desc: '',
+    cover: '',
+    updateTime: 0
   },
   search: {
     keywords: '',

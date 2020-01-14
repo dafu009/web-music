@@ -80,4 +80,6 @@ export interface Rank {
   creator: {}
   name: string
   desc: string
+  cover: string
+  updateTime: number
 }

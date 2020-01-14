@@ -43,14 +43,7 @@ const routes = [
   {
     path: '/rank',
     name: 'rank',
-    component: () => import('@/components/Rank/index.vue'),
-    children: [
-      {
-        path: ':id',
-        name: 'rank-item',
-        component: () => import('@/components/Rank/components/Rank-item.vue')
-      }
-    ]
+    component: () => import('@/components/Rank/index.vue')
   },
   {
     path: '/search',

@@ -1,14 +1,16 @@
 <template lang="pug">
   .rank
     rank-nav
-    router-view
+    rank-item
 </template>
 <script lang="ts">
 import RankNav from './components/Nav.vue'
+import RankItem from './components/Rank-item.vue'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
   components: {
-    RankNav
+    RankNav,
+    RankItem
   }
 })
 export default class index extends Vue {
