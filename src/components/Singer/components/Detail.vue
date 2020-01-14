@@ -25,7 +25,7 @@
               .operating_item.add(@click="add(item)")
                 span.iconfont &#xe6a0
               .operating_item.play(@click="play(item)")
-                span.iconfont &#xe6a4
+                span.iconfont &#xe6a2
             transition(name="fade")
               blow.blow-position(
                 v-if="currentMusic.songId === item.id && GlobalPlaying")

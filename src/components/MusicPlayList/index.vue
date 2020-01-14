@@ -22,7 +22,7 @@ el-drawer(
             transition(name="fade")
               span.iconfont(@click="playOrPause(index)" v-if="GlobalPlaying && currentMusic.songId === item.songId") &#xe69e
             transition(name="fade")
-              span.iconfont(@click="playOrPause(index)" v-if="!GlobalPlaying || currentMusic.songId !== item.songId") &#xe6a4
+              span.iconfont(@click="playOrPause(index)" v-if="!GlobalPlaying || currentMusic.songId !== item.songId") &#xe6a2
           span.iconfont(@click="deleteSong(index)") &#xe698
     .clear(@click="clear")
       p 清空播放列表

@@ -1,7 +1,14 @@
 <template lang="pug">
-  .video-wrapper(ref="videoWrapper" v-if="mvPlayerStatus" :class="{'shadow': moving}")
-    .header(ref="header" @mousedown="move")
-      .close(@click.stop="close" title="关闭") X
+  .video-wrapper(
+    ref="videoWrapper"
+    v-if="mvPlayerStatus"
+    :class="{'shadow': moving}")
+    transition(name="fade")
+      .header(ref="header" @mousedown="move")
+        .move
+          span.iconfont &#xe786
+        .close(@click.stop="close" title="关闭")
+          span.iconfont &#xe6dc
     video-player(
       ref="videoPlayer"
       :playsinline="true"
@@ -32,7 +39,7 @@ export default class index extends Vue {
   @Mutation('setPlaying') setMusicPlaying: any
 
   private moving: boolean = false
-
+  private headerShow: boolean = false
   @Watch('MusicPlaying')
   PlayStatusChange (value: boolean) {
     if (value && this.video) this.video.player.pause()
@@ -98,22 +105,57 @@ export default class index extends Vue {
 </script>
 <style lang="scss" scoped>
 .video-wrapper {
-  width: 400px;
-  height: 275px;
+  width: 450px;
+  height: 225px;
   position: fixed;
   left: 20px;
   bottom: 20px;
   z-index: 999;
-  box-shadow: -5px -2px 20px rgba(0,0,0,0.5);
   .header {
     height: 50px;
     background-color: #f9f9f9;
-    cursor: move;
+    display: flex;
+    line-height: 50px;
+    text-align: center;
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    top: -50px;
+    opacity: 0;
+    transition: opacity .4s;
+    .move {
+      cursor: move;
+      flex: 1;
+      color: #444;
+      .iconfont {
+        font-size: 24px;
+      }
+    }
     .close {
       width: 50px;
       cursor: pointer;
+      .iconfont {
+        font-size: 30px;
+      }
+    }
+    .close:hover {
+      background-color: #ccc;
     }
   }
+}
+.video-wrapper:hover > .header{
+  opacity: 1;
+}
+.video-wrapper::after, .video-wrapper::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  bottom: 0;
+  left: 10px;
+  right: 10px;
+  box-shadow: 0 0 20px rgba(0,0,0,.8);
+  border-radius: 100px/10px;
 }
 .shadow {
   box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.4);

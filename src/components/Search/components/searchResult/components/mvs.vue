@@ -8,7 +8,7 @@ transition(name="fade")
             img(:src="item.cover")
             .mask
               .play
-                span.iconfont &#xe6a4
+                span.iconfont &#xe6a2
           .name {{ item.name }}
     loading(@loadMore="loadMore" v-if="loadingShow")
 </template>
@@ -94,7 +94,7 @@ export default class mvs extends Vue {
           left: 50%;
           transform: translate(-50%, -50%);
           span {
-            font-size: 40px;
+            font-size: 45px;
             color: #fff;
           }
         }

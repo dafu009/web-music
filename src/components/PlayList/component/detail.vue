@@ -21,7 +21,7 @@
                 .mask
                   .play(@click.stop="play(props.data)")
                     span.iconfont(v-if="GlobalPlaying && currentMusic.songId === props.data.id") &#xe69e
-                    span.iconfont(v-if="!GlobalPlaying || currentMusic.songId !== props.data.id") &#xe6a4
+                    span.iconfont(v-if="!GlobalPlaying || currentMusic.songId !== props.data.id") &#xe6a2
             .info
               p.name 《{{props.data.name}}》
               p.artise {{props.data.ar[0].name}}

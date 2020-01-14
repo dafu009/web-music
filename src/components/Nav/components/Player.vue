@@ -17,7 +17,7 @@ transition(name="fade")
           transition(name="fade")
             span.iconfont(v-if="GlobalPlaying") &#xe69e
           transition(name="fade")
-            span.iconfont(v-if="!GlobalPlaying") &#xe6a4
+            span.iconfont(v-if="!GlobalPlaying") &#xe6a2
         p.next(@click.stop="next")
           span.iconfont &#xe69d
         p.musiclist(@click.stop="toList")
