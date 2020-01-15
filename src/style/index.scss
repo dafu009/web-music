@@ -5,12 +5,12 @@
   }
   .content {
     box-sizing: border-box;
-    padding: 60px;
+    padding: 60px 60px 0;
   }
   .drawer_active {
     width: calc(100% - 300px)
   }
   .content-wrap {
-    overflow-y: auto;
+    overflow-y: scroll;
   }
 }

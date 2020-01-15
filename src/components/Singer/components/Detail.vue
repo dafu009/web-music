@@ -1,6 +1,6 @@
 <template lang="pug">
   .detail
-    el-page-header(@back="goBack" :content="backTo")
+    back-to(:title="backTo" @back="goBack")
     .info
       .avatar
         img(v-lazy="singerDetail.img1v1Url")
@@ -53,10 +53,12 @@ import Loading from '@/components/Loading/index.vue'
 import Blow from '@/common/components/Blow.vue'
 import PlayAll from '@/common/components/playAll.vue'
 import { CONFIG } from '@/store/types'
+import BackTo from '../../../common/components/BackTo.vue';
 
 @Component({
   components: {
     Blow,
+    BackTo,
     Loading,
     PlayAll
   }
@@ -70,6 +72,8 @@ export default class Overview extends Vue {
 
   @Mutation('setLoading') setLoading: any
   @Mutation('setCurrentIndex') setCurrentIndex: any
+  @Mutation('setGlobalMessageShow') setGlobalMessageShow: any
+  @Mutation('setGlobalMessage') setGlobalMessage: any
 
   @Action('getAlbumDetail') getAlbumDetail: any
 
@@ -80,14 +84,8 @@ export default class Overview extends Vue {
   beforeRouteEnter(to: any, from: any, next: Function): void {
     next((vm: Vue) => {
       let title = ''
-      switch(from.name) {
-        case 'search':
-          title = '搜索'
-          break
-        case 'singer':
-          title = '歌手'
-          break
-      }
+      if (from.path.match(/search/) || to.path.match(/search/)) title = '搜索'
+      else if (from.path.match(/singer/) || to.path.match(/singer/)) title = '歌手'
       vm.$data.backTo = title
     })
   }
@@ -117,10 +115,8 @@ export default class Overview extends Vue {
   async add(item: any) {
     const CurrentMusic = __setPlayLists(item)
     await __pushList(CurrentMusic)
-    this.$message({
-      type: 'success',
-      message: '添加成功'
-    })
+    this.setGlobalMessage({ type: 'success', message: '添加成功' })
+    this.setGlobalMessageShow(true)
   }
   async toAlbumDetail(id: number, singer: string) {
     await this.getAlbumDetail(id)

@@ -1,40 +1,38 @@
 <template lang="pug">
-el-drawer(
-  title="播放列表"
-  :visible.sync="drawerShow"
-  :with-header="false"
-  :direction="'ltr'"
-  :before-close="closeDrawer"
-  size="500px")
-  .play-list(v-if="drawerShow")
-    ul.list
-      li.item(v-for="(item, index) in playList")
-        .cover
-          img(v-lazy="item.picUrl")
-        .info
-          span.singer {{ item.artist }}
-          span.song {{ item.songName }}
-          span.album(v-if="item.songName !== item.album") {{ item.album }}
-        .operating
-          .control(v-if="!item.disable")
-            transition(name="fade")
-              blow.blow-position(v-if="GlobalPlaying && currentMusic.songId === item.songId")
-            transition(name="fade")
-              span.iconfont(@click="playOrPause(index)" v-if="GlobalPlaying && currentMusic.songId === item.songId") &#xe69e
-            transition(name="fade")
-              span.iconfont(@click="playOrPause(index)" v-if="!GlobalPlaying || currentMusic.songId !== item.songId") &#xe6a2
-          .tips(v-else) 暂无音源
-          span.iconfont(@click="deleteSong(index)") &#xe698
-    .clear(@click="clear")
-      p 清空播放列表
+transition(name="fade")
+  drawer(v-if="drawerShow" @close="closeDrawer")
+    .play-list(v-if="drawerShow")
+      ul.list
+        li.item(v-for="(item, index) in playList")
+          .cover
+            img(v-lazy="item.picUrl")
+          .info
+            span.singer {{ item.artist }}
+            span.song {{ item.songName }}
+            span.album(v-if="item.songName !== item.album") {{ item.album }}
+          .operating
+            .control(v-if="!item.disable")
+              transition(name="fade")
+                blow.blow-position(v-if="GlobalPlaying && currentMusic.songId === item.songId")
+              transition(name="fade")
+                span.iconfont(@click="playOrPause(index)" v-if="GlobalPlaying && currentMusic.songId === item.songId") &#xe69e
+              transition(name="fade")
+                span.iconfont(@click="playOrPause(index)" v-if="!GlobalPlaying || currentMusic.songId !== item.songId") &#xe6a2
+            .tips(v-else) 暂无音源
+            span.iconfont(@click="deleteSong(index)") &#xe698
+      .clear(@click="clear")
+        p 清空播放列表
 </template>
 <script lang="ts">
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import Blow from '@/common/components/Blow.vue'
+import Drawer from '@/common/components/Drawer.vue';
+
 @Component({
   components: {
-    Blow
+    Blow,
+    Drawer
   }
 })
 export default class index extends Vue {
@@ -158,22 +156,5 @@ export default class index extends Vue {
       border-top: 1px solid #e6e6e6;
     }
   }
-}
-</style>
-<style>
-.el-drawer__body {
-  overflow-y: auto;
-}
-.el-drawer__body::-webkit-scrollbar {
-  width: 8px;
-  background-color: #fff
-}
-  .el-drawer__body::-webkit-scrollbar-track {
-  background-color: #fff
-}
-
-.el-drawer__body::-webkit-scrollbar-thumb {
-  background: rgb(146, 181, 255);
-  border-radius: 20px;
 }
 </style>

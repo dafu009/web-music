@@ -48,18 +48,11 @@ export default class artists extends Vue {
   }
 
   async detail(id: number) {
-    this.GetArtistDetail(id)
-      .then(() => {
-        this.$router.push({
-          path: `/singer/${id}`
-        })
-      })
-      .catch(() => {
-        this.$message({
-          type: 'error',
-          message: '网络错误请重试'
-        })
-      })
+    await this.GetArtistDetail(id)
+    this.$router.push({
+      path: `/singer/${id}`
+    })
+      
   }
   loadMore () {
     setTimeout(async () => {

@@ -41,19 +41,11 @@ export default class playList extends Vue {
     })
   }
 
-  detail(id: number) {
-    this.getPlayListDetail(id)
-      .then(() => {
-        this.$router.push({
-          path: `/play-list/${id}`
-        })
-      })
-      .catch(() => {
-        this.$message({
-          type: 'error',
-          message: '网络错误请重试'
-        })
-      })
+  async detail(id: number) {
+    await this.getPlayListDetail(id)
+    this.$router.push({
+      path: `/play-list/${id}`
+    })
   }
 }
 </script>

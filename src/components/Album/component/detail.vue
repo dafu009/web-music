@@ -1,6 +1,6 @@
 <template lang="pug">
   .album-detail(v-if="album && songs")
-    el-page-header(@back="goBack" :content="backTo")
+    back-to(:title="backTo" @back="goBack")
     .header
       .cover
         img(v-lazy="album.picUrl")
@@ -25,9 +25,11 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import { State, Mutation, Action } from 'vuex-class'
 import PlayAll from '@/common/components/playAll.vue'
 import Play from '@/common/components/play.vue'
+import BackTo from '../../../common/components/BackTo.vue';
 @Component({
   components: {
     Play,
+    BackTo,
     PlayAll
   }
 })

@@ -7,7 +7,7 @@
         .name 《 {{playListDetail.name}} 》
         .desc {{playListDetail.desc}}
     ul.tags
-      img(src="@/assets/image/tags.png" v-if="playListDetail.tags.length > 0")
+      img(src="@/assets/image/tags.png" v-if="playListDetail.tags")
       li.item(v-for="(item, index) in playListDetail.tags") {{ item }}  
       play-all.all(:allSongList="playListDetail.tracks")
     .list(ref="wrapper")
@@ -15,7 +15,7 @@
         template(slot="item" slot-scope="props")
           .item
             .cover-wrap
-              img(v-lazy="props.data.al.picUrl")
+              img(v-lazy="props.data.al.picUrl" @load="refresh")
               transition(name="fade")
                 .mask
                   play.selfPlay(:song="props.data")
@@ -56,9 +56,12 @@ export default class detail extends Vue {
     const self = this
     erd.listenTo(this.wrapper, function(el: HTMLDivElement) {
       if (el) {
-        self.waterfall.refresh()
+        self.refresh()
       }
     })
+  }
+  refresh () {
+    this.waterfall.refresh()
   }
 }
 </script>

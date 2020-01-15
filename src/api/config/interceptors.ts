@@ -1,4 +1,6 @@
-import _ from 'lodash'
+import get from 'lodash/get'
+import clone from 'lodash/clone'
+import isPlainObject from 'lodash/isPlainObject'
 import { AxiosInstance } from 'axios'
 
 export default (instance: AxiosInstance) => {
@@ -12,14 +14,14 @@ export default (instance: AxiosInstance) => {
   )
   instance.interceptors.response.use(
     response => {
-      if (_.isPlainObject(response.data)) {
-        const data = _.clone(response.data)
+      if (isPlainObject(response.data)) {
+        const data = clone(response.data)
         return Object.freeze(data)
       }
       return response
     },
     rejection => {
-      if (!rejection || _.get(rejection, 'response.status') === 0) {
+      if (!rejection || get(rejection, 'response.status') === 0) {
         return Promise.reject(
           new RejectionReason('无法连接网络，请检查网络设置', rejection)
         )

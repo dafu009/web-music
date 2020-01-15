@@ -42,7 +42,7 @@ const actions: ActionTree<CONFIG, any> = {
     commit('resetUserInfo')
     commit('removeToken')
   },
-  async GetArtistList ({ commit, state: CONFIG }, { isTop, cat }) {
+  async GetArtistList ({ commit, dispatch, state: CONFIG }, { isTop, cat }) {
     let requestConfig: AxiosRequestConfig = {
       params: {
         offset: state.singer.pageNum * state.singer.pageSize,
@@ -50,7 +50,6 @@ const actions: ActionTree<CONFIG, any> = {
       }
     }
     let method = null
-    let flag = false
     if (isTop) {
       method = api.singer.getTopArtistList
     } else {
@@ -59,21 +58,15 @@ const actions: ActionTree<CONFIG, any> = {
     }
     await method(requestConfig)
       .then(({ code, artists }) => {
-        flag = true
         if (code === ERR_OK) {
           commit('setSingerList', artists)
+          commit('setLoading', false)
+          commit('setGlobalLoading', false)
         }
       })
       .catch(() => {
-        flag = false
+        dispatch('GetArtistList', { isTop, cat })
       })
-    return new Promise((resolve, reject) => {
-      if (flag) {
-        resolve(flag)
-      } else {
-        resolve(flag)
-      }
-    })
   },
   async GetArtistDetail ({ commit, dispatch }, id) {
     await Promise.all([
@@ -157,30 +150,31 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getRecommendPlayList')
       })
   },
-  async getPlayListDetail ({ commit, state: CONFIG }, id: number) {
-    const { playlist, code } = await api.song.getPlayListDetail({
-      params: {
-        id
-      }
-    })
-    if (code === ERR_OK) {
-      const {
-        coverImgUrl: picUrl,
-        description: desc,
-        tags,
-        tracks,
-        name,
-        id
-      } = playlist
-      commit('setPlayListDetail', {
-        id,
-        name,
-        tags,
-        tracks,
-        desc,
-        picUrl
+  async getPlayListDetail ({ commit, dispatch, state: CONFIG }, id: number) {
+    await api.song.getPlayListDetail({ params: { id } })
+      .then(({ playlist, code }) => {
+        if (code === ERR_OK) {
+          const {
+            coverImgUrl: picUrl,
+            description: desc,
+            tags,
+            tracks,
+            name,
+            id
+          } = playlist
+           commit('setPlayListDetail', {
+            id,
+            name,
+            tags,
+            tracks,
+            desc,
+            picUrl
+          })
+        }
       })
-    }
+      .catch(() => {
+        dispatch('getPlayListDetail', id)
+      })
   },
   async getAlbumDetail ({ commit, dispatch, state: CONFIG }, id: number) {
     await api.album.getAlbumDetail({ params: { id } })

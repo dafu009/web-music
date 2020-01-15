@@ -17,12 +17,19 @@ export default class play extends Vue {
   @State((state: CONFIG) => state.globalEvent.playList) playList: any
   @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying: any
   @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic: any
+
   @Mutation('setCurrentIndex') setCurrentIndex: any
+  @Mutation('setPlaying') setPlaying: any
 
   async play (item: any) {
-    const CurrentMusic = __setPlayLists(item)
-    await __pushList(CurrentMusic)
-    await this.setCurrentIndex(this.playList.length - 1)
+    if (this.currentMusic.songId === item.id) {
+      this.setPlaying(!this.GlobalPlaying)
+    } else {
+      const CurrentMusic = __setPlayLists(item)
+      await __pushList(CurrentMusic)
+      await this.setCurrentIndex(this.playList.length - 1)
+    }
+
   }
 }
 </script>

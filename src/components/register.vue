@@ -81,22 +81,22 @@ export default {
         }).then(({ success, message, code }) => {
           if (success) {
             if (code === 2000) {
-              this.$message({
-                type: 'success',
-                message
-              })
+              // this.$message({
+              //   type: 'success',
+              //   message
+              // })
             } else if (code === 4000) {
-              this.$message({
-                type: 'warring',
-                message
-              })
+              // this.$message({
+              //   type: 'warring',
+              //   message
+              // })
             }
           }
         }).catch(err => {
-          this.$message({
-            type: 'error',
-            message: err.toJSON().message
-          })
+          // this.$message({
+          //   type: 'error',
+          //   message: err.toJSON().message
+          // })
         })
       })
     },

@@ -22,7 +22,6 @@ import api from '@/api'
 })
 export default class Overview extends Vue {
   @State(state => state.singer) singer: any
-  @Mutation('setLoading') setLoading: any
   @Mutation('setSingerPageNum') setSingerPageNum: any
   @Mutation('reSetSingerConfig') reSetSingerConfig: any
   @Mutation('setGlobalLoading') setGlobalLoading: any
@@ -35,46 +34,26 @@ export default class Overview extends Vue {
 
   async created() {
     this.setGlobalLoading(true)
-    this._getGetArtistList(true, this.pageLoad)
+    await this.GetArtistList({ isTop: true, cat: 0 })
+    this.reload()
   }
-  async _getGetArtistList(isTop: boolean, cb: any, cat?: number) {
-    this.GetArtistList({ isTop, cat })
-      .then((data: boolean) => {
-        if (data) {
-          cb()
-        } else {
-          this.$message({
-            type: 'error',
-            message: '请求失败请重试'
-          })
-          this.setGlobalLoading(false)
-          this.setLoading(false)
-        }
-      })
-      .catch(() => {})
-  }
-  pageLoad() {
+  reload() {
     this.totalList = this.singer.artists
-    this.setGlobalLoading(false)
   }
   concatList() {
     this.totalList = this.totalList.concat(this.singer.artists)
-    this.setLoading(false)
   }
   async loadmore() {
     setTimeout(async () => {
       if (this.singer.artists.length === 0) return
       await this.setSingerPageNum(this.singer.pageNum + 1)
       if (this.currentCategory === 0) {
-        await this._getGetArtistList(true, this.concatList)
+        await this.GetArtistList({ isTop: true, cat: 0 })
       } else {
-        await this._getGetArtistList(
-          false,
-          this.concatList,
-          this.currentCategory
-        )
+        await this.GetArtistList({ isTop: false, cat: this.currentCategory })
       }
-    }, 1000)
+      this.concatList()
+    }, 500)
   }
 
   async _resetSinger() {
@@ -88,10 +67,11 @@ export default class Overview extends Vue {
     this.currentCategory = data.value
     await this._resetSinger()
     if (data.value === 0) {
-      await this._getGetArtistList(true, this.pageLoad)
+      await this.GetArtistList({isTop: true, cat: 0})
     } else {
-      await this._getGetArtistList(false, this.pageLoad, data.value)
+      await this.GetArtistList({isTop: false, cat: this.currentCategory})
     }
+    this.reload()
   }
 }
 </script>
