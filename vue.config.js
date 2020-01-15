@@ -15,6 +15,9 @@ module.exports = {
       .use('pug-html-loader')
       .loader('pug-html-loader')
       .end()
+    config
+      .plugin('webpack-bundle-analyzer')
+      .use(require('webpack-bundle-analyzer').BundleAnalyzerPlugin)
   },
   configureWebpack: {
     plugins: [
