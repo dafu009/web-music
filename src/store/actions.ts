@@ -58,10 +58,10 @@ const actions: ActionTree<CONFIG, any> = {
       requestConfig.params.cat = cat
     }
     await method(requestConfig)
-      .then((data) => {
+      .then(({ code, artists }) => {
         flag = true
-        if (data.code === ERR_OK) {
-          commit('setSingerList', data.artists)
+        if (code === ERR_OK) {
+          commit('setSingerList', artists)
         }
       })
       .catch(() => {
@@ -76,7 +76,7 @@ const actions: ActionTree<CONFIG, any> = {
     })
   },
   async GetArtistDetail ({ commit, dispatch }, id) {
-    Promise.all([
+    await Promise.all([
       api.singer.getAlbum({ params: { id } }),
       api.singer.getArtistDetail({ params: { id } })
     ]).then(
@@ -97,24 +97,27 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('GetArtistDetail', id)
       })
   },
-  async GetCurrentMusic ({ commit, state: CONFIG }, ID) {
-    const { data } = await api.song.getSongUrl({
-      params: {
-        id: ID
-      }
-    })
-    const { lrc: { lyric } } = await api.song.getLyric({
-      params: {
-        id: ID
-      }
-    })
-    const [{ url }] = data
-    const songUrl = url
-    const CurrentMusic = {
-      songUrl,
-      lyric
-    }
-    return CurrentMusic
+  async GetCurrentMusic ({ commit, dispatch, state: CONFIG }, obj: any) {
+    Promise.all([
+      api.song.getSongUrl({ params: { id: obj.item.songId } }),
+      api.song.getLyric({ params: { id: obj.item.songId } })
+    ])
+      .then(async ([{ code: reqCode_1, data: [{ url }] }, { code: reqCode_2, lrc: { lyric } }]) => {
+        if (reqCode_1 === ERR_OK && reqCode_2 === ERR_OK) {
+          if (!url) {
+            state.globalEvent.playList[obj.index].disable = true
+            commit('setGlobalMessage', {type: 'error', message: '没有音源,自动跳过'})
+            commit('setGlobalMessageShow', true)
+            state.globalEvent.currentIndex ++
+            return
+          }
+          commit('setCurrentSong', {songUrl: url, lyric, ...obj.item})
+          commit('setPlaying', true)
+        }
+      })
+      .catch(() => {
+        dispatch('GetCurrentMusic', obj.item)
+      })
   },
   async getCurrentMv ({ commit, dispatch, state: CONFIG }, { id, name, artistName, cover }) {
     api.mv.getMvUrl({ params: { id } })
@@ -145,9 +148,9 @@ const actions: ActionTree<CONFIG, any> = {
       }
     }
     api.recommend.getRecommendPlayList(requestConfig)
-      .then(data => {
-        if (data.code === ERR_OK) {
-          commit('setRecommendPlayList', data.result)
+      .then(({ code, result }) => {
+        if (code === ERR_OK) {
+          commit('setRecommendPlayList', result)
         }
       })
       .catch(() => {
@@ -194,8 +197,8 @@ const actions: ActionTree<CONFIG, any> = {
     const genre: string = 'songs'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
-      .then(data => {
-        commit('setSearchSongs', data.result.songs)
+      .then(({ result }) => {
+        commit('setSearchSongs', result.songs)
       })
       .catch(err => {
         dispatch('getSearchSongs')
@@ -205,8 +208,8 @@ const actions: ActionTree<CONFIG, any> = {
     const genre: string = 'artists'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
-      .then(data => {
-        commit('setSearchArtists', data.result.artists)
+      .then(({ result }) => {
+        commit('setSearchArtists', result.artists)
       })
       .catch(err => {
         dispatch('getSearchArtists')
@@ -216,8 +219,8 @@ const actions: ActionTree<CONFIG, any> = {
     const genre: string = 'albums'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
-      .then(data => {
-        commit('setSearchAlbums', data.result.albums)
+      .then(({ result }) => {
+        commit('setSearchAlbums', result.albums)
       })
       .catch(err => {
         dispatch('getSearchAlbums')
@@ -227,8 +230,8 @@ const actions: ActionTree<CONFIG, any> = {
     const genre: string = 'playLists'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
-      .then(data => {
-        commit('setSearchPlayList', data.result.playlists)
+      .then(({ result }) => {
+        commit('setSearchPlayList', result.playlists)
       })
       .catch(err => {
         dispatch('getSearchPlaylist')
@@ -238,8 +241,8 @@ const actions: ActionTree<CONFIG, any> = {
     const genre: string = 'mvs'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
-      .then(data => {
-        commit('setSearchMvs', data.result.mvs)
+      .then(({ result }) => {
+        commit('setSearchMvs', result.mvs)
       })
       .catch(err => {
         dispatch('getSearchMv')
@@ -248,15 +251,15 @@ const actions: ActionTree<CONFIG, any> = {
 
   async getTopRank ({ commit, dispatch, state: CONFIG }, idx: number) {
     api.rank.getTopRank({ params: { idx } })
-      .then(data => {
-        if (data.code === ERR_OK) {
+      .then(({ code, playlist }) => {
+        if (code === ERR_OK) {
           commit('setCurrentRank', {
-            creator: data.playlist.creator,
-            list: data.playlist.tracks,
-            name: data.playlist.name,
-            desc: data.playlist.description,
-            cover: data.playlist.coverImgUrl,
-            updateTime: data.playlist.trackUpdateTime
+            creator: playlist.creator,
+            list: playlist.tracks,
+            name: playlist.name,
+            desc: playlist.description,
+            cover: playlist.coverImgUrl,
+            updateTime: playlist.trackUpdateTime
           })
         }
       })

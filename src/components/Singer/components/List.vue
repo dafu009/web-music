@@ -6,8 +6,9 @@
     .name {{ item.name }}
 </template>
 <script lang="ts">
-import { Action } from 'vuex-class'
+import { Action, State } from 'vuex-class'
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
+import { CONFIG } from '@/store/types';
 @Component({
   components: {}
 })

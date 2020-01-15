@@ -1,5 +1,5 @@
 <template lang="pug">
-  .album-detail
+  .album-detail(v-if="album && songs")
     el-page-header(@back="goBack" :content="backTo")
     .header
       .cover
@@ -60,7 +60,7 @@ export default class detail extends Vue {
       vm.$data.backTo = title
     })
   }
-  beforeCreate () {
+  created () {
     if (!this.album && !this.songs) {
       this.$router.push('/recommend')
       return
@@ -90,6 +90,7 @@ export default class detail extends Vue {
       }
     }
     .desc {
+      flex: 1;
       padding: 20px;
       p {
         font-size: 14px;

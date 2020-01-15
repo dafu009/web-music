@@ -65,31 +65,12 @@ export default class Player extends Vue {
     return this.currentTime / this.duration || 0
   }
   @Watch('currentIndex')
-  async setCurrentPlay(index: number) {
+  setCurrentPlay(index: number) {
     document.title = `
       ${this.currentMusic.songName} - ${this.currentMusic.artist}
     `
     this.setPlaying(false)
-    await this.GetCurrentMusic(this.playList[index].songId)
-      .then((data: any) => {
-        if (!data.songUrl) {
-          this.$message({
-            type: 'warning',
-            message: '没有音源'
-          })
-          this.currentIndex ++
-          return
-        }
-        const current = { ...data, ...this.playList[index] }
-        this.setCurrentSong(current)
-      })
-      .catch(() => {
-        this.$message({
-          type: 'error',
-          message: '播放失败'
-        })
-      })
-    this.setPlaying(true)
+    this.GetCurrentMusic({item: this.playList[index], index: this.currentIndex})
   }
   @Watch('GlobalPlaying')
   PlayStatusChange(val: boolean) {

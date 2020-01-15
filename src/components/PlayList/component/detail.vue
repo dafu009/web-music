@@ -18,7 +18,7 @@
               img(v-lazy="props.data.al.picUrl")
               transition(name="fade")
                 .mask
-                  play(:song="props.data")
+                  play.selfPlay(:song="props.data")
             .info
               p.name 《{{props.data.name}}》
               p.artise {{props.data.ar[0].name}}
@@ -141,6 +141,9 @@ ul > li {
           height: calc(100% - 5px);
           background-color: rgba(0,0,0,0.35);
           border-radius: 10px;
+          .selfPlay {
+            color: #fff;
+          }
         }
       }
       .info {

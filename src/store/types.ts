@@ -1,3 +1,4 @@
+import message from '../common/components/message.vue';
 export interface UserInfo {
   username: string
   avatar: string
@@ -16,6 +17,7 @@ export interface CurrentMusic {
   songId: number
   lyric: string
   album: string
+  disable?: boolean
 }
 export interface CurrentMv {
   url: string
@@ -34,8 +36,13 @@ export interface GlobalEvent {
   playList: CurrentMusic[]
   currentMv: CurrentMv
   mvPlayerStatus: boolean
+  message: Message
 }
-
+export interface Message {
+  show: boolean
+  type: string
+  message: string
+}
 export interface Singer {
   detail: {}
   artists: []

@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv } from './types';
+import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message } from './types';
 import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
@@ -51,7 +51,7 @@ const mutations: MutationTree<CONFIG> = {
   setSingerList (state: CONFIG, data: []) {
     state.singer.artists = data
   },
-  setSingerDetail (state: CONFIG, data) {
+  async setSingerDetail (state: CONFIG, data) {
     state.singer.detail = data
   },
   async setCurrentIndex (state: CONFIG, value: number) {
@@ -81,7 +81,7 @@ const mutations: MutationTree<CONFIG> = {
   setPlayListDetail (state: CONFIG, data) {
     state.recommend.playListDetail = data
   },
-  setAlbumDetail (state: CONFIG, data) {
+  async setAlbumDetail (state: CONFIG, data) {
     state.album = data
   },
   async setSearchKeywords (state: CONFIG, value: string) {
@@ -158,6 +158,16 @@ const mutations: MutationTree<CONFIG> = {
     state.rank.desc = desc
     state.rank.cover = cover
     state.rank.updateTime = updateTime
+  },
+  setGlobalMessageShow (state: CONFIG, value: boolean) {
+    state.globalEvent.message.show = value
+    setTimeout(() => {
+      state.globalEvent.message.show = false
+    }, 1000)
+  },
+  setGlobalMessage (state: CONFIG, { type, message }: Message) {
+    state.globalEvent.message.type = type
+    state.globalEvent.message.message = message
   }
 }
 

@@ -43,7 +43,12 @@ const state: CONFIG = {
       cover: '',
       artist: ''
     },
-    mvPlayerStatus: false
+    mvPlayerStatus: false,
+    message: {
+      show: false,
+      type: '',
+      message: ''
+    }
   },
   album: {},
   rank: {

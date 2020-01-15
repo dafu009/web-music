@@ -127,7 +127,7 @@ export default class Overview extends Vue {
     this.$router.push({
       path: `/album/${id}`,
       query: {
-        singer: singer
+        singer
       }
     })
   }

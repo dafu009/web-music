@@ -2,6 +2,7 @@
   #app
     transition(name="fade")
       mv-player
+    message
     global-loading
     music-play-list
     vue-drawer-layout(
@@ -27,9 +28,11 @@ import MusicPlayList from '@/components/MusicPlayList/index.vue'
 import GlobalLoading from '@/common/components/GlobalLoading.vue'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import MvPlayer from '@/components/MvPlayer/index.vue'
+import Message from '@/common/components/message.vue';
 @Component({
   components: {
     Nav,
+    Message,
     MvPlayer,
     GlobalLoading,
     MusicPlayList

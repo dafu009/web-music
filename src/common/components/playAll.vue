@@ -15,6 +15,8 @@ export default class playAll extends Vue {
 
   @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying: any
   @Mutation('setCurrentIndex') setCurrentIndex: any
+  @Mutation('setGlobalMessageShow') setGlobalMessageShow: any
+  @Mutation('setGlobalMessage') setGlobalMessage: any
 
   async playAll () {
     let list: any = []
@@ -24,10 +26,8 @@ export default class playAll extends Vue {
     list.map((item: any) => {
       __pushList(item)
     })
-    this.$message({
-      type: 'success',
-      message: '添加成功'
-    })
+    this.setGlobalMessage({ type: 'success', message: '添加成功' })
+    this.setGlobalMessageShow(true)
     if (this.GlobalPlaying) {
       return
     } else {

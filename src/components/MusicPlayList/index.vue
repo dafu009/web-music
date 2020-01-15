@@ -16,13 +16,14 @@ el-drawer(
           span.song {{ item.songName }}
           span.album(v-if="item.songName !== item.album") {{ item.album }}
         .operating
-          .control
+          .control(v-if="!item.disable")
             transition(name="fade")
               blow.blow-position(v-if="GlobalPlaying && currentMusic.songId === item.songId")
             transition(name="fade")
               span.iconfont(@click="playOrPause(index)" v-if="GlobalPlaying && currentMusic.songId === item.songId") &#xe69e
             transition(name="fade")
               span.iconfont(@click="playOrPause(index)" v-if="!GlobalPlaying || currentMusic.songId !== item.songId") &#xe6a2
+          .tips(v-else) 暂无音源
           span.iconfont(@click="deleteSong(index)") &#xe698
     .clear(@click="clear")
       p 清空播放列表
@@ -122,6 +123,7 @@ export default class index extends Vue {
         .iconfont{
           cursor: pointer;
           font-size: 40px;
+          vertical-align: middle;
         }
         .control {
           position: relative;
@@ -135,6 +137,13 @@ export default class index extends Vue {
             top: -3px;
             right: 35px;
           }
+        }
+        .tips {
+          font-size: 14px;
+          color: #545454;
+          display: inline-block;
+          vertical-align: middle;
+          margin: 0 15px 5px 0;
         }
       }
     }
