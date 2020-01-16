@@ -13,7 +13,8 @@
           v-model="userForm.username"
           placeholder="请输入用户名"
           @keyup="query"
-          @focus="focus(1)")
+          @focus="focus(1)"
+          @blur="activeIndex = 0")
       .form(:class="{active: activeIndex === 2}")
         span.iconfont &#xe616
         input.input(
@@ -21,7 +22,8 @@
           type="password"
           v-model="userForm.password"
           placeholder="请输入密码"
-          @focus="focus(2)")
+          @focus="focus(2)"
+          @blur="activeIndex = 0")
       transition(name="fade")
         .form(
           v-if="checkPassword && !result.exist"
@@ -33,7 +35,8 @@
             v-model="userForm.checkPass"
             placeholder="确认密码"
             @keyup="checkSame"
-            @focus="focus(3)")
+            @focus="focus(3)"
+            @blur="activeIndex = 0")
     .submit(@click="handel") {{ checkPassword && !result.exist ? '注册' : '登录' }}
 </template>
 <script lang="ts">
