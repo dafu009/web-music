@@ -1,7 +1,7 @@
 <template lang="pug">
   .back-to
     .back(@click="back")
-      span.iconfont &#xe63e
+      span.iconfont &#xe611
       .txt 返回
     .title {{ title }}
 </template>
@@ -28,6 +28,7 @@ export default class BackTo extends Vue {
     .iconfont {
       font-size: 18px;
       margin-right: 10px;
+      font-weight: 600;
     }
     .txt {
       font-size: 14px;

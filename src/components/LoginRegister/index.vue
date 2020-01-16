@@ -1,13 +1,11 @@
 <template lang="pug">
-  .card-form
-    card
+  .login-register 123
 </template>
 <script lang="ts">
-import Card from './Card.vue'
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import register from '@/components/register.vue';
 @Component({
   components: {
-    Card
   }
 })
 export default class loginRegister extends Vue {
@@ -15,7 +13,7 @@ export default class loginRegister extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-  .card-form {
-    
+  .login-register {
+    position: relative;
   }
 </style>
