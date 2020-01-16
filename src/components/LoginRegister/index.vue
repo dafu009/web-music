@@ -5,30 +5,35 @@
       img(v-if="result.avatar && userForm.username" v-lazy="result.avatar")
       img.default(v-else src="@/assets/image/default-avatar.png")
     .form-wrap
-      .form
+      .form(:class="{active: activeIndex === 1}")
         span.iconfont &#xe652
         input.input(
           clearable
           type="text"
           v-model="userForm.username"
           placeholder="请输入用户名"
-          @keyup="query")
-      .form
+          @keyup="query"
+          @focus="focus(1)")
+      .form(:class="{active: activeIndex === 2}")
         span.iconfont &#xe616
         input.input(
           clearable
           type="password"
           v-model="userForm.password"
-          placeholder="请输入密码")
+          placeholder="请输入密码"
+          @focus="focus(2)")
       transition(name="fade")
-        .form(v-if="checkPassword && !result.exist")
+        .form(
+          v-if="checkPassword && !result.exist"
+          :class="{active: activeIndex === 3}")
           span.iconfont &#xe627
           input.input(
             clearable
             type="password"
             v-model="userForm.checkPass"
             placeholder="确认密码"
-            @keyup="checkSame")
+            @keyup="checkSame"
+            @focus="focus(3)")
     .submit(@click="handel") {{ checkPassword && !result.exist ? '注册' : '登录' }}
 </template>
 <script lang="ts">
@@ -67,17 +72,31 @@ export default class loginRegister extends Vue {
       }, 1500)
     }
   }
-
-  private checkPassword:boolean = false
+  private activeIndex: number = 0
+  private checkPassword: boolean = false
   private userForm = {
     username: '',
     password: '',
     checkPass: ''
   }
-
+  _resetUserForm () {
+    this.activeIndex = 0
+    this.userForm = {
+      username: '',
+      password: '',
+      checkPass: ''
+    }
+  }
+  beforeRouteLeave(to: any,from: any, next: Function) {
+    this._resetUserForm()
+    next()
+  }
   created () {
     this.query = debounce(this.query, 500)
     this.checkSame = debounce(this.checkSame, 500)
+  }
+  focus (index: number) {
+    this.activeIndex = index
   }
   checkSame () {
     if (this.checkPassword && this.userForm.checkPass) {
@@ -104,11 +123,7 @@ export default class loginRegister extends Vue {
       username: this.userForm.username,
       password: this.userForm.password
     })
-    this.userForm = {
-      username: '',
-      password: '',
-      checkPass: ''
-    }
+    this._resetUserForm()
     this.$router.push('/recommend')
   }
   async userRegister() {
@@ -160,8 +175,8 @@ export default class loginRegister extends Vue {
   .wrapper {
     width: 400px;
     height: 500px;
-    background-color: #ccc;
-    border: 1px solid #ccc;
+    border: 1px solid transparent;
+    background-image: linear-gradient( 135deg, #3677FF 10%, #ffcb5b 100%);
     box-sizing: border-box;
     position: relative;
     border-radius: 20px;
@@ -213,6 +228,10 @@ export default class loginRegister extends Vue {
           vertical-align: top;
           color: #3c3c3c;
         }
+      }
+      .active{
+        box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.5);
+        border: 2px solid #494949;
       }
     }
     .submit {
