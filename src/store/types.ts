@@ -3,6 +3,10 @@ export interface UserQuery {
   exist: boolean
   username?: string
 }
+export interface CheckEvent {
+  success: boolean
+  fail: boolean
+}
 export interface UserInfo {
   username: string
   avatar: string
@@ -31,7 +35,8 @@ export interface CurrentMv {
   artist: string
 }
 export interface GlobalEvent {
-  checkShow?: boolean
+  checkShow: boolean
+  checkPass: CheckEvent
   drawerShow: boolean
   playing: boolean
   loading: boolean

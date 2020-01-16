@@ -15,7 +15,7 @@ import { CONFIG, UserQuery, UserInfo } from '@/store/types';
 export default class userInfo extends Vue {
   @State((state: CONFIG) => state.userInfo) UserInfo!:UserInfo
   toUser () {
-    if (this.UserInfo.username) {
+    if (this.UserInfo.token) {
       this.$router.push('/user')
     } else {
       this.$router.push('/user/login-register')

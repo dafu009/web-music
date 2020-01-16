@@ -264,13 +264,42 @@ const actions: ActionTree<CONFIG, any> = {
   async SET_TOKEN ({ commit }, data: string) {
     commit('setToken', data)
   },
-  async Register ({ commit }, data) {
-    api.user.register({ method: 'POST', data })
+  async Register ({ commit, state: CONFIG }, data) {
+    let isRegisterSuccess: boolean = false
+    await api.user.register({
+      method: 'POST',
+      data
+    })
+      .then(({ success, message }) => {
+        if (success) {
+          isRegisterSuccess = success
+          commit('setGlobalMessage', { type: 'success', message })
+          commit('setGlobalMessageShow', true)
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    return new Promise((resolve, reject) => {
+      resolve(isRegisterSuccess)
+    })
   },
-  async Login ({ commit }, data: CONFIG) {
-    const { userInfo } = data
-    commit('setUserInfo', userInfo)
-    commit('setToken', userInfo.token)
+  async Login ({ commit }, data) {
+    await api.user.login({
+      method: 'POST',
+      data
+    })
+    .then(({ userInfo, success, message }) => {
+      if (success) {
+        commit('setGlobalMessage', { type: 'success', message })
+        commit('setGlobalMessageShow', true)
+        commit('setUserInfo', userInfo)
+        commit('setToken', userInfo.token)
+      }
+    })
+    .catch(err => {
+      console.log(err)
+    })
   },
   async Logout ({ commit }) {
     commit('resetUserInfo')

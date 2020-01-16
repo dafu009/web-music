@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex'
-import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message, UserQuery } from './types';
+import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message, UserQuery, CheckEvent } from './types';
 import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
@@ -33,6 +33,12 @@ const mutations: MutationTree<CONFIG> = {
   },
   setCheckShow (state: CONFIG, value: boolean) {
     state.globalEvent.checkShow = value
+  },
+  setCheckSuccess (state: CONFIG, value: boolean) {
+    state.globalEvent.checkPass.success = value
+  },
+  setCheckFail (state: CONFIG, value: boolean) {
+    state.globalEvent.checkPass.fail = value
   },
   async setPlaying (state: CONFIG, value: boolean) {
     state.globalEvent.playing = value

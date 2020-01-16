@@ -32,7 +32,7 @@
     .submit(@click="handel") {{ checkPassword && !result.exist ? '注册' : '登录' }}
 </template>
 <script lang="ts">
-import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
+import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
 import register from '@/components/register.vue'
 import { Action, State, Mutation } from 'vuex-class'
 import { CONFIG, UserQuery, UserInfo } from '@/store/types'
@@ -41,16 +41,32 @@ import debounce from 'lodash/debounce'
   components: {}
 })
 export default class loginRegister extends Vue {
-  @Ref('rippleItem') readonly rippleItem!: any
-
   @State((state: CONFIG) => state.userInfo.queryData) result!: UserQuery
   @State((state: CONFIG) => state.userInfo) UserInfo!: UserInfo
+  @State((state: CONFIG) => state.globalEvent.checkPass.success) checkSuccess!: boolean
+
   @Mutation('setCheckShow') setCheckShow: any
   @Mutation('setGlobalMessageShow') setGlobalMessageShow: any
   @Mutation('setGlobalMessage') setGlobalMessage: any
   
   @Action('queryUser') queryUser: any
   @Action('Register') Register: any
+  @Action('Login') Login: any
+
+  @Watch('checkSuccess')
+  checkPass (value: boolean) {
+    if (value) {
+      setTimeout(() => {
+        if (this.result.exist) {
+          // 登录
+          this.userLogin()
+        } else {
+          // 注册
+          this.userRegister()
+        }
+      }, 1500)
+    }
+  }
 
   private checkPassword:boolean = false
   private userForm = {
@@ -83,8 +99,29 @@ export default class loginRegister extends Vue {
       this.checkPassword = false
     }
   }
-  register() {
-    this.Register({ username: '123', password: '456' })
+  async userLogin () {
+    await this.Login({
+      username: this.userForm.username,
+      password: this.userForm.password
+    })
+    this.userForm = {
+      username: '',
+      password: '',
+      checkPass: ''
+    }
+    this.$router.push('/recommend')
+  }
+  async userRegister() {
+    await this.Register({ 
+      username: this.userForm.username,
+      password: this.userForm.password
+    }).then((success: boolean) => {
+      if (success) {
+        setTimeout(() => {
+          this.userLogin()
+        }, 1000)
+      }
+    })
   }
   __setMessage (type: 'success' | 'error' | 'warning', message: string) {
     this.setGlobalMessage({ type, message })

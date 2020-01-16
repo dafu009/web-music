@@ -78,9 +78,13 @@ const routes = [
   },
   {
     path: '/user',
-    name: 'user',
-    component: () => import('@/components/LoginRegister/index.vue'),
+    component: () => import('@/components/User/index.vue'),
     children: [
+      { 
+        path: '',
+        name: 'user',
+        component: () => import('@/components/User/components/user.vue' ),
+      },
       {
         path: 'login-register',
         name: 'loginRegister',

@@ -27,15 +27,18 @@ import { CONFIG } from '../../store/types'
   components: {}
 })
 export default class check extends Vue {
-  @State((state: CONFIG) => state.globalEvent.checkShow) checkShow: any
+  @State((state: CONFIG) => state.globalEvent.checkShow) checkShow!: boolean
+  @State((state: CONFIG) => state.globalEvent.checkPass.success) checkSuccess!: boolean
+  @State((state: CONFIG) => state.globalEvent.checkPass.fail) checkFail!: boolean
+
   @Mutation('setCheckShow') setCheckShow: any
+  @Mutation('setCheckSuccess') setCheckSuccess: any
+  @Mutation('setCheckFail') setCheckFail: any
 
   randomImgId: number = 0
   rotate: number = 0
   statusShow: boolean = false
   offsetX: number = 0
-  checkSuccess: boolean = false
-  checkFail: boolean = false
   watchEvent: boolean = false
 
   created() {
@@ -63,8 +66,8 @@ export default class check extends Vue {
   init() {
     this.watchEvent = false
     this.statusShow = false
-    this.checkSuccess = false
-    this.checkFail = false
+    this.setCheckSuccess(false)
+    this.setCheckFail(false)
     this.offsetX = 0
     this.rotate = this.RandomNum(60, 300)
     this.randomImgId = this.RandomNum(1, 1000)
@@ -103,11 +106,9 @@ export default class check extends Vue {
     if (this.watchEvent) {
       this.statusShow = true
       if (this.rotate >= 350 && this.rotate <= 370) {
-        console.log('验证成功')
-        this.checkSuccess = true
+        this.setCheckSuccess(true)
       } else {
-        console.log('验证失败')
-        this.checkFail = true
+        this.setCheckFail(true)
       }
       setTimeout(() => {
         if (this.checkSuccess) {

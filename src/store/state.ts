@@ -26,6 +26,10 @@ const state: CONFIG = {
   },
   globalEvent: {
     checkShow: false,
+    checkPass: {
+      success: false,
+      fail: false
+    },
     playing: false,
     loading: false,
     globalLoading: false,

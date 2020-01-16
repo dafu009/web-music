@@ -31,6 +31,8 @@ import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import MvPlayer from '@/components/MvPlayer/index.vue'
 import Message from '@/common/components/message.vue';
 import Check from './common/components/Check.vue';
+import { State } from 'vuex-class'
+import { CONFIG, UserInfo } from './store/types';
 @Component({
   components: {
     Nav,
@@ -44,8 +46,12 @@ import Check from './common/components/Check.vue';
 export default class App extends Vue {
   @Ref('drawer') readonly drawer!: any
   @Ref('drawerContent') readonly drawerContent!: any
+  @State((state: CONFIG) => state.userInfo) userInfo!: UserInfo
   drawerShow: boolean = true
 
+  created () {
+    console.log(this.userInfo)
+  }
   mounted() {
     this.drawer.toggle()
   }
