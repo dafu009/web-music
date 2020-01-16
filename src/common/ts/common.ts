@@ -1,5 +1,5 @@
 import store from '@/store'
-
+import debounce from 'lodash/debounce'
 export function __setPlayLists (detail: any) {
   const { al: album, ar: artist, name, id } = detail
   const CurrentMusic = {
@@ -15,5 +15,5 @@ export function __setPlayLists (detail: any) {
 export async function  __pushList (lists: any) {
   let list = store.state.globalEvent.playList
   list.push(lists)
-  await store.commit('setPlayList', list)
+  store.commit('setPlayList', list)
 }

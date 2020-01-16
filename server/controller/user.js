@@ -39,7 +39,6 @@ const Login = async (ctx) => {
     return
   }
   if (doc.password === password) {
-    console.log('密码正确')
     const token = createToken(username)
     doc.token = token
     await new Promise((resolve, reject) => {
@@ -107,8 +106,37 @@ const Register = async (ctx) => {
     }
   }
 }
+// 用户查询
+const queryUser = async (ctx) => {
+  const username = ctx.request.query.username
+  const doc = await getUser(username)
+  if (!doc) {
+    ctx.status = 200
+    ctx.body = {
+      success: true, 
+      code: USER_NOT_EXIST,
+      exist: false,
+      data: {
+        avatar: 'https://image.yy.com/yjmf/OGYyMDY2ZTItNTgzZS00NGQwLTg4ODItNTk0OGEyODg5YWI1.png'
+      }
+    }
+  } else {
+    ctx.status = 200
+    ctx.body = {
+      success: true,
+      code: USER_ALREADY_EXIST,
+      exist: true,
+      data: {
+        username,
+        avatar: doc.avatar || 'https://image.yy.com/yjmf/OGYyMDY2ZTItNTgzZS00NGQwLTg4ODItNTk0OGEyODg5YWI1.png',
+      }
+    }
+  }
+}
+
 
 module.exports = {
   Login,
-  Register
+  Register,
+  queryUser
 }

@@ -27,21 +27,6 @@ function initSearchParams (state: CONFIG, genre: string) {
 }
 
 const actions: ActionTree<CONFIG, any> = {
-  async SET_CONFIGINFO ({ commit, state: CONFIG }, data: CONFIG) {
-    commit('setUserInfo', data.userInfo)
-  },
-  async SET_TOKEN ({ commit, state: CONFIG }, data: string) {
-    commit('setToken', data)
-  },
-  async Login ({ commit, state: CONFIG }, data: CONFIG) {
-    const { userInfo } = data
-    commit('setUserInfo', userInfo)
-    commit('setToken', userInfo.token)
-  },
-  async Logout ({ commit, state: CONFIG }) {
-    commit('resetUserInfo')
-    commit('removeToken')
-  },
   async GetArtistList ({ commit, dispatch, state: CONFIG }, { isTop, cat }) {
     let requestConfig: AxiosRequestConfig = {
       params: {
@@ -99,12 +84,12 @@ const actions: ActionTree<CONFIG, any> = {
         if (reqCode_1 === ERR_OK && reqCode_2 === ERR_OK) {
           if (!url) {
             state.globalEvent.playList[obj.index].disable = true
-            commit('setGlobalMessage', {type: 'error', message: '没有音源,自动跳过'})
+            commit('setGlobalMessage', { type: 'error', message: '没有音源,自动跳过' })
             commit('setGlobalMessageShow', true)
-            state.globalEvent.currentIndex ++
+            state.globalEvent.currentIndex++
             return
           }
-          commit('setCurrentSong', {songUrl: url, lyric, ...obj.item})
+          commit('setCurrentSong', { songUrl: url, lyric, ...obj.item })
           commit('setPlaying', true)
         }
       })
@@ -162,7 +147,7 @@ const actions: ActionTree<CONFIG, any> = {
             name,
             id
           } = playlist
-           commit('setPlayListDetail', {
+          commit('setPlayListDetail', {
             id,
             name,
             tags,
@@ -260,6 +245,36 @@ const actions: ActionTree<CONFIG, any> = {
       .catch(() => {
         dispatch('getTopRank', idx)
       })
-  }
+  },
+
+  async queryUser ({ commit, dispatch, state }, username: string) {
+    await api.user.queryUser({ params: { username } })
+      .then(({ success, data, exist }) => {
+        if (success) {
+          commit('setUserQueryData', { ...data, exist })
+        }
+      })
+      .catch(() => {
+        dispatch('queryUser', username)
+      })
+  },
+  async SET_CONFIGINFO ({ commit }, data: CONFIG) {
+    commit('setUserInfo', data.userInfo)
+  },
+  async SET_TOKEN ({ commit }, data: string) {
+    commit('setToken', data)
+  },
+  async Register ({ commit }, data) {
+    api.user.register({ method: 'POST', data })
+  },
+  async Login ({ commit }, data: CONFIG) {
+    const { userInfo } = data
+    commit('setUserInfo', userInfo)
+    commit('setToken', userInfo.token)
+  },
+  async Logout ({ commit }) {
+    commit('resetUserInfo')
+    commit('removeToken')
+  },
 }
 export default actions

@@ -1,4 +1,8 @@
-import message from '../common/components/message.vue';
+export interface UserQuery {
+  avatar: string
+  exist: boolean
+  username?: string
+}
 export interface UserInfo {
   username: string
   avatar: string
@@ -6,6 +10,7 @@ export interface UserInfo {
   introduction: string
   phone: number
   token?: string | null
+  queryData: UserQuery
 }
 
 export interface CurrentMusic {

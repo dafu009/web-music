@@ -4,7 +4,7 @@ interface UrlConfig {
   logout: string,
   checkLogin: string,
   register: string,
-  getUser: string,
+  queryUser: string,
   delUser: string,
   getAllUsers: string
 }
@@ -14,7 +14,7 @@ const path: UrlConfig = {
   logout: `${BASE}/logout`,
   checkLogin: `${BASE}/checkLogin`,
   register: `${BASE}/register`,
-  getUser: `${BASE}/getUser`,
+  queryUser: `${BASE}/queryUser`,
   getAllUsers: `${BASE}/getAllUsers`,
   delUser: `${BASE}/delUser`
 }

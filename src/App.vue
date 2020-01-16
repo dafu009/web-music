@@ -66,6 +66,8 @@ export default class App extends Vue {
     height: 100%;
   }
   .content {
+    position: relative;
+    min-height: 100%;
     box-sizing: border-box;
     padding: 60px;
   }

@@ -22,6 +22,9 @@ loginRouter.post('/login', UserController.Login)
 const registerRouter = new Router()
 registerRouter.post('/register', UserController.Register)
 
+// 用户查询
+const queryUserRouter = new Router()
+registerRouter.get('/queryUser', UserController.queryUser)
 
 // 装载路由
 router.use(
@@ -33,6 +36,11 @@ router.use(
   '/api',
   registerRouter.routes(),
   registerRouter.allowedMethods()
+)
+router.use(
+  '/api',
+  queryUserRouter.routes(),
+  queryUserRouter.allowedMethods()
 )
 
 // koa加载路由中间件

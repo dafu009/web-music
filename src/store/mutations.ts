@@ -1,8 +1,13 @@
 import { MutationTree } from 'vuex'
-import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message } from './types';
+import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message, UserQuery } from './types';
 import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
+  setUserQueryData (state: CONFIG, { exist, avatar, username }: UserQuery) {
+    state.userInfo.queryData.exist = exist
+    state.userInfo.queryData.avatar = avatar
+    state.userInfo.queryData.username = username
+  },
   resetUserInfo (state: CONFIG) {
     const userinfo = state.userInfo
     userinfo.username = ''
@@ -11,13 +16,12 @@ const mutations: MutationTree<CONFIG> = {
     userinfo.phone = 0
     userinfo.createTime = ''
   },
-  setUserInfo (state: CONFIG, data: UserInfo) {
-    const userinfo = state.userInfo
-    userinfo.username = data.username
-    userinfo.avatar = data.avatar
-    userinfo.introduction = data.introduction
-    userinfo.phone = data.phone
-    userinfo.createTime = data.createTime
+  setUserInfo (state: CONFIG, {username, avatar, introduction, phone, createTime}: UserInfo) {
+    state.userInfo.username = username
+    state.userInfo.avatar = avatar
+    state.userInfo.introduction = introduction
+    state.userInfo.phone = phone
+    state.userInfo.createTime = createTime
   },
   setToken (state: CONFIG, data: string) {
     state.userInfo.token = data

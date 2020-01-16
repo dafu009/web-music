@@ -1,5 +1,6 @@
 import { CONFIG } from './types';
 const state: CONFIG = {
+  
   userInfo: {
     username: '',
     token: window.sessionStorage.getItem('token'),
@@ -7,6 +8,10 @@ const state: CONFIG = {
     introduction: '',
     createTime: '',
     phone: 0,
+    queryData: {
+      exist: false,
+      avatar: ''
+    }
   },
   singer: {
     detail: {},
