@@ -1,33 +1,34 @@
 <template lang="pug">
-  transition(name="fade")
-    div.mask(@mouseup="upEvent")
-      div.check-wrap
-        div.close(@click="close")
-          i(class=["iconfont icon-guanbi"])
-        div.content
-          p(class=["tip tip-info-1"]) 身份验证
-          p(class=["tip tip-info-2"]) 拖动滑块，使图片角度为正
-          div.faceboder
-            img( v-lazy="randomImage" :style="{transform: randomRotate}" @error="imageError")
-            div.status(v-if="statusShow")
-              div(class=["icon success"] v-if="checkSuccess")
-                i(class=["iconfont icon-zhengque"])
-              div(class=["icon error"] v-if="checkFail")
-                i(class=["iconfont icon-guanbi"])
-          div.contorl(:class="{ failed: checkFail, successed: checkSuccess }")
-            div.button(ref="contorl" @mousedown="downEvent" :style="{ transform: translateX }")
-              p.icon
-                i(class=["iconfont icon-jiantouarrowheads3"])
+transition(name="fade")
+  .mask(v-if="checkShow")
+    .check-wrap(@click.stop)
+      .close(@click="close")
+        span.iconfont &#xe6dc
+      .check-content
+        p.tip.tip-info-1 身份验证
+        p.tip.tip-info-2 拖动滑块，使图片角度为正
+        .faceboder
+          img(v-lazy="randomImage" :style="{transform: randomRotate}")
+          .status(v-if="statusShow")
+            .icon.success(v-if="checkSuccess")
+              span.iconfont &#xe605
+            .icon.error(v-if="checkFail")
+              span.iconfont &#xe6dc
+        .contorl(:class="{ failed: checkFail, successed: checkSuccess }")
+          .button(ref="contorl" @mousedown="downEvent" :style="{ transform: translateX }")
+            p.icon
+              span.iconfont &#xeb09
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { Mutation, State } from 'vuex-class'
+import { CONFIG } from '../../store/types'
 @Component({
   components: {}
 })
 export default class check extends Vue {
-  @State(state => state.globalEvent) globalEvent: any
-  @Mutation('setGlobalEvent') setGlobalEvent: any
+  @State((state: CONFIG) => state.globalEvent.checkShow) checkShow: any
+  @Mutation('setCheckShow') setCheckShow: any
 
   randomImgId: number = 0
   rotate: number = 0
@@ -42,7 +43,7 @@ export default class check extends Vue {
   }
 
   get randomImage() {
-    return `https://source.unsplash.com/user/erondu/200x200`
+    return `https://api.yimian.xyz/img?id=${this.randomImgId}&type=moe&size=200x200`
   }
   get randomRotate() {
     return `rotate(${this.rotate}deg)`
@@ -66,13 +67,13 @@ export default class check extends Vue {
     this.checkFail = false
     this.offsetX = 0
     this.rotate = this.RandomNum(60, 300)
+    this.randomImgId = this.RandomNum(1, 1000)
   }
   close() {
-    this.setGlobalEvent({
-      checkShow: false
-    })
+    this.setCheckShow(false)
   }
   imageError() {
+    this.init()
   }
   RandomNum(Min: number, Max: number) {
     let Range = Max - Min
@@ -92,11 +93,13 @@ export default class check extends Vue {
       }
       this.offsetX = move
     }
+    document.onmouseup = e => {
+      this.upEvent()
+    }
   }
   upEvent() {
-    document.onmouseup = e => {
-      document.onmousemove = null
-    }
+    document.onmousemove = null
+    document.onmouseup = null
     if (this.watchEvent) {
       this.statusShow = true
       if (this.rotate >= 350 && this.rotate <= 370) {
@@ -118,14 +121,6 @@ export default class check extends Vue {
 </script>
 <style lang="scss" scoped>
 @import url('../style/shake.css');
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
-}
 .mask {
   position: fixed;
   top: 0;
@@ -133,7 +128,7 @@ export default class check extends Vue {
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.5);
-
+  z-index: 1299;
   .check-wrap {
     position: relative;
     width: 310px;
@@ -150,11 +145,12 @@ export default class check extends Vue {
       right: 10px;
 
       .iconfont {
+        font-size: 24px;
         padding: 10px;
       }
     }
 
-    .content {
+    .check-content {
       padding: 50px 20px 40px;
 
       .tip {
@@ -178,6 +174,8 @@ export default class check extends Vue {
 
         img {
           width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
 
         img::selection {
@@ -233,7 +231,6 @@ export default class check extends Vue {
             margin: 14px auto;
             line-height: 24px;
             text-align: center;
-            transform: rotate(180deg);
           }
         }
 

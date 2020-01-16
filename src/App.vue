@@ -2,6 +2,7 @@
   #app
     transition(name="fade")
       mv-player
+    check
     message
     global-loading
     music-play-list
@@ -29,9 +30,11 @@ import GlobalLoading from '@/common/components/GlobalLoading.vue'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import MvPlayer from '@/components/MvPlayer/index.vue'
 import Message from '@/common/components/message.vue';
+import Check from './common/components/Check.vue';
 @Component({
   components: {
     Nav,
+    Check,
     Message,
     MvPlayer,
     GlobalLoading,

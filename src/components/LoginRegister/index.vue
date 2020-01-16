@@ -2,8 +2,8 @@
 .login-register
   .wrapper
     .avatar
-      img(v-if="result.avatar" v-lazy="result.avatar")
-      img(class="default" v-else src="@/assets/image/default-avatar.png")
+      img(v-if="result.avatar && userForm.username" v-lazy="result.avatar")
+      img.default(v-else src="@/assets/image/default-avatar.png")
     .form-wrap
       .form
         span.iconfont &#xe652
@@ -17,25 +17,24 @@
         span.iconfont &#xe616
         input.input(
           clearable
-          type="text"
+          type="password"
           v-model="userForm.password"
-          placeholder="请输入密码"
-          @keyup="query")
+          placeholder="请输入密码")
       transition(name="fade")
         .form(v-if="checkPassword && !result.exist")
           span.iconfont &#xe627
           input.input(
             clearable
-            type="text"
-            v-model="userForm.password"
+            type="password"
+            v-model="userForm.checkPass"
             placeholder="确认密码"
-            @keyup="query")
+            @keyup="checkSame")
     .submit(@click="handel") {{ checkPassword && !result.exist ? '注册' : '登录' }}
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import register from '@/components/register.vue'
-import { Action, State } from 'vuex-class'
+import { Action, State, Mutation } from 'vuex-class'
 import { CONFIG, UserQuery, UserInfo } from '@/store/types'
 import debounce from 'lodash/debounce'
 @Component({
@@ -45,27 +44,74 @@ export default class loginRegister extends Vue {
   @Ref('rippleItem') readonly rippleItem!: any
 
   @State((state: CONFIG) => state.userInfo.queryData) result!: UserQuery
-  @State((state: CONFIG) => state.userInfo) UserInfo!: UserQuery
-
+  @State((state: CONFIG) => state.userInfo) UserInfo!: UserInfo
+  @Mutation('setCheckShow') setCheckShow: any
+  @Mutation('setGlobalMessageShow') setGlobalMessageShow: any
+  @Mutation('setGlobalMessage') setGlobalMessage: any
+  
   @Action('queryUser') queryUser: any
   @Action('Register') Register: any
 
   private checkPassword:boolean = false
   private userForm = {
     username: '',
-    password: ''
+    password: '',
+    checkPass: ''
   }
+
   created () {
     this.query = debounce(this.query, 500)
+    this.checkSame = debounce(this.checkSame, 500)
   }
-  query() {
-    this.checkPassword = true
-    this.queryUser(this.userForm.username)
+  checkSame () {
+    if (this.checkPassword && this.userForm.checkPass) {
+      if (this.userForm.password !== this.userForm.checkPass) {
+        this.__setMessage('warning', '两次密码不一致')
+        this.userForm.checkPass = ''
+        this.setGlobalMessageShow(true)
+      }
+    }
+  }
+  async query() {
+    if (this.userForm.username) {
+      this.checkPassword = true
+      await this.queryUser(this.userForm.username)
+    } else {
+      this.checkPassword = false
+    }
+    if (this.result.exist) {
+      this.checkPassword = false
+    }
   }
   register() {
     this.Register({ username: '123', password: '456' })
   }
-  handel () {}
+  __setMessage (type: 'success' | 'error' | 'warning', message: string) {
+    this.setGlobalMessage({ type, message })
+  }
+  handel () {
+    if (!this.userForm.username) {
+      this.__setMessage('warning', '用户名不能为空')
+      this.setGlobalMessageShow(true)
+      return
+    }
+    if (!this.userForm.password) {
+      this.__setMessage('warning', '密码不能为空')
+      this.setGlobalMessageShow(true)
+      return
+    }
+    if (this.checkPassword && !this.userForm.checkPass) {
+      this.__setMessage('warning', '请输入确认密码')
+      this.setGlobalMessageShow(true)
+      return
+    }
+    if (this.checkPassword && this.userForm.password === this.userForm.checkPass) {
+      this.setCheckShow(true)
+    }
+    if (!this.checkPassword) {
+      this.setCheckShow(true)
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
@@ -99,7 +145,7 @@ export default class loginRegister extends Vue {
         border-radius: 50%;
       }
       .default {
-        width: 80%;
+        width: 85%;
       }
     }
     .form-wrap {
@@ -151,7 +197,7 @@ export default class loginRegister extends Vue {
       background-image: linear-gradient( 90deg, #ffd884 10%, #125cfd 100%);
     }
     .submit:active {
-      box-shadow: 0 0 5px rgba(0,0,0,0.5)
+      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5)
     }
   }
 }

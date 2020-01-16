@@ -31,9 +31,8 @@ const mutations: MutationTree<CONFIG> = {
     state.userInfo.token = null
     window.sessionStorage.removeItem('token')
   },
-  setGlobalEvent (state: CONFIG, data: GlobalEvent) {
-    const globalEvent = state.globalEvent
-    globalEvent.checkShow = data.checkShow || false
+  setCheckShow (state: CONFIG, value: boolean) {
+    state.globalEvent.checkShow = value
   },
   async setPlaying (state: CONFIG, value: boolean) {
     state.globalEvent.playing = value
@@ -167,7 +166,7 @@ const mutations: MutationTree<CONFIG> = {
     state.globalEvent.message.show = value
     setTimeout(() => {
       state.globalEvent.message.show = false
-    }, 1000)
+    }, 1500)
   },
   setGlobalMessage (state: CONFIG, { type, message }: Message) {
     state.globalEvent.message.type = type

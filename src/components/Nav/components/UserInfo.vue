@@ -1,5 +1,5 @@
 <template lang="pug">
-  .userinfo
+  .userinfo(@click="toUser")
     .avatar
       img(src="https://source.unsplash.com/user/erondu/200x200")
     .nickname
@@ -7,13 +7,25 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import { State } from 'vuex-class';
+import { CONFIG, UserQuery, UserInfo } from '@/store/types';
 @Component({
   components: {}
 })
-export default class UserInfo extends Vue {}
+export default class userInfo extends Vue {
+  @State((state: CONFIG) => state.userInfo) UserInfo!:UserInfo
+  toUser () {
+    if (this.UserInfo.username) {
+      this.$router.push('/user')
+    } else {
+      this.$router.push('/user/login-register')
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .userinfo {
+  cursor: pointer;
   .avatar {
     width: 100px;
     height: 100px;

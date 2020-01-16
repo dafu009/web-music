@@ -3,13 +3,14 @@ transition(name="fade")
   .message(v-if="message.show" :class="message.type")
     .type
       span.iconfont(v-if="message.type === 'error'") &#xe8ac
-      span.iconfont(v-else) &#xe63e
+      span.iconfont(v-if="message.type === 'success'") &#xe63e
+      span.iconfont(v-if="message.type === 'warning'") &#xe620
     .text {{ message.message }}
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
-import { CONFIG, Message } from '../../store/types'
+import { CONFIG, Message } from '@/store/types'
 @Component({
   components: {}
 })
@@ -54,8 +55,6 @@ export default class message extends Vue {
   background-color: rgba(231, 98, 82, 0.9);
 }
 .warning {
-  background-color: rgba(255, 175, 41, 0.9);
-
-  background-color: yellow;
+  background-color: rgba(255, 142, 20, 0.8);
 }
 </style>
