@@ -54,6 +54,7 @@ import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
 import register from '@/components/register.vue'
 import { Action, State, Mutation } from 'vuex-class'
 import { CONFIG, UserQuery, UserInfo } from '@/store/types'
+import { RST } from '@/common/ts/config'
 import debounce from 'lodash/debounce'
 @Component({
   components: {}
@@ -145,15 +146,21 @@ export default class loginRegister extends Vue {
     await this.Login({
       username: this.userForm.username,
       password: this.userForm.password
+    }).then(({ type, success, message }: RST) => {
+      this.__setMessage(type, message)
+      if (success) {
+        this._resetUserForm()
+        this.$router.push('/recommend')
+      }
     })
-    this._resetUserForm()
-    this.$router.push('/recommend')
+    
   }
   async userRegister() {
     await this.Register({ 
       username: this.userForm.username,
       password: this.userForm.password
-    }).then((success: boolean) => {
+    }).then(({ type, success, message }: RST) => {
+      this.__setMessage(type, message)
       if (success) {
         setTimeout(() => {
           this.userLogin()
@@ -163,21 +170,19 @@ export default class loginRegister extends Vue {
   }
   __setMessage (type: 'success' | 'error' | 'warning', message: string) {
     this.setGlobalMessage({ type, message })
+    this.setGlobalMessageShow(true)
   }
   handel () {
     if (!this.userForm.username) {
       this.__setMessage('warning', '用户名不能为空')
-      this.setGlobalMessageShow(true)
       return
     }
     if (!this.userForm.password) {
       this.__setMessage('warning', '密码不能为空')
-      this.setGlobalMessageShow(true)
       return
     }
     if (this.checkPassword && !this.userForm.checkPass) {
       this.__setMessage('warning', '请输入确认密码')
-      this.setGlobalMessageShow(true)
       return
     }
     if (this.checkPassword && this.userForm.password === this.userForm.checkPass) {

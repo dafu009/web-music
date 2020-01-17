@@ -4,6 +4,7 @@ import state from './state';
 import api from '@/api'
 import { ERR_OK } from '@/common/ts/config'
 import { AxiosRequestConfig } from 'axios'
+import { RST } from '../common/ts/config';
 interface SearchParams {
   type?: number
   offset?: number
@@ -265,41 +266,48 @@ const actions: ActionTree<CONFIG, any> = {
     commit('setToken', data)
   },
   async Register ({ commit, state: CONFIG }, data) {
-    let isRegisterSuccess: boolean = false
+    let rst = {
+      success: false,
+      type: '',
+      message: ''
+    }
     await api.user.register({
       method: 'POST',
       data
     })
       .then(({ success, message }) => {
-        if (success) {
-          isRegisterSuccess = success
-          commit('setGlobalMessage', { type: 'success', message })
-          commit('setGlobalMessageShow', true)
-        }
+        rst.type = success ? 'success' : 'error'
+        rst.message = message
+        rst.success = success
       })
       .catch(err => {
         console.log(err)
       })
-    return new Promise((resolve, reject) => {
-      resolve(isRegisterSuccess)
-    })
+    return rst
   },
   async Login ({ commit }, data) {
+    let rst = {
+      type: '',
+      message: '',
+      success: false
+    }
     await api.user.login({
       method: 'POST',
       data
     })
     .then(({ userInfo, success, message }) => {
       if (success) {
-        commit('setGlobalMessage', { type: 'success', message })
-        commit('setGlobalMessageShow', true)
         commit('setUserInfo', userInfo)
         commit('setToken', userInfo.token)
       }
+      rst.type = success ? 'success' : 'error'
+      rst.message = message
+      rst.success = success
     })
     .catch(err => {
       console.log(err)
     })
+    return rst
   },
   async Logout ({ commit }) {
     commit('resetUserInfo')
