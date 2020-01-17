@@ -37,7 +37,9 @@
             @keyup="checkSame"
             @focus="focus(3)"
             @blur="activeIndex = 0")
-    .submit(@click="handel") {{ checkPassword && !result.exist ? '注册' : '登录' }}
+    .btn.btn-primary.btn-ghost.btn-shine(
+      :class="{'btn-register': checkPassword && !result.exist}"
+      @click="handel") {{ checkPassword && !result.exist ? '注册' : '登录' }}
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
@@ -179,7 +181,10 @@ export default class loginRegister extends Vue {
     width: 400px;
     height: 500px;
     border: 1px solid transparent;
-    background-image: linear-gradient( 135deg, #3677FF 10%, #ffcb5b 100%);
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+    background-image: linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%);
+    // background-image: linear-gradient( 225deg, #C2FFD8 10%, #465EFB 140%);
+    // background-image: linear-gradient( 135deg, #79F1A4 10%, #0E5CAD 100%);
     box-sizing: border-box;
     position: relative;
     border-radius: 20px;
@@ -237,27 +242,66 @@ export default class loginRegister extends Vue {
         border: 2px solid #494949;
       }
     }
-    .submit {
-      cursor: pointer;
-      text-align: center;
-      width: 300px;
-      height: 40px;
-      line-height: 40px;
-      border-radius: 20px;
+
+    .btn {
+      --hue: 172;
       position: absolute;
       left: 50%;
       bottom: 20px;
       transform: translateX(-50%);
-      color: #3c3c3c;
-      background-image: linear-gradient( 90deg, #ffcb5b 10%, #3677FF 100%);
-      transition: 1s;
+      width: 300px;
+      height: 40px;
+      line-height: 38px;
+      font-size: 1rem;
+      text-decoration: none;
+      text-transform: uppercase;
+      border: 1px solid hsla(var(--hue), 89%, 65%, 0.8);
+      outline: transparent;
+      overflow: hidden;
+      cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      transition: 0.25s;
+      border-radius: 20px;
+      text-align: center;
+
+      &-register {
+        --hue: 6
+      }
+      &-ghost {
+        color: hsla(var(--hue), 89%, 65%, 0.8);
+        border-color: hsla(var(--hue), 89%, 65%, 0.8);
+      }
+
+      &-shine {
+        &::before {
+          position: absolute;
+          content: "";
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(
+            120deg,
+            transparent,
+            hsla(var(--hue), 89%, 65%, 0.8),
+            transparent
+          );
+          transform: translateX(-100%);
+          transition: 0.6s;
+        }
+
+        &:hover {
+          background: transparent;
+          box-shadow: 0 0 20px 10px hsla(var(--hue), 74%, 44%, 0.8);
+        }
+
+        &:hover::before {
+          transform: translateX(100%);
+        }
+      }
     }
-    .submit:hover {
-      background-image: linear-gradient( 90deg, #ffd884 10%, #125cfd 100%);
-    }
-    .submit:active {
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.5)
-    }
+    
   }
 }
 </style>
