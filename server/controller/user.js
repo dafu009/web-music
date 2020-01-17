@@ -73,7 +73,7 @@ const GetUserInfo = async (ctx) => {
         userInfo: {}
       }
     }
-    ctx.throw(err)
+    // ctx.throw(err)
   }
 }
 

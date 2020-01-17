@@ -26,6 +26,7 @@ const state: CONFIG = {
     playListDetail: {}
   },
   globalEvent: {
+    isLogin: null,
     checkShow: false,
     checkPass: {
       success: false,

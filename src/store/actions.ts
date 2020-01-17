@@ -316,6 +316,7 @@ const actions: ActionTree<CONFIG, any> = {
         if (success && code === ERR_OK) {
           commit('setUserInfo', data.userInfo)
         }
+        commit('setIsLogin', isLogin)
         message = data.message
         isLogin = data.isLogin
       })

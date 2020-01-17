@@ -32,7 +32,7 @@ export default class message extends Vue {
   border-radius: 10px;
   .type {
     text-align: center;
-    height: 110px;
+    height: 100px;
     line-height: 110px;
     span {
       font-size: 60px;

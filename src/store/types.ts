@@ -36,6 +36,7 @@ export interface CurrentMv {
   artist: string
 }
 export interface GlobalEvent {
+  isLogin: boolean | null
   checkShow: boolean
   checkPass: CheckEvent
   drawerShow: boolean

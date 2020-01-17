@@ -1,7 +1,11 @@
 import { MutationTree } from 'vuex'
 import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message, UserQuery, CheckEvent } from './types';
+import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
+  setIsLogin (state: CONFIG, value: boolean) {
+    state.globalEvent.isLogin = value
+  },
   setUserQueryData (state: CONFIG, { exist, avatar, username }: UserQuery) {
     state.userInfo.queryData.exist = exist
     state.userInfo.queryData.avatar = avatar
