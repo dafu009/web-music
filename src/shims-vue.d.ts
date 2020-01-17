@@ -12,11 +12,6 @@ declare module 'vue-content-placeholders' {
   export default vueContentPlaceholders
 }
 
-declare module 'better-scroll' {
-  const scroll: any
-  export default scroll
-}
-
 declare module 'vue-awesome-swiper' {
   export const swiper: any
   export const swiperSlide: any
@@ -31,9 +26,6 @@ declare module 'element-resize-detector' {
   export default ElementResizeDetector
 }
 
-declare module 'vue-video-player' {
-  export const videoPlayer: any
-}
 
 declare module 'vue-core-image-upload' {
   const VueCoreImageUpload: any
