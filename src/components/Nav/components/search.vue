@@ -25,6 +25,7 @@ export default class search extends Vue {
   @Mutation('setSearchKeywords') setSearchKeywords: any
   @Mutation('setSearchStatus') setSearchStatus: any
   @Mutation('resetSearchAllConfig') resetSearchAllConfig: any
+  @Mutation('setGlobalLoading') setGlobalLoading: any
 
   @Action('getSearchSongs') getSearchSongs: any
   @Action('getSearchArtists') getSearchArtists: any
@@ -34,6 +35,7 @@ export default class search extends Vue {
 
   async search () {
     if (this.keywords) {
+      this.setGlobalLoading(true)
       await this.resetSearchAllConfig()
       await this.setSearchKeywords(this.keywords)
       Promise.all(
@@ -45,7 +47,8 @@ export default class search extends Vue {
           this.getSearchMv()
       ])
       .then(async () => {
-        await this.setSearchStatus(true)
+        this.setGlobalLoading(false)
+        this.setSearchStatus(true)
         if (this.$route.name === 'search') return
         this.$router.push('/search')
       })
@@ -73,7 +76,7 @@ export default class search extends Vue {
   }
   .input {
     height: 100%;
-    padding: 0;
+    padding: 0 0 0 3px;
     border-radius: 40px;
     border: none;
     outline: none;
