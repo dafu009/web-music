@@ -6,8 +6,10 @@ import search from './search'
 import album from './album'
 import mv from './mv'
 import rank from './rank'
+import oss from './oss'
 export default {
   mv,
+  oss,
   user,
   song,
   rank,
