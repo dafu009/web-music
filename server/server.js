@@ -12,6 +12,9 @@ app.use(bodyParser())
 // user数据库操作
 const UserController = require('./controller/user')
 
+// 阿里云OSS 配置
+const GetAliOSSCreds = require('./controller/oss')
+
 const checkToken = require('./token/checkToken')
 
 // 登录
@@ -25,6 +28,9 @@ registerRouter.post('/register', UserController.Register)
 // 用户查询
 const queryUserRouter = new Router()
 registerRouter.get('/queryUser', UserController.queryUser)
+
+const getAliOSSOptionsRouter = new Router()
+registerRouter.get('/getAliOssOptions', GetAliOSSCreds)
 
 // 装载路由
 router.use(
@@ -41,6 +47,11 @@ router.use(
   '/api',
   queryUserRouter.routes(),
   queryUserRouter.allowedMethods()
+)
+router.use(
+  '/api',
+  getAliOSSOptionsRouter.routes(),
+  getAliOSSOptionsRouter.allowedMethods()
 )
 
 // koa加载路由中间件

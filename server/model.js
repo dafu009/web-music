@@ -15,6 +15,7 @@ mongoose.connection
   })
 
 const schema = mongoose.Schema({
+  uuid: String,
   username: String,
   password: String,
   token: String,

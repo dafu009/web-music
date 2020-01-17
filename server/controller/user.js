@@ -1,5 +1,6 @@
 const User = require('../model.js').UserInfo
 const sha1 = require('sha1')
+const uuidv4 = require('uuid/v4')
 const createToken = require('../token/createToken')
 
 const WRONG_PASSWORD = 4000
@@ -53,6 +54,7 @@ const Login = async (ctx) => {
       success: true,
       message: '登陆成功',
       userInfo: {
+        uuid: doc.uuid,
         token,
         username,
         avatar: doc.avatar,
@@ -75,6 +77,7 @@ const Login = async (ctx) => {
 // 注册
 const Register = async (ctx) => {
   let user = new User({
+    uuid: uuidv4(),
     username: ctx.request.body.username,
     password: sha1(ctx.request.body.password),
     token: createToken(this.username),
