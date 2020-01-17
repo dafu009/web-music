@@ -1,6 +1,6 @@
 <template lang="pug">
 .login-register
-  .wrapper
+  .wrapper(:class="{'fill-wrapper': checkPassword && !result.exist}")
     .avatar
       img(v-if="result.avatar && userForm.username" v-lazy="result.avatar")
       img.default(v-else src="@/assets/image/default-avatar.png")
@@ -11,7 +11,7 @@
           clearable
           type="text"
           v-model="userForm.username"
-          placeholder="请输入用户名"
+          placeholder="请输入用户名完成登录/注册"
           @keyup="query"
           @focus="focus(1)"
           @blur="activeIndex = 0")
@@ -202,12 +202,11 @@ export default class loginRegister extends Vue {
   transform: translate(-50%,-50%);
   .wrapper {
     width: 400px;
-    height: 500px;
+    height: 420px;
+    transition: height 0.5s;
     border: 1px solid transparent;
     box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
     background-image: linear-gradient( 135deg, #ABDCFF 10%, #0396FF 100%);
-    // background-image: linear-gradient( 225deg, #C2FFD8 10%, #465EFB 140%);
-    // background-image: linear-gradient( 135deg, #79F1A4 10%, #0E5CAD 100%);
     box-sizing: border-box;
     position: relative;
     border-radius: 20px;
@@ -281,7 +280,7 @@ export default class loginRegister extends Vue {
     }
 
     .btn {
-      --hue: 172;
+      --hue: 41;
       position: absolute;
       left: 50%;
       bottom: 20px;
@@ -339,6 +338,9 @@ export default class loginRegister extends Vue {
       }
     }
     
+  }
+  .fill-wrapper {
+    height: 500px;
   }
 }
 </style>

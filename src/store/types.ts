@@ -8,7 +8,6 @@ export interface CheckEvent {
   fail: boolean
 }
 export interface UserInfo {
-  uuid: String | null,
   username: string
   nickname: string
   avatar: string

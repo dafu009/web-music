@@ -7,6 +7,7 @@ interface UrlConfig {
   queryUser: string,
   delUser: string,
   getAllUsers: string
+  getUserInfo: string
 }
 const BASE: string = BASE_URL.user
 const path: UrlConfig = {
@@ -16,7 +17,8 @@ const path: UrlConfig = {
   register: `${BASE}/register`,
   queryUser: `${BASE}/queryUser`,
   getAllUsers: `${BASE}/getAllUsers`,
-  delUser: `${BASE}/delUser`
+  delUser: `${BASE}/delUser`,
+  getUserInfo: `${BASE}/getUserInfo`
 }
 
 export default {

@@ -259,12 +259,6 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('queryUser', username)
       })
   },
-  async SET_CONFIGINFO ({ commit }, data: CONFIG) {
-    commit('setUserInfo', data.userInfo)
-  },
-  async SET_TOKEN ({ commit }, data: string) {
-    commit('setToken', data)
-  },
   async Register ({ commit, state: CONFIG }, data) {
     let rst = {
       success: false,
@@ -295,24 +289,40 @@ const actions: ActionTree<CONFIG, any> = {
       method: 'POST',
       data
     })
-    .then(({ userInfo, success, message }) => {
-      if (success) {
-        commit('setUserInfo', userInfo)
-        commit('setTokenAndUid', userInfo)
-      }
-      rst.type = success ? 'success' : 'error'
-      rst.message = message
-      rst.success = success
-    })
-    .catch(err => {
-      console.log(err)
-    })
+      .then(({ userInfo, success, message }) => {
+        if (success) {
+          commit('setUserInfo', userInfo)
+          commit('setToken', userInfo.token)
+        }
+        rst.type = success ? 'success' : 'error'
+        rst.message = message
+        rst.success = success
+      })
+      .catch(err => {
+        console.log(err)
+      })
     return rst
   },
   async Logout ({ commit }) {
     commit('resetUserInfo')
-    commit('removeTokenAndUid')
+    commit('removeToken')
     commit('setGlobalMessage', { type: 'success', message: '退出成功' })
   },
+  async getLoginStatus ({ commit }) {
+    let message = ''
+    let isLogin = false
+    await api.user.getUserInfo()
+      .then(({ success, code, data }) => {
+        if (success && code === ERR_OK) {
+          commit('setUserInfo', data.userInfo)
+        }
+        message = data.message
+        isLogin = data.isLogin
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    return { message, isLogin }
+  }
 }
 export default actions

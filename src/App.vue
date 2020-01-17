@@ -31,8 +31,9 @@ import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import MvPlayer from '@/components/MvPlayer/index.vue'
 import Message from '@/common/components/message.vue';
 import Check from './common/components/Check.vue';
-import { State, Mutation } from 'vuex-class'
+import { State, Mutation, Action } from 'vuex-class'
 import { CONFIG, UserInfo } from './store/types';
+import api from './api'
 @Component({
   components: {
     Nav,
@@ -47,12 +48,24 @@ export default class App extends Vue {
   @Ref('drawer') readonly drawer!: any
   @Ref('drawerContent') readonly drawerContent!: any
   @State((state: CONFIG) => state.userInfo) userInfo!: UserInfo
-  @Mutation('isLogin') isLogin!: Function
+
+  @Mutation('setGlobalMessage') setGlobalMessage!: Function
+  @Mutation('setGlobalMessageShow') setGlobalMessageShow!: Function
+
+  @Action('getLoginStatus') getLoginStatus!: Function
   drawerShow: boolean = true
 
-  created () {
-    this.isLogin()
-    console.log(this.userInfo)
+  async created () {
+    await this.getLoginStatus()
+      .then(({ isLogin, message }: any) => {
+        if (!isLogin) {
+          this.setGlobalMessage({
+            type: 'warning',
+            message
+          })
+          this.setGlobalMessageShow(true)
+        }
+      })
   }
   mounted() {
     this.drawer.toggle()

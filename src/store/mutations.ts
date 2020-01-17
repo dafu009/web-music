@@ -1,13 +1,7 @@
 import { MutationTree } from 'vuex'
 import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message, UserQuery, CheckEvent } from './types';
-import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
-  isLogin (state: CONFIG) {
-    if(state.userInfo.uuid && state.userInfo.token) {
-      console.log('已登录')
-    }
-  },
   setUserQueryData (state: CONFIG, { exist, avatar, username }: UserQuery) {
     state.userInfo.queryData.exist = exist
     state.userInfo.queryData.avatar = avatar
@@ -29,17 +23,13 @@ const mutations: MutationTree<CONFIG> = {
     state.userInfo.phone = phone
     state.userInfo.createTime = createTime
   },
-  setTokenAndUid (state: CONFIG, data) {
-    state.userInfo.token = data.token
-    state.userInfo.uuid = data.uuid
-    window.sessionStorage.setItem('token', data.token)
-    window.sessionStorage.setItem('uuid', data.uuid)
+  setToken (state: CONFIG, value: string) {
+    state.userInfo.token = value
+    window.sessionStorage.setItem('token', value)
   },
-  removeTokenAndUid (state: CONFIG) {
+  removeToken (state: CONFIG) {
     state.userInfo.token = null
-    state.userInfo.uuid = null
     window.sessionStorage.removeItem('token')
-    window.sessionStorage.removeItem('uuid')
   },
   setCheckShow (state: CONFIG, value: boolean) {
     state.globalEvent.checkShow = value

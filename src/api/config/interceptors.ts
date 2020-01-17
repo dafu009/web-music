@@ -6,6 +6,10 @@ import { AxiosInstance } from 'axios'
 export default (instance: AxiosInstance) => {
   instance.interceptors.request.use(
     options => {
+      let token = window.sessionStorage.getItem('token')
+      if (token) {
+        options.headers.Authorization = token
+      }
       return Promise.resolve(options)
     },
     rejection => {

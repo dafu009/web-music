@@ -2,7 +2,6 @@ import { CONFIG } from './types';
 const state: CONFIG = {
   
   userInfo: {
-    uuid: window.sessionStorage.getItem('uuid'),
     username: '',
     nickname: '',
     token: window.sessionStorage.getItem('token'),
