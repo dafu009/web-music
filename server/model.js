@@ -20,6 +20,7 @@ const schema = mongoose.Schema({
   password: String,
   token: String,
   create_time: Date,
+  nickname: String,
   avatar: String,
   introduction: String,
   phone: Number

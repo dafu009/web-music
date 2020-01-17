@@ -8,12 +8,14 @@ export interface CheckEvent {
   fail: boolean
 }
 export interface UserInfo {
+  uuid: String | null,
   username: string
+  nickname: string
   avatar: string
   createTime: string
   introduction: string
   phone: number
-  token?: string | null
+  token: string | null
   queryData: UserQuery
 }
 

@@ -36,5 +36,6 @@ declare module 'vue-video-player' {
 }
 
 declare module 'vue-core-image-upload' {
-  export const VueCoreImageUpload: any
+  const VueCoreImageUpload: any
+  export default VueCoreImageUpload 
 }

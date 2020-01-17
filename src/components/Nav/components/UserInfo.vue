@@ -1,14 +1,14 @@
 <template lang="pug">
   .userinfo(@click="toUser")
     .avatar
-      img(src="https://source.unsplash.com/user/erondu/200x200")
+      img(v-lazy="UserInfo.avatar || 'https://image.yy.com/yjmf/NzdiZDcxZDUtMjE4Mi00N2JjLWIxMGItOWMyNGIyOGQ1ZjUz.png'")
     .nickname
-      span username
+      span {{ UserInfo.nickname }}
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { State } from 'vuex-class';
-import { CONFIG, UserQuery, UserInfo } from '@/store/types';
+import { CONFIG, UserQuery, UserInfo } from '@/store/types'
 @Component({
   components: {}
 })
@@ -32,8 +32,13 @@ export default class userInfo extends Vue {
     margin: 0 auto;
     text-align: center;
     border-radius: 50%;
-    border: 2px solid #82bbe4;
+    // border: 2px solid #82bbe4;
     overflow: hidden;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   }
   .nickname {
     padding-top: 10px;

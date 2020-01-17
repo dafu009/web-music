@@ -3,33 +3,43 @@ import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search,
 import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
+  isLogin (state: CONFIG) {
+    if(state.userInfo.uuid && state.userInfo.token) {
+      console.log('已登录')
+    }
+  },
   setUserQueryData (state: CONFIG, { exist, avatar, username }: UserQuery) {
     state.userInfo.queryData.exist = exist
     state.userInfo.queryData.avatar = avatar
     state.userInfo.queryData.username = username
   },
   resetUserInfo (state: CONFIG) {
-    const userinfo = state.userInfo
-    userinfo.username = ''
-    userinfo.avatar = ''
-    userinfo.introduction = ''
-    userinfo.phone = 0
-    userinfo.createTime = ''
+    state.userInfo.nickname = ''
+    state.userInfo.username = ''
+    state.userInfo.avatar = ''
+    state.userInfo.introduction = ''
+    state.userInfo.phone = 0
+    state.userInfo.createTime = ''
   },
-  setUserInfo (state: CONFIG, {username, avatar, introduction, phone, createTime}: UserInfo) {
+  setUserInfo (state: CONFIG, {username, avatar, introduction, phone, createTime, nickname }: UserInfo) {
+    state.userInfo.nickname = nickname
     state.userInfo.username = username
     state.userInfo.avatar = avatar
     state.userInfo.introduction = introduction
     state.userInfo.phone = phone
     state.userInfo.createTime = createTime
   },
-  setToken (state: CONFIG, data: string) {
-    state.userInfo.token = data
-    window.sessionStorage.setItem('token', data)
+  setTokenAndUid (state: CONFIG, data) {
+    state.userInfo.token = data.token
+    state.userInfo.uuid = data.uuid
+    window.sessionStorage.setItem('token', data.token)
+    window.sessionStorage.setItem('uuid', data.uuid)
   },
-  removeToken (state: CONFIG) {
+  removeTokenAndUid (state: CONFIG) {
     state.userInfo.token = null
+    state.userInfo.uuid = null
     window.sessionStorage.removeItem('token')
+    window.sessionStorage.removeItem('uuid')
   },
   setCheckShow (state: CONFIG, value: boolean) {
     state.globalEvent.checkShow = value

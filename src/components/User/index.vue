@@ -4,7 +4,9 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 @Component({
-  components: {}
+  components: {
+    
+  }
 })
 export default class index extends Vue {}
 </script>

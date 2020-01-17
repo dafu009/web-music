@@ -57,6 +57,7 @@ const Login = async (ctx) => {
         uuid: doc.uuid,
         token,
         username,
+        nickname: doc.nickname,
         avatar: doc.avatar,
         createTime: doc.create_time,
         introduction: doc.introduction,
@@ -79,10 +80,11 @@ const Register = async (ctx) => {
   let user = new User({
     uuid: uuidv4(),
     username: ctx.request.body.username,
+    nickname: ctx.request.body.username,
     password: sha1(ctx.request.body.password),
     token: createToken(this.username),
     create_time: new Date(),  // 十位时间戳
-    avatar: '',
+    avatar: 'https://image.yy.com/yjmf/OGYyMDY2ZTItNTgzZS00NGQwLTg4ODItNTk0OGEyODg5YWI1.png',
     introduction: '',
     phone: 0
   })
