@@ -86,11 +86,12 @@ export default class index extends Vue {
     let disX = e.clientX - this.videoWrapper.offsetLeft
     let disY = e.clientY - this.videoWrapper.offsetTop
     document.onmousemove = (e:MouseEvent) => {
-      let MIN = 0
+      let MIN_LEFT = 0
+      let MIN_HEIGHT = 50
       let MAX_TOP = window.innerHeight - this.videoWrapper.offsetHeight
       let MAX_LEFT = window.innerWidth - this.videoWrapper.offsetWidth
-      let left = e.clientX - disX < 0 ? MIN : e.clientX - disX > MAX_LEFT ? MAX_LEFT : e.clientX - disX
-      let top = e.clientY - disY < 0 ? MIN : e.clientY - disY > MAX_TOP ? MAX_TOP : e.clientY - disY
+      let left = e.clientX - disX < MIN_LEFT ? MIN_LEFT : e.clientX - disX > MAX_LEFT ? MAX_LEFT : e.clientX - disX
+      let top = e.clientY - disY < MIN_HEIGHT ? MIN_HEIGHT : e.clientY - disY > MAX_TOP ? MAX_TOP : e.clientY - disY
       this.moving = true
       this.videoWrapper.style.left = left + 'px'
       this.videoWrapper.style.top = top + 'px'
@@ -109,7 +110,7 @@ export default class index extends Vue {
   height: 225px;
   position: fixed;
   left: 20px;
-  bottom: 20px;
+  bottom: 40px;
   z-index: 999;
   .header {
     height: 50px;
