@@ -90,6 +90,8 @@ export default class artists extends Vue {
       margin-right: 20px;
       img {
         width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
     .name {

@@ -89,6 +89,8 @@ export default class detail extends Vue {
       border: 1px solid #ccc;
       img {
         width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
     .desc {
