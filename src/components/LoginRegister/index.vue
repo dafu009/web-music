@@ -19,11 +19,15 @@
         span.iconfont &#xe616
         input.input(
           clearable
-          type="password"
+          :type="inputType"
           v-model="userForm.password"
           placeholder="请输入密码"
           @focus="focus(2)"
           @blur="activeIndex = 0")
+        transition(name="fade")
+          .operation(@click="changeVisible")
+            span.iconfont.visible(v-if="visible") &#xe61b
+            span.iconfont.invisible(v-else) &#xe7d0
       transition(name="fade")
         .form(
           v-if="checkPassword && !result.exist"
@@ -31,12 +35,16 @@
           span.iconfont &#xe627
           input.input(
             clearable
-            type="password"
+            :type="inputType"
             v-model="userForm.checkPass"
             placeholder="确认密码"
             @keyup="checkSame"
             @focus="focus(3)"
             @blur="activeIndex = 0")
+          transition(name="fade")
+            .operation(@click="changeVisible")
+              span.iconfont.visible(v-if="visible") &#xe61b
+              span.iconfont.invisible(v-else) &#xe7d0
     .btn.btn-primary.btn-ghost.btn-shine(
       :class="{'btn-register': checkPassword && !result.exist}"
       @click="handel") {{ checkPassword && !result.exist ? '注册' : '登录' }}
@@ -77,6 +85,8 @@ export default class loginRegister extends Vue {
       }, 1500)
     }
   }
+  private visible: boolean = false
+  private inputType: string = 'password'
   private activeIndex: number = 0
   private checkPassword: boolean = false
   private userForm = {
@@ -99,6 +109,14 @@ export default class loginRegister extends Vue {
   created () {
     this.query = debounce(this.query, 500)
     this.checkSame = debounce(this.checkSame, 500)
+  }
+  changeVisible () {
+    this.visible = !this.visible
+    if (this.visible) {
+      this.inputType = 'text'
+    } else {
+      this.inputType = 'password'
+    }
   }
   focus (index: number) {
     this.activeIndex = index
@@ -217,11 +235,11 @@ export default class loginRegister extends Vue {
         border-radius: 40px;
         border: 2px solid #717171;
         background:#F9F0DA;
+        position: relative;
         .iconfont {
           padding: 0 10px;
           font-size: 24px;
           vertical-align: top;
-          cursor: pointer;
           color: #717171;
         }
         .input {
@@ -230,11 +248,25 @@ export default class loginRegister extends Vue {
           border-radius: 40px;
           border: none;
           outline: none;
-          width: 230px;
+          width: 200px;
           background:#F9F0DA;
           transition: .3s linear;
           vertical-align: top;
           color: #3c3c3c;
+        }
+        .operation {
+          position: absolute;
+          top: 0;
+          right: 0;
+          .iconfont {
+            cursor: pointer;
+            position: absolute;
+            top: 0;
+            right: 0;
+          }
+          .invisible {
+            top: 4px
+          }
         }
       }
       .active{
