@@ -1,7 +1,7 @@
 <template lang="pug">
   .userinfo(@click="toUser")
     .avatar
-      img(v-lazy="UserInfo.avatar || 'https://image.yy.com/yjmf/NzdiZDcxZDUtMjE4Mi00N2JjLWIxMGItOWMyNGIyOGQ1ZjUz.png'")
+      img(v-lazy="UserInfo.avatar || 'http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/default-avatar.png'")
     .nickname
       span {{ UserInfo.nickname }}
 </template>

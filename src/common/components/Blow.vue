@@ -1,13 +1,11 @@
 <template lang="pug">
 .blow
-  img(src="@/assets/image/blow.gif")
+  img(src="http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/blow.gif")
 </template>
 <script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator';
 @Component({
-    components: {
-        
-    }
+  components: {}
 })
 export default class Blow extends Vue {}
 </script>

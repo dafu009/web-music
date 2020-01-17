@@ -3,7 +3,7 @@
   .wrapper(:class="{'fill-wrapper': checkPassword && !result.exist}")
     .avatar
       img(v-if="result.avatar && userForm.username" v-lazy="result.avatar")
-      img.default(v-else src="@/assets/image/default-avatar.png")
+      img.default(v-else src="http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/default-avatar.png")
     .form-wrap
       .form(:class="{active: activeIndex === 1}")
         span.iconfont &#xe652

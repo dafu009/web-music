@@ -1,7 +1,7 @@
 <template lang="pug">
 .swiper
   .booth(v-if="banners.length === 0")
-    img(src="@/assets/image/banner.jpg")
+    img(src="http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/banner.jpg")
   transition(name="fade")
     swiper(:options="swiperOption" v-if="banners.length > 0")
       swiper-slide(v-for="(item, index) in banners" :key="index")
