@@ -34,3 +34,7 @@ declare module 'element-resize-detector' {
 declare module 'vue-video-player' {
   export const videoPlayer: any
 }
+
+declare module 'vue-core-image-upload' {
+  export const VueCoreImageUpload: any
+}
