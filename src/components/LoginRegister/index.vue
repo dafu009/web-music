@@ -63,11 +63,12 @@ export default class loginRegister extends Vue {
   @State((state: CONFIG) => state.userInfo.queryData) result!: UserQuery
   @State((state: CONFIG) => state.userInfo) UserInfo!: UserInfo
   @State((state: CONFIG) => state.globalEvent.checkPass.success) checkSuccess!: boolean
+  @State(state => state.globalEvent.playList) playList: any
 
   @Mutation('setCheckShow') setCheckShow: any
   @Mutation('setGlobalMessageShow') setGlobalMessageShow: any
   @Mutation('setGlobalMessage') setGlobalMessage: any
-  
+  @Mutation('setPlaying') setPlaying: any
   @Action('queryUser') queryUser: any
   @Action('Register') Register: any
   @Action('Login') Login: any
@@ -149,6 +150,9 @@ export default class loginRegister extends Vue {
     }).then(({ type, success, message }: RST) => {
       this.__setMessage(type, message)
       if (success) {
+        if (this.playList.length > 0) {
+          this.setPlaying(true)
+        }
         this._resetUserForm()
         this.$router.push('/recommend')
       }

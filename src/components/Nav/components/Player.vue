@@ -36,6 +36,7 @@ import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
 import ProgressCircle from '@/common/components/ProgressCircle.vue'
 import VolumeControl from './VolumeControl.vue';
+import { CONFIG } from '@/store/types';
 @Component({
   components: {
     ProgressCircle,
@@ -43,6 +44,7 @@ import VolumeControl from './VolumeControl.vue';
   }
 })
 export default class Player extends Vue {
+  @State((state: CONFIG) => state.globalEvent.isLogin) isLogin: any
   @State(state => state.globalEvent.playing) GlobalPlaying: any
   @State(state => state.globalEvent.currentMusic) currentMusic: any
   @State(state => state.globalEvent.playList) playList: any
@@ -52,7 +54,10 @@ export default class Player extends Vue {
   @Mutation('setPlaying') setPlaying: any
   @Mutation('setCurrentIndex') setCurrentIndex: any
   @Mutation('setCurrentSong') setCurrentSong: any
+  @Mutation('setGlobalMessage') setGlobalMessage: any
+  @Mutation('setGlobalMessageShow') setGlobalMessageShow: any
 
+  
   @Action('GetCurrentMusic') GetCurrentMusic: any
 
   @Ref() readonly audio!: HTMLAudioElement
@@ -60,9 +65,26 @@ export default class Player extends Vue {
   private currentTime: number = 0
   private currentLyric: string = ''
   private duration: number = 0
+  private exposureOnce: boolean = true
+
 
   get percent() {
     return this.currentTime / this.duration || 0
+  }
+  @Watch('percent')
+  watchPercent (value: number) {
+    if (value > 0.3 && this.exposureOnce) {
+      if (!this.isLogin) {
+        this.exposureOnce = false
+        this.setGlobalMessage({
+          type: 'warning',
+          message: '请前往登录畅想音乐'
+        })
+        this.setPlaying(false)
+        this.setGlobalMessageShow(true)
+        this.$router.push('/user')
+      }
+    } 
   }
   @Watch('currentIndex')
   setCurrentPlay(index: number) {
@@ -78,6 +100,7 @@ export default class Player extends Vue {
       document.title = `
         ${this.currentMusic.songName} - ${this.currentMusic.artist}
       `
+      this.exposureOnce = true
       setTimeout(() => {
         this.audio.play()
       }, 1000)
@@ -93,7 +116,7 @@ export default class Player extends Vue {
   }
   async setCurrentSongIndex(type: boolean) {
     if (this.playList.length === 1) {
-      this.audio.play()
+      this.setPlaying(true)
       return
     }
     const lastIndex = this.playList.length === 0 ? 0 : this.playList.length - 1
@@ -116,10 +139,8 @@ export default class Player extends Vue {
       await this.setCurrentIndex(0)
     }
     if (this.GlobalPlaying) {
-      this.audio.pause()
       await this.setPlaying(false)
     } else {
-      this.audio.play()
       await this.setPlaying(true)
     }
   }

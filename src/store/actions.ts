@@ -279,7 +279,7 @@ const actions: ActionTree<CONFIG, any> = {
       })
     return rst
   },
-  async Login ({ commit, state }, data) {
+  async Login ({ commit, dispatch }, data) {
     let rst = {
       type: '',
       message: '',
@@ -291,8 +291,8 @@ const actions: ActionTree<CONFIG, any> = {
     })
       .then(({ userInfo, success, message }) => {
         if (success) {
-          commit('setUserInfo', userInfo)
           commit('setToken', userInfo.token)
+          dispatch('getLoginStatus')
         }
         rst.type = success ? 'success' : 'error'
         rst.message = message
@@ -304,11 +304,12 @@ const actions: ActionTree<CONFIG, any> = {
     return rst
   },
   async Logout ({ commit }) {
+    commit('setIsLogin', false)
     commit('resetUserInfo')
     commit('removeToken')
     commit('setGlobalMessage', { type: 'success', message: '退出成功' })
   },
-  async getLoginStatus ({ commit }) {
+  async getLoginStatus ({ commit, state }) {
     let message = ''
     let isLogin = false
     await api.user.getUserInfo()
@@ -316,7 +317,7 @@ const actions: ActionTree<CONFIG, any> = {
         if (success && code === ERR_OK) {
           commit('setUserInfo', data.userInfo)
         }
-        commit('setIsLogin', isLogin)
+        commit('setIsLogin', data.isLogin)
         message = data.message
         isLogin = data.isLogin
       })

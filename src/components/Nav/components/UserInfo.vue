@@ -3,7 +3,7 @@
     .avatar
       img(v-lazy="UserInfo.avatar || 'http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/default-avatar.png'")
     .nickname
-      span {{ isLogin ? UserInfo.nickname : '点此登录'}}
+      span {{ isLogin ? UserInfo.nickname : '点此登录/注册'}}
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
@@ -17,11 +17,7 @@ export default class userInfo extends Vue {
   @State((state: CONFIG) => state.globalEvent.isLogin) isLogin!:boolean
 
   toUser () {
-    if (this.isLogin) {
-      this.$router.push('/user')
-    } else {
-      this.$router.push('/user/login-register')
-    }
+    this.$router.push('/user')
   }
 }
 </script>
