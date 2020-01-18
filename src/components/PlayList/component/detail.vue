@@ -123,6 +123,9 @@ ul > li {
     }
   }
   .list {
+    .grid {
+      box-shadow: 1px 1px 15px rgba(0,0,0,0.3);
+    }
     .item {
       margin: 20px 5px 10px;
       .cover-wrap{

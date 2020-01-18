@@ -22,7 +22,7 @@ transition(name="fade")
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { Mutation, State } from 'vuex-class'
-import { CONFIG } from '../../store/types'
+import { CONFIG } from '@/store/types'
 @Component({
   components: {}
 })

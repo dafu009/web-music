@@ -106,12 +106,13 @@ export default class RankItem extends Vue {
     }
   }
   .all {
-    margin-top: 20px;
+    margin: 15px 0 5px;
   }
   .list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    box-shadow: 1px 1px 15px rgba(0,0,0,0.3);
     .song {
       margin: 20px 5px 10px;
       .cover-wrap{

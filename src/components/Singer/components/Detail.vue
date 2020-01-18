@@ -53,7 +53,7 @@ import Loading from '@/components/Loading/index.vue'
 import Blow from '@/common/components/Blow.vue'
 import PlayAll from '@/common/components/playAll.vue'
 import { CONFIG } from '@/store/types'
-import BackTo from '../../../common/components/BackTo.vue';
+import BackTo from '@/common/components/BackTo.vue';
 
 @Component({
   components: {
@@ -190,6 +190,7 @@ export default class Overview extends Vue {
       max-height: 600px;
       overflow: hidden;
       overflow-y: scroll;
+      box-shadow: 1px 1px 15px rgba(0,0,0,0.3);
       ul.list {
         display: flex;
         flex-wrap: wrap;
@@ -280,10 +281,12 @@ export default class Overview extends Vue {
       max-height: 600px;
       overflow: hidden;
       overflow-y: scroll;
+      box-shadow: 1px 1px 15px rgba(0,0,0,0.3);
       .list {
         display: flex;
         flex-direction: column;
         margin-top: 10px;
+        padding: 0 10px;
         .item:nth-child(2n-1) {
           background-color: #e6e6e6;
         }
