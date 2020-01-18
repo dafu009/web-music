@@ -25,8 +25,8 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import { State, Mutation, Action } from 'vuex-class'
 import PlayAll from '@/common/components/playAll.vue'
 import Play from '@/common/components/play.vue'
-import BackTo from '@/common/components/BackTo.vue';
-import { CurrentMusic, CONFIG } from '@/store/types';
+import BackTo from '@/common/components/BackTo.vue'
+import { CurrentMusic, CONFIG } from '@/store/types'
 @Component({
   components: {
     Play,

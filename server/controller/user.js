@@ -81,7 +81,7 @@ const GetUserInfo = async (ctx) => {
 // 登录
 const Login = async (ctx) => {
   const username = ctx.request.body.username
-  const password = sha1(ctx.request.body.password);
+  const password = sha1(ctx.request.body.password)
   const doc = await getUser(username)
 
   if (!doc) {
@@ -142,7 +142,7 @@ const Register = async (ctx) => {
   })
   const doc = await getUser(user.username)
   if (doc) {
-    ctx.status = 200;
+    ctx.status = 200
     ctx.body = {
       code: USER_ALREADY_EXIST,
       success: false,
@@ -155,7 +155,7 @@ const Register = async (ctx) => {
         resolve()
       })
     })
-    ctx.status = 200;
+    ctx.status = 200
     ctx.body = {
       code: DONE,
       success: true,

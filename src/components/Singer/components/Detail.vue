@@ -53,7 +53,7 @@ import Loading from '@/components/Loading/index.vue'
 import Blow from '@/common/components/Blow.vue'
 import PlayAll from '@/common/components/playAll.vue'
 import { CONFIG, CurrentMusic } from '@/store/types'
-import BackTo from '@/common/components/BackTo.vue';
+import BackTo from '@/common/components/BackTo.vue'
 
 @Component({
   components: {

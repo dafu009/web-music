@@ -35,8 +35,8 @@ import Lyric from 'lyric-parser'
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
 import ProgressCircle from '@/common/components/ProgressCircle.vue'
-import VolumeControl from './VolumeControl.vue';
-import { CONFIG, CurrentMusic } from '@/store/types';
+import VolumeControl from './VolumeControl.vue'
+import { CONFIG, CurrentMusic } from '@/store/types'
 @Component({
   components: {
     ProgressCircle,

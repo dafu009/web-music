@@ -8,7 +8,7 @@
 <script lang="ts">
 import { Action, State } from 'vuex-class'
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-import { CONFIG } from '@/store/types';
+import { CONFIG } from '@/store/types'
 @Component({
   components: {}
 })

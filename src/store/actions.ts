@@ -1,10 +1,9 @@
 import { ActionTree } from 'vuex'
-import { CONFIG } from './types';
-import state from './state';
+import { CONFIG } from './types'
+import state from './state'
 import api from '@/api'
 import { ERR_OK } from '@/common/ts/config'
 import { AxiosRequestConfig } from 'axios'
-import { RST } from '../common/ts/config';
 interface SearchParams {
   type?: number
   offset?: number

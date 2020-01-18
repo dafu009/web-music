@@ -7,7 +7,7 @@
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { State } from 'vuex-class';
+import { State } from 'vuex-class'
 import { CONFIG, UserQuery, UserInfo } from '@/store/types'
 @Component({
   components: {}

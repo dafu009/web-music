@@ -27,8 +27,8 @@ transition(name="fade")
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import Blow from '@/common/components/Blow.vue'
-import Drawer from '@/common/components/Drawer.vue';
-import { CONFIG, CurrentMusic } from '@/store/types';
+import Drawer from '@/common/components/Drawer.vue'
+import { CONFIG, CurrentMusic } from '@/store/types'
 
 @Component({
   components: {

@@ -1,6 +1,5 @@
 import { MutationTree } from 'vuex'
-import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message, UserQuery, CheckEvent } from './types';
-import state from './state';
+import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message, UserQuery, CheckEvent } from './types'
 
 const mutations: MutationTree<CONFIG> = {
   setIsLogin (state: CONFIG, value: boolean) {

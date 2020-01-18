@@ -1,4 +1,4 @@
-import { CONFIG } from './types';
+import { CONFIG } from './types'
 const state: CONFIG = {
   
   userInfo: {
