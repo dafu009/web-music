@@ -3,7 +3,7 @@
     .avatar
       img(v-lazy="UserInfo.avatar || 'http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/default-avatar.png'")
     .nickname
-      span {{ UserInfo.nickname }}
+      span {{ isLogin ? UserInfo.nickname : '点此登录'}}
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
@@ -43,6 +43,7 @@ export default class userInfo extends Vue {
     }
   }
   .nickname {
+    color: #393939;
     padding-top: 10px;
     font-size: 24px;
     text-align: center;

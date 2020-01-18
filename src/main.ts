@@ -9,7 +9,8 @@ import 'assets/css/iconfont.css'
 Vue.use(VueDrawerLayout)
 Vue.use(VueLazyLoad, {
   preLoad: 1.3,
-  loading: 'https://image.yy.com/yjmf/YjFkNzdjYTgtYWQ3Ny00ZTUwLTgxMjUtNDU2MDNiYzEwMjc0.gif'
+  loading: 'https://image.yy.com/yjmf/YjFkNzdjYTgtYWQ3Ny00ZTUwLTgxMjUtNDU2MDNiYzEwMjc0.gif',
+  error: 'http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/default-avatar.png'
 })
 Vue.config.productionTip = false
 Component.registerHooks([

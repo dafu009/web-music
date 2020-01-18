@@ -104,6 +104,10 @@ const mutations: MutationTree<CONFIG> = {
     state.search.status = value
   },
   async setSearchSongs (state: CONFIG, data) {
+    data.forEach((item: any) => {
+      item.al = item.album
+      item.ar = item.artists
+    })
     state.search.songs.result = data
   },
   setSearchSongsPage (state: CONFIG, value: number) {

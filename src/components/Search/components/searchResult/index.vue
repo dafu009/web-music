@@ -143,6 +143,7 @@ export default class searchResult extends Vue {
     position: relative;
     max-height: 500px;
     min-height: 400px;
+    box-shadow: 1px 1px 15px rgba(0,0,0,0.2);
     section {
       position: absolute;
       left: 50%;

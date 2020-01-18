@@ -194,9 +194,11 @@ export default class Player extends Vue {
           border-radius: 50%;
           overflow: hidden;
           text-align: center;
-          background-color: #fbe6cc;
+          background-color: #3a3a3a;
           img {
+            width: 100%;
             height: 100%;
+            object-fit: cover;
           }
         }
       }
