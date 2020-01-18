@@ -14,6 +14,7 @@ import Detector from 'element-resize-detector'
 import Waterfall from 'vue-waterfall-plugin'
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
+import { CONFIG, CurrentMusic } from '@/store/types'
 @Component({
   components: {
     Waterfall
@@ -23,10 +24,10 @@ export default class playList extends Vue {
   @Ref('wrapper') readonly wrapper!: any
   @Ref('waterfall') readonly waterfall!: any
 
-  @State(state => state.recommend.playList) playList: any
+  @State((state: CONFIG) => state.recommend.playList) playList!: CurrentMusic[]
 
-  @Action('getRecommendPlayList') getRecommendPlayList: any
-  @Action('getPlayListDetail') getPlayListDetail: any
+  @Action('getRecommendPlayList') getRecommendPlayList!: Function
+  @Action('getPlayListDetail') getPlayListDetail!: Function
 
   created() {
     this.getRecommendPlayList()

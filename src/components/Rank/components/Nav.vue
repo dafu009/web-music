@@ -20,7 +20,7 @@ import { CONFIG, Rank } from '@/store/types'
 })
 export default class Nav extends Vue {
   @State((state: CONFIG) => state.rank) CurrnetRank!: Rank
-  @Action('getTopRank') getTopRank: any
+  @Action('getTopRank') getTopRank!: Function
 
   private currentIndex: number = 0
 

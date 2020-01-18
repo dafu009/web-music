@@ -4,7 +4,7 @@
   span.iconfont(v-if="!GlobalPlaying || currentMusic.songId !== song.id") &#xe6a2
 </template>
 <script lang="ts">
-import { CONFIG } from '@/store/types'
+import { CONFIG, CurrentMusic } from '@/store/types'
 import { Mutation, State } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { __setPlayLists, __pushList } from '../ts/common'
@@ -14,12 +14,12 @@ import { __setPlayLists, __pushList } from '../ts/common'
 export default class play extends Vue {
   @Prop() private song?: any
   
-  @State((state: CONFIG) => state.globalEvent.playList) playList: any
-  @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying: any
-  @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic: any
+  @State((state: CONFIG) => state.globalEvent.playList) playList!: CurrentMusic[]
+  @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying!: boolean
+  @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic!: CurrentMusic
 
-  @Mutation('setCurrentIndex') setCurrentIndex: any
-  @Mutation('setPlaying') setPlaying: any
+  @Mutation('setCurrentIndex') setCurrentIndex!: Function
+  @Mutation('setPlaying') setPlaying!: Function
 
   async play (item: any) {
     if (this.currentMusic.songId === item.id) {

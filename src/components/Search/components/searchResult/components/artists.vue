@@ -12,7 +12,9 @@ transition(name="fade")
 <script lang="ts">
 import { State, Action, Mutation } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import Loading from '@/components/Loading/index.vue';
+import Loading from '@/components/Loading/index.vue'
+import { CONFIG, SearchParams } from '@/store/types'
+
 @Component({
   components: {
     Loading
@@ -20,14 +22,14 @@ import Loading from '@/components/Loading/index.vue';
 })
 export default class artists extends Vue {
   @Prop(String) private currentName!:string
-  @State(state => state.search.reset) isReset: any
-  @State(state => state.search.artists) artists: any
-  @Mutation('setLoading') setLoading: any
-  @Mutation('setSearchIsReset') setSearchIsReset: any
+  @State((state: CONFIG) => state.search.reset) isReset!: boolean
+  @State((state: CONFIG) => state.search.artists) artists!: SearchParams
+  @Mutation('setLoading') setLoading!: Function
+  @Mutation('setSearchIsReset') setSearchIsReset!: Function
 
-  @Mutation('setSearchArtistsPage') setSearchArtistsPage: any
-  @Action('GetArtistDetail') GetArtistDetail: any
-  @Action('getSearchArtists') getSearchArtists: any
+  @Mutation('setSearchArtistsPage') setSearchArtistsPage!: Function
+  @Action('GetArtistDetail') GetArtistDetail!: Function
+  @Action('getSearchArtists') getSearchArtists!: Function
 
   private total = []
   private loadingShow = true

@@ -9,6 +9,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import Search from './search.vue'
 import SearchResult from './searchResult/index.vue'
 import { Mutation, State } from 'vuex-class'
+import { CONFIG } from '@/store/types'
 @Component({
   components: {
     Search,
@@ -16,8 +17,8 @@ import { Mutation, State } from 'vuex-class'
   }
 })
 export default class overview extends Vue {
-  @State(state => state.search.status) status: any
-  private resultShow:boolean = false 
+  @State((state: CONFIG) => state.search.status) status!: boolean
+  private resultShow: boolean = false 
   isSearch (key: boolean) {
     this.resultShow = key
   }

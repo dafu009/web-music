@@ -36,7 +36,7 @@ import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
 import ProgressCircle from '@/common/components/ProgressCircle.vue'
 import VolumeControl from './VolumeControl.vue';
-import { CONFIG } from '@/store/types';
+import { CONFIG, CurrentMusic } from '@/store/types';
 @Component({
   components: {
     ProgressCircle,
@@ -44,21 +44,21 @@ import { CONFIG } from '@/store/types';
   }
 })
 export default class Player extends Vue {
-  @State((state: CONFIG) => state.globalEvent.isLogin) isLogin: any
-  @State(state => state.globalEvent.playing) GlobalPlaying: any
-  @State(state => state.globalEvent.currentMusic) currentMusic: any
-  @State(state => state.globalEvent.playList) playList: any
-  @State(state => state.globalEvent.currentIndex) currentIndex: any
+  @State((state: CONFIG) => state.globalEvent.isLogin) isLogin!: boolean
+  @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying!: boolean
+  @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic!: CurrentMusic
+  @State((state: CONFIG) => state.globalEvent.playList) playList!: CurrentMusic[]
+  @State((state: CONFIG) => state.globalEvent.currentIndex) currentIndex!: number
 
-  @Mutation('setDrawer') setDrawer: any
-  @Mutation('setPlaying') setPlaying: any
-  @Mutation('setCurrentIndex') setCurrentIndex: any
-  @Mutation('setCurrentSong') setCurrentSong: any
-  @Mutation('setGlobalMessage') setGlobalMessage: any
-  @Mutation('setGlobalMessageShow') setGlobalMessageShow: any
+  @Mutation('setDrawer') setDrawer!: Function
+  @Mutation('setPlaying') setPlaying!: Function
+  @Mutation('setCurrentIndex') setCurrentIndex!: Function
+  @Mutation('setCurrentSong') setCurrentSong!: Function
+  @Mutation('setGlobalMessage') setGlobalMessage!: Function
+  @Mutation('setGlobalMessageShow') setGlobalMessageShow!: Function
 
   
-  @Action('GetCurrentMusic') GetCurrentMusic: any
+  @Action('GetCurrentMusic') GetCurrentMusic!: Function
 
   @Ref() readonly audio!: HTMLAudioElement
 

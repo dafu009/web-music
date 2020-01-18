@@ -26,6 +26,7 @@ import { State, Mutation, Action } from 'vuex-class'
 import PlayAll from '@/common/components/playAll.vue'
 import Play from '@/common/components/play.vue'
 import BackTo from '@/common/components/BackTo.vue';
+import { CurrentMusic, CONFIG } from '@/store/types';
 @Component({
   components: {
     Play,
@@ -34,14 +35,14 @@ import BackTo from '@/common/components/BackTo.vue';
   }
 })
 export default class detail extends Vue {
-  @State(state => state.album.songs) songs: any
-  @State(state => state.album.album) album: any
-  @State(state => state.globalEvent.playing) GlobalPlaying: any
-  @State(state => state.globalEvent.playList) playList: any
-  @State(state => state.globalEvent.currentMusic) currentMusic: any
+  @State((state) => state.album.songs) songs: any
+  @State((state) => state.album.album) album: any
+  @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying!: boolean
+  @State((state: CONFIG) => state.globalEvent.playList) playList!: CurrentMusic[]
+  @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic!: CurrentMusic
 
-  @Mutation('setPlayList') setPlayList: any
-  @Mutation('setCurrentIndex') setCurrentIndex: any
+  @Mutation('setPlayList') setPlayList!: Function
+  @Mutation('setCurrentIndex') setCurrentIndex!: Function
   
   private backTo: string = ''
 

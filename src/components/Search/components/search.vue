@@ -13,21 +13,17 @@
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import { Action, State, Mutation } from 'vuex-class'
 @Component({
-  components: {
-
-  }
+  components: {}
 })
 export default class search extends Vue {
-  @State(state => state.search) searchModel: any
+  @Mutation('setSearchKeywords') setSearchKeywords!: Function
+  @Mutation('resetSearchAllConfig') resetSearchAllConfig!: Function
 
-  @Mutation('setSearchKeywords') setSearchKeywords: any
-  @Mutation('resetSearchAllConfig') resetSearchAllConfig: any
-
-  @Action('getSearchSongs') getSearchSongs: any
-  @Action('getSearchArtists') getSearchArtists: any
-  @Action('getSearchAlbums') getSearchAlbums: any
-  @Action('getSearchPlaylist') getSearchPlaylist: any
-  @Action('getSearchMv') getSearchMv: any
+  @Action('getSearchSongs') getSearchSongs!: Function
+  @Action('getSearchArtists') getSearchArtists!: Function
+  @Action('getSearchAlbums') getSearchAlbums!: Function
+  @Action('getSearchPlaylist') getSearchPlaylist!: Function
+  @Action('getSearchMv') getSearchMv!: Function
 
   @Emit('searchEvent')
   searchEvent () {
@@ -35,8 +31,7 @@ export default class search extends Vue {
   }
 
   private keywords: string = ''
-  private Pagination = {
-  }
+  
   async search () {
     if (this.keywords) {
       await this.setSearchKeywords(this.keywords)

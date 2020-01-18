@@ -22,16 +22,16 @@ export default class search extends Vue {
 
   private keywords: string = ''
   private isActive: boolean = false
-  @Mutation('setSearchKeywords') setSearchKeywords: any
-  @Mutation('setSearchStatus') setSearchStatus: any
-  @Mutation('resetSearchAllConfig') resetSearchAllConfig: any
-  @Mutation('setGlobalLoading') setGlobalLoading: any
+  @Mutation('setSearchKeywords') setSearchKeywords!: Function
+  @Mutation('setSearchStatus') setSearchStatus!: Function
+  @Mutation('resetSearchAllConfig') resetSearchAllConfig!: Function
+  @Mutation('setGlobalLoading') setGlobalLoading!: Function
 
-  @Action('getSearchSongs') getSearchSongs: any
-  @Action('getSearchArtists') getSearchArtists: any
-  @Action('getSearchAlbums') getSearchAlbums: any
-  @Action('getSearchPlaylist') getSearchPlaylist: any
-  @Action('getSearchMv') getSearchMv: any
+  @Action('getSearchSongs') getSearchSongs!: Function
+  @Action('getSearchArtists') getSearchArtists!: Function
+  @Action('getSearchAlbums') getSearchAlbums!: Function
+  @Action('getSearchPlaylist') getSearchPlaylist!: Function
+  @Action('getSearchMv') getSearchMv!: Function
 
   async search () {
     if (this.keywords) {

@@ -15,6 +15,7 @@ transition(name="fade")
 import { State, Action, Mutation } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import Loading from '@/components/Loading/index.vue'
+import { CONFIG, SearchParams } from '@/store/types'
 @Component({
   components: {
     Loading
@@ -23,14 +24,14 @@ import Loading from '@/components/Loading/index.vue'
 export default class artists extends Vue {
   @Prop(String) private currentName!: string
 
-  @State(state => state.search.albums) albums: any
-  @State(state => state.search.reset) isReset: any
+  @State((state: CONFIG) => state.search.albums) albums!: SearchParams
+  @State((state: CONFIG) => state.search.reset) isReset!: boolean
 
-  @Mutation('setSearchIsReset') setSearchIsReset: any
-  @Mutation('setLoading') setLoading: any
-  @Mutation('setSearchAlbumsPage') setSearchAlbumsPage: any
-  @Action('getSearchAlbums') getSearchAlbums: any
-  @Action('getAlbumDetail') getAlbumDetail: any
+  @Mutation('setSearchIsReset') setSearchIsReset!: Function
+  @Mutation('setLoading') setLoading!: Function
+  @Mutation('setSearchAlbumsPage') setSearchAlbumsPage!: Function
+  @Action('getSearchAlbums') getSearchAlbums!: Function
+  @Action('getAlbumDetail') getAlbumDetail!: Function
 
   private total = []
   private loadingShow = true

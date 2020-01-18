@@ -16,6 +16,8 @@ transition(name="fade")
 import { State, Mutation, Action } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import Loading from '@/components/Loading/index.vue'
+import { CONFIG, SearchParams } from '@/store/types'
+
 @Component({
   components: {
     Loading
@@ -23,16 +25,16 @@ import Loading from '@/components/Loading/index.vue'
 })
 export default class mvs extends Vue {
   @Prop(String) private currentName!: string
-  @State(state => state.search.reset) isReset: any
-  @State(state => state.search.mvs) mvs: any
-  @Mutation('setLoading') setLoading: any
-  @Mutation('setSearchIsReset') setSearchIsReset: any
-  @Mutation('setSearchMvsPage') setSearchMvsPage: any
-  @Mutation('setMvPlayerStatus') setMvPlayerStatus: any
-  @Mutation('setPlaying') setMusicPlaying: any
+  @State((state: CONFIG) => state.search.reset) isReset!: boolean
+  @State((state: CONFIG) => state.search.mvs) mvs!: SearchParams
+  @Mutation('setLoading') setLoading!: Function
+  @Mutation('setSearchIsReset') setSearchIsReset!: Function
+  @Mutation('setSearchMvsPage') setSearchMvsPage!: Function
+  @Mutation('setMvPlayerStatus') setMvPlayerStatus!: Function
+  @Mutation('setPlaying') setMusicPlaying!: Function
 
-  @Action('getSearchMv') getSearchMv: any
-  @Action('getCurrentMv') getCurrentMv: any
+  @Action('getSearchMv') getSearchMv!: Function
+  @Action('getCurrentMv') getCurrentMv!: Function
 
   private total = []
   private loadingShow = true

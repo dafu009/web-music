@@ -13,6 +13,7 @@ import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import Loading from '@/components/Loading/index.vue'
 import api from '@/api'
+import { Singer, CONFIG } from '@/store/types'
 @Component({
   components: {
     CategoryNav,
@@ -21,12 +22,12 @@ import api from '@/api'
   }
 })
 export default class Overview extends Vue {
-  @State(state => state.singer) singer: any
-  @Mutation('setSingerPageNum') setSingerPageNum: any
-  @Mutation('reSetSingerConfig') reSetSingerConfig: any
-  @Mutation('setGlobalLoading') setGlobalLoading: any
+  @State((state: CONFIG) => state.singer) singer!: Singer
+  @Mutation('setSingerPageNum') setSingerPageNum!: Function
+  @Mutation('reSetSingerConfig') reSetSingerConfig!: Function
+  @Mutation('setGlobalLoading') setGlobalLoading!: Function
 
-  @Action('GetArtistList') GetArtistList: any
+  @Action('GetArtistList') GetArtistList!: Function
 
   private title: string = '热门歌手'
   private totalList = []

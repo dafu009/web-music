@@ -53,7 +53,7 @@
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
 import register from '@/components/register.vue'
 import { Action, State, Mutation } from 'vuex-class'
-import { CONFIG, UserQuery, UserInfo } from '@/store/types'
+import { CONFIG, UserQuery, UserInfo, CurrentMusic } from '@/store/types'
 import { RST } from '@/common/ts/config'
 import debounce from 'lodash/debounce'
 @Component({
@@ -63,15 +63,15 @@ export default class loginRegister extends Vue {
   @State((state: CONFIG) => state.userInfo.queryData) result!: UserQuery
   @State((state: CONFIG) => state.userInfo) UserInfo!: UserInfo
   @State((state: CONFIG) => state.globalEvent.checkPass.success) checkSuccess!: boolean
-  @State(state => state.globalEvent.playList) playList: any
+  @State(state => state.globalEvent.playList) playList!: CurrentMusic[]
 
-  @Mutation('setCheckShow') setCheckShow: any
-  @Mutation('setGlobalMessageShow') setGlobalMessageShow: any
-  @Mutation('setGlobalMessage') setGlobalMessage: any
-  @Mutation('setPlaying') setPlaying: any
-  @Action('queryUser') queryUser: any
-  @Action('Register') Register: any
-  @Action('Login') Login: any
+  @Mutation('setCheckShow') setCheckShow!: Function
+  @Mutation('setGlobalMessageShow') setGlobalMessageShow!: Function
+  @Mutation('setGlobalMessage') setGlobalMessage!: Function
+  @Mutation('setPlaying') setPlaying!: Function
+  @Action('queryUser') queryUser!: Function
+  @Action('Register') Register!: Function
+  @Action('Login') Login!: Function
 
   @Watch('checkSuccess')
   checkPass (value: boolean) {

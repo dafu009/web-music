@@ -14,12 +14,13 @@
 <script lang="ts">
 import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
+import { CONFIG } from '@/store/types'
 @Component({
   components: {}
 })
 export default class index extends Vue {
-  @State(state => state.globalEvent.loading) loadingShow: any
-  @Mutation('setLoading') setLoading: any
+  @State((state: CONFIG) => state.globalEvent.loading) loadingShow!: boolean
+  @Mutation('setLoading') setLoading!: Function
 
   @Emit('loadMore')
   loadMore() {

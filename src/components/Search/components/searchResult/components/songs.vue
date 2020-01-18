@@ -17,6 +17,7 @@ import { State, Mutation, Action } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import Play from '@/common/components/play.vue'
 import Loading from '@/components/Loading/index.vue'
+import { CONFIG, SearchParams } from '@/store/types'
 
 @Component({
   components: {
@@ -26,14 +27,14 @@ import Loading from '@/components/Loading/index.vue'
 })
 export default class songs extends Vue {
   @Prop(String) private currentName!: string
-  @State(state => state.search.songs) songs: any
-  @State(state => state.search.reset) isReset: any
+  @State((state: CONFIG) => state.search.songs) songs!: SearchParams
+  @State((state: CONFIG) => state.search.reset) isReset!: boolean
 
-  @Mutation('setSearchIsReset') setSearchIsReset: any
-  @Mutation('setLoading') setLoading: any
-  @Mutation('setSearchSongsPage') setSearchSongsPage: any
-  @Action('getSearchSongs') getSearchSongs: any
-  @Action('GetArtistDetail') GetArtistDetail: any
+  @Mutation('setSearchIsReset') setSearchIsReset!: Function
+  @Mutation('setLoading') setLoading!: Function
+  @Mutation('setSearchSongsPage') setSearchSongsPage!: Function
+  @Action('getSearchSongs') getSearchSongs!: Function
+  @Action('GetArtistDetail') GetArtistDetail!: Function
 
   private total = []
   private loadingShow = true

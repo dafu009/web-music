@@ -37,10 +37,6 @@ import Mvs from './components/mvs.vue'
   }
 })
 export default class searchResult extends Vue {
-  @State(state => state.search.artists.result) artists: any
-  @State(state => state.search.playLists.result) playLists: any
-  @State(state => state.search.mvs.result) mvs: any
-
   private tabs = [
     {
       title: '歌曲',

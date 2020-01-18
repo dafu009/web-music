@@ -31,9 +31,9 @@ export default class check extends Vue {
   @State((state: CONFIG) => state.globalEvent.checkPass.success) checkSuccess!: boolean
   @State((state: CONFIG) => state.globalEvent.checkPass.fail) checkFail!: boolean
 
-  @Mutation('setCheckShow') setCheckShow: any
-  @Mutation('setCheckSuccess') setCheckSuccess: any
-  @Mutation('setCheckFail') setCheckFail: any
+  @Mutation('setCheckShow') setCheckShow!: Function
+  @Mutation('setCheckSuccess') setCheckSuccess!: Function
+  @Mutation('setCheckFail') setCheckFail!: Function
 
   randomImgId: number = 0
   rotate: number = 0
@@ -84,7 +84,7 @@ export default class check extends Vue {
     let num = Min + Math.round(Rand * Range)
     return num
   }
-  downEvent(e: any) {
+  downEvent(e: MouseEvent) {
     const startX = e.clientX
     if (this.checkFail) return
     document.onmousemove = e => {

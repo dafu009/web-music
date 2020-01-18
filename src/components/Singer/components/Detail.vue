@@ -52,7 +52,7 @@ import { __setPlayLists, __pushList } from '@/common/ts/common'
 import Loading from '@/components/Loading/index.vue'
 import Blow from '@/common/components/Blow.vue'
 import PlayAll from '@/common/components/playAll.vue'
-import { CONFIG } from '@/store/types'
+import { CONFIG, CurrentMusic } from '@/store/types'
 import BackTo from '@/common/components/BackTo.vue';
 
 @Component({
@@ -65,17 +65,16 @@ import BackTo from '@/common/components/BackTo.vue';
 })
 export default class Overview extends Vue {
   @Ref('item') readonly item!: any
-  @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying: any
+  @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying!: boolean
   @State((state: CONFIG) => state.singer.detail) singerDetail: any
-  @State((state: CONFIG) => state.globalEvent.playList) playList: any
-  @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic: any
+  @State((state: CONFIG) => state.globalEvent.playList) playList!: CurrentMusic[]
+  @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic!: CurrentMusic
+  @Mutation('setLoading') setLoading!: Function
+  @Mutation('setCurrentIndex') setCurrentIndex!: Function
+  @Mutation('setGlobalMessageShow') setGlobalMessageShow!: Function
+  @Mutation('setGlobalMessage') setGlobalMessage!: Function
 
-  @Mutation('setLoading') setLoading: any
-  @Mutation('setCurrentIndex') setCurrentIndex: any
-  @Mutation('setGlobalMessageShow') setGlobalMessageShow: any
-  @Mutation('setGlobalMessage') setGlobalMessage: any
-
-  @Action('getAlbumDetail') getAlbumDetail: any
+  @Action('getAlbumDetail') getAlbumDetail!: Function
 
   private isHide: boolean = false
   private limit: number = 10

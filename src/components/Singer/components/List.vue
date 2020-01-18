@@ -14,7 +14,7 @@ import { CONFIG } from '@/store/types';
 })
 export default class List extends Vue {
   @Prop() private lists!: []
-  @Action('GetArtistDetail') GetArtistDetail: any
+  @Action('GetArtistDetail') GetArtistDetail!: Function
 
   async detail(id: number) {
     await this.GetArtistDetail(id)

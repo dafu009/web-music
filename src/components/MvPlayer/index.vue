@@ -20,6 +20,7 @@
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
+import { CONFIG, CurrentMv, CurrentMusic } from '@/store/types'
 @Component({
   components: {}
 })
@@ -27,13 +28,13 @@ export default class index extends Vue {
   @Ref('videoWrapper') readonly videoWrapper!: any
   @Ref('videoPlayer') readonly video!: any
 
-  @State(state => state.globalEvent.currentMv) currentMv: any
-  @State(state => state.globalEvent.mvPlayerStatus) mvPlayerStatus: any
-  @State(state => state.globalEvent.currentMusic) currentMusic: any
-  @State(state => state.globalEvent.playing) MusicPlaying: any
+  @State((state: CONFIG) => state.globalEvent.currentMv) currentMv!: CurrentMv
+  @State((state: CONFIG) => state.globalEvent.mvPlayerStatus) mvPlayerStatus!: boolean
+  @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic!: CurrentMusic
+  @State((state: CONFIG) => state.globalEvent.playing) MusicPlaying!: boolean
 
-  @Mutation('setMvPlayerStatus') setMvPlayerStatus: any
-  @Mutation('setPlaying') setMusicPlaying: any
+  @Mutation('setMvPlayerStatus') setMvPlayerStatus!: Function
+  @Mutation('setPlaying') setMusicPlaying!: Function
 
   private muted: boolean = true
   private moving: boolean = false

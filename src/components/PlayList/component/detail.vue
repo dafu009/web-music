@@ -28,8 +28,9 @@ import Detector from 'element-resize-detector'
 import Waterfall from 'vue-waterfall-plugin'
 import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
-import Play from '@/common/components/play.vue';
-import PlayAll from '@/common/components/playAll.vue';
+import Play from '@/common/components/play.vue'
+import PlayAll from '@/common/components/playAll.vue'
+import { CONFIG, CurrentMusic } from '@/store/types'
 @Component({
   components: {
     Play,
@@ -41,8 +42,8 @@ export default class detail extends Vue {
   @Ref('wrapper') readonly wrapper!: any
   @Ref('waterfall') readonly waterfall!: any
 
-  @State(state => state.recommend.playListDetail) playListDetail: any
-  @State(state => state.globalEvent.playList) playList: any
+  @State((state: CONFIG) => state.recommend.playListDetail) playListDetail: any
+  @State((state: CONFIG) => state.globalEvent.playList) playList!: CurrentMusic[]
 
   created() {
     if (!this.playListDetail.id) {

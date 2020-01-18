@@ -28,6 +28,7 @@ import { Mutation, State, Action } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import Blow from '@/common/components/Blow.vue'
 import Drawer from '@/common/components/Drawer.vue';
+import { CONFIG, CurrentMusic } from '@/store/types';
 
 @Component({
   components: {
@@ -36,16 +37,16 @@ import Drawer from '@/common/components/Drawer.vue';
   }
 })
 export default class index extends Vue {
-  @State(state => state.globalEvent.playing) GlobalPlaying: any
-  @State(state => state.globalEvent.playList) playList: any
-  @State(state => state.globalEvent.drawerShow) drawerShow: any
-  @State(state => state.globalEvent.currentMusic) currentMusic: any
-  @State(state => state.globalEvent.currentIndex) currentIndex: any
+  @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying!: boolean
+  @State((state: CONFIG) => state.globalEvent.playList) playList!: CurrentMusic[]
+  @State((state: CONFIG) => state.globalEvent.drawerShow) drawerShow!: boolean
+  @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic!: CurrentMusic
+  @State((state: CONFIG) => state.globalEvent.currentIndex) currentIndex!: number
 
-  @Mutation('setPlaying') setPlaying: any
-  @Mutation('setDrawer') setDrawer: any
-  @Mutation('setPlayList') setPlayList: any
-  @Mutation('setCurrentIndex') setCurrentIndex: any
+  @Mutation('setPlaying') setPlaying!: Function
+  @Mutation('setDrawer') setDrawer!: Function
+  @Mutation('setPlayList') setPlayList!: Function
+  @Mutation('setCurrentIndex') setCurrentIndex!: Function
 
   closeDrawer() {
     this.setDrawer(false)

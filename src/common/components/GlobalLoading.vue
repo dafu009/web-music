@@ -10,12 +10,13 @@ transition(name="fade")
 <script lang="ts">
 import { State, Mutation } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import { CONFIG } from '@/store/types'
 @Component({
   components: {}
 })
 export default class GlobalLoading extends Vue {
-  @State(state => state.globalEvent.globalLoading) globalLoading: any
-  @Mutation('setGlobalLoading') setGlobalLoading: any
+  @State((state: CONFIG) => state.globalEvent.globalLoading) globalLoading!: boolean
+  @Mutation('setGlobalLoading') setGlobalLoading!: Function
 }
 </script>
 <style lang="scss" scoped>

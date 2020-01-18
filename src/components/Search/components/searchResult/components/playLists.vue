@@ -13,6 +13,8 @@ transition(name="fade")
 import { State, Action, Mutation } from 'vuex-class'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import Loading from '@/components/Loading/index.vue'
+import { CONFIG, SearchParams } from '@/store/types'
+
 @Component({
   components: {
     Loading
@@ -20,14 +22,14 @@ import Loading from '@/components/Loading/index.vue'
 })
 export default class playLists extends Vue {
   @Prop(String) private currentName!: string
-  @State(state => state.search.playLists) playLists: any
-  @State(state => state.search.reset) isReset: any
+  @State((state: CONFIG) => state.search.playLists) playLists!: SearchParams
+  @State((state: CONFIG) => state.search.reset) isReset!: boolean
 
-  @Mutation('setSearchIsReset') setSearchIsReset: any
-  @Mutation('setLoading') setLoading: any
-  @Mutation('setSearchPlayListsPage') setSearchPlayListsPage: any
-  @Action('getPlayListDetail') getPlayListDetail: any
-  @Action('getSearchPlaylist') getSearchPlaylist: any
+  @Mutation('setSearchIsReset') setSearchIsReset!: Function
+  @Mutation('setLoading') setLoading!: Function
+  @Mutation('setSearchPlayListsPage') setSearchPlayListsPage!: Function
+  @Action('getPlayListDetail') getPlayListDetail!: Function
+  @Action('getSearchPlaylist') getSearchPlaylist!: Function
 
   private total = []
   private loadingShow = true

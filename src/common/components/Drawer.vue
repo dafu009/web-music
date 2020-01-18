@@ -17,7 +17,7 @@ import { CONFIG } from '@/store/types'
   components: {}
 })
 export default class Drawer extends Vue {
-  @State((state:CONFIG) => state.globalEvent.drawerShow) drawerShow: any
+  @State((state:CONFIG) => state.globalEvent.drawerShow) drawerShow!: boolean
   @Emit('close')
   close () {}
 }

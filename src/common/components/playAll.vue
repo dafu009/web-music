@@ -13,10 +13,10 @@ import { __setPlayLists, __pushList } from '../ts/common'
 export default class playAll extends Vue {
   @Prop() private allSongList?: any
 
-  @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying: any
-  @Mutation('setCurrentIndex') setCurrentIndex: any
-  @Mutation('setGlobalMessageShow') setGlobalMessageShow: any
-  @Mutation('setGlobalMessage') setGlobalMessage: any
+  @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying!: boolean
+  @Mutation('setCurrentIndex') setCurrentIndex!: Function
+  @Mutation('setGlobalMessageShow') setGlobalMessageShow!: Function
+  @Mutation('setGlobalMessage') setGlobalMessage!: Function
 
   async playAll () {
     let list: any = []
