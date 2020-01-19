@@ -63,7 +63,8 @@ const state: CONFIG = {
     randomImage: {
       path: '',
       rotate: 0
-    }
+    },
+    confirmShow: false
   },
   album: {},
   rank: {

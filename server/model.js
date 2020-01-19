@@ -22,7 +22,9 @@ const schema = mongoose.Schema({
   nickname: String,
   avatar: String,
   introduction: String,
-  phone: Number
+  phone: Number,
+  area: String,
+  birthday: String
 })
 
 const model = {

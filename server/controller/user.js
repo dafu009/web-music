@@ -58,7 +58,9 @@ const GetUserInfo = async (ctx) => {
           avatar: doc.avatar,
           createTime: doc.create_time,
           introduction: doc.introduction,
-          phone: doc.phone
+          phone: doc.phone,
+          area: doc.area,
+          birthday: doc.birthday
         }
       }
     }
@@ -108,15 +110,7 @@ const Login = async (ctx) => {
       code: DONE,
       success: true,
       message: '登陆成功',
-      userInfo: {
-        token,
-        username,
-        nickname: doc.nickname,
-        avatar: doc.avatar,
-        createTime: doc.create_time,
-        introduction: doc.introduction,
-        phone: doc.phone
-      }
+      token
     }
   } else {
     ctx.status = 200
@@ -138,7 +132,9 @@ const Register = async (ctx) => {
     create_time: new Date(),  // 十位时间戳
     avatar: 'https://image.yy.com/yjmf/OGYyMDY2ZTItNTgzZS00NGQwLTg4ODItNTk0OGEyODg5YWI1.png',
     introduction: '',
-    phone: 0
+    phone: 0,
+    area: '',
+    birthday: ''
   })
   const doc = await getUser(user.username)
   if (doc) {

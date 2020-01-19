@@ -89,6 +89,11 @@ const routes = [
         path: 'login-register',
         name: 'loginRegister',
         component: () => import('@/components/LoginRegister/index.vue')
+      },
+      {
+        path: 'edit',
+        name: 'edit',
+        component: () => import('@/components/User/components/edit/index.vue' ),
       }
     ]
   }
@@ -111,6 +116,9 @@ router.beforeEach((to, from, next) => {
   next()
 })
 
+router.beforeEach((to, from, next) => {
+  next()
+})
 router.afterEach(transition => {
   NProgress.done()
 })

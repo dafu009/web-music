@@ -288,9 +288,9 @@ const actions: ActionTree<CONFIG, any> = {
       method: 'POST',
       data
     })
-      .then(({ userInfo, success, message }) => {
+      .then(({ token, success, message }) => {
         if (success) {
-          commit('setToken', userInfo.token)
+          commit('setToken', token)
           dispatch('getLoginStatus')
         }
         rst.type = success ? 'success' : 'error'
@@ -307,6 +307,7 @@ const actions: ActionTree<CONFIG, any> = {
     commit('resetUserInfo')
     commit('removeToken')
     commit('setGlobalMessage', { type: 'success', message: '退出成功' })
+    commit('setGlobalMessageShow', true)
   },
   async getLoginStatus ({ commit, state }) {
     let message = ''

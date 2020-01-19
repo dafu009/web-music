@@ -1,9 +1,9 @@
-export function formatDate (value: number, type: string) {
+export function formatDate (value: number | string, type: string) {
   if (!value) return ''
 
   const isDou = (n: number) => (n > 9 ? n : `0${n}`)
 
-  const date = new Date(Number(value))
+  const date = new Date(value)
   let Y = date.getFullYear()
   let M = date.getMonth() + 1
   let D = date.getDate()

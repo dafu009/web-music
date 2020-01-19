@@ -73,6 +73,7 @@ export default class check extends Vue {
     this.setCheckShow(false)
   }
   imageError() {
+    console.log('error')
     this.init()
   }
   downEvent(e: MouseEvent) {

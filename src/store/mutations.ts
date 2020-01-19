@@ -189,7 +189,9 @@ const mutations: MutationTree<CONFIG> = {
   setRandomImage (state: CONFIG, data: RandomImage) {
     state.globalEvent.randomImage.path = data.path
     state.globalEvent.randomImage.rotate = data.rotate
-
+  },
+  setConfirmShow (state: CONFIG, value: boolean) {
+    state.globalEvent.confirmShow = value
   }
 }
 

@@ -54,6 +54,7 @@ export interface GlobalEvent {
   mvPlayerStatus: boolean
   message: Message
   randomImage: RandomImage
+  confirmShow: boolean
 }
 export interface Message {
   show: boolean

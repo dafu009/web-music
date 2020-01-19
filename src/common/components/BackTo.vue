@@ -11,7 +11,8 @@ import { Component, Vue, Prop, Emit } from 'vue-property-decorator'
   components: {}
 })
 export default class BackTo extends Vue {
-  @Prop() private title:string = ''
+  @Prop() private title!: string
+
   @Emit('back')
   back () {}
 }
