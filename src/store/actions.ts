@@ -1,6 +1,6 @@
 import { ActionTree } from 'vuex'
-import { CONFIG } from './types'
-import state from './state'
+import { CONFIG, Message } from './types'
+import { Deduplication } from '@/common/ts/common'
 import api from '@/api'
 import { ERR_OK } from '@/common/ts/config'
 import { AxiosRequestConfig } from 'axios'
@@ -27,7 +27,7 @@ function initSearchParams (state: CONFIG, genre: string) {
 }
 
 const actions: ActionTree<CONFIG, any> = {
-  async GetArtistList ({ commit, dispatch, state: CONFIG }, { isTop, cat }) {
+  async GetArtistList ({ commit, dispatch, state }, { isTop, cat }) {
     let requestConfig: AxiosRequestConfig = {
       params: {
         offset: state.singer.pageNum * state.singer.pageSize,
@@ -75,7 +75,7 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('GetArtistDetail', id)
       })
   },
-  async GetCurrentMusic ({ commit, dispatch, state: CONFIG }, obj: any) {
+  async GetCurrentMusic ({ commit, dispatch, state }, obj: any) {
     Promise.all([
       api.song.getSongUrl({ params: { id: obj.item.songId } }),
       api.song.getLyric({ params: { id: obj.item.songId } })
@@ -84,20 +84,25 @@ const actions: ActionTree<CONFIG, any> = {
         if (reqCode_1 === ERR_OK && reqCode_2 === ERR_OK) {
           if (!url) {
             state.globalEvent.playList[obj.index].disable = true
-            commit('setGlobalMessage', { type: 'error', message: '没有音源,自动跳过' })
-            commit('setGlobalMessageShow', true)
+            dispatch('setGlobalMessage', { type: 'error', message: '没有音源,自动跳过' })
             state.globalEvent.currentIndex++
             return
           }
           commit('setCurrentSong', { songUrl: url, lyric, ...obj.item })
           commit('setPlaying', true)
+          let list = JSON.parse(state.globalEvent.recentlyPlayedList)
+          list.push(state.globalEvent.currentMusic)
+          list = Deduplication(list.reverse())
+          let value = JSON.stringify(list)
+          window.sessionStorage.setItem('recently-played-list', value)
+          commit('setRecentlyPlayedList', value)
         }
       })
       .catch(() => {
         dispatch('GetCurrentMusic', obj.item)
       })
   },
-  async getCurrentMv ({ commit, dispatch, state: CONFIG }, { id, name, artistName, cover }) {
+  async getCurrentMv ({ commit, dispatch }, { id, name, artistName, cover }) {
     api.mv.getMvUrl({ params: { id } })
       .then(data => {
         if (data.code === ERR_OK) {
@@ -108,7 +113,7 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getCurrentMv', { id, name, cover, artistName })
       })
   },
-  async getBanner ({ commit, dispatch, state: CONFIG }) {
+  async getBanner ({ commit, dispatch }) {
     api.recommend.getBanner()
       .then((data) => {
         if (data.code === ERR_OK) {
@@ -119,7 +124,7 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getBanner')
       })
   },
-  async getRecommendPlayList ({ commit, dispatch, state: CONFIG }) {
+  async getRecommendPlayList ({ commit, dispatch }) {
     const requestConfig: AxiosRequestConfig = {
       params: {
         limit: 40
@@ -135,7 +140,7 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getRecommendPlayList')
       })
   },
-  async getPlayListDetail ({ commit, dispatch, state: CONFIG }, id: number) {
+  async getPlayListDetail ({ commit, dispatch }, id: number) {
     await api.song.getPlayListDetail({ params: { id } })
       .then(({ playlist, code }) => {
         if (code === ERR_OK) {
@@ -161,7 +166,7 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getPlayListDetail', id)
       })
   },
-  async getAlbumDetail ({ commit, dispatch, state: CONFIG }, id: number) {
+  async getAlbumDetail ({ commit, dispatch }, id: number) {
     await api.album.getAlbumDetail({ params: { id } })
       .then(({ code, songs, album }) => {
         if (code === ERR_OK) {
@@ -172,7 +177,7 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getAlbumDetail', id)
       })
   },
-  async getSearchSongs ({ commit, dispatch, state: CONFIG }) {
+  async getSearchSongs ({ commit, dispatch, state }) {
     const genre: string = 'songs'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
@@ -183,7 +188,7 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getSearchSongs')
       })
   },
-  async getSearchArtists ({ commit, dispatch, state: CONFIG }) {
+  async getSearchArtists ({ commit, dispatch, state }) {
     const genre: string = 'artists'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
@@ -194,7 +199,7 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getSearchArtists')
       })
   },
-  async getSearchAlbums ({ commit, dispatch, state: CONFIG }) {
+  async getSearchAlbums ({ commit, dispatch, state }) {
     const genre: string = 'albums'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
@@ -205,7 +210,7 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getSearchAlbums')
       })
   },
-  async getSearchPlaylist ({ commit, dispatch, state: CONFIG }) {
+  async getSearchPlaylist ({ commit, dispatch, state }) {
     const genre: string = 'playLists'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
@@ -216,7 +221,7 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getSearchPlaylist')
       })
   },
-  async getSearchMv ({ commit, dispatch, state: CONFIG }) {
+  async getSearchMv ({ commit, dispatch, state }) {
     const genre: string = 'mvs'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)
     api.search.monolayer(requestConfig)
@@ -228,7 +233,7 @@ const actions: ActionTree<CONFIG, any> = {
       })
   },
 
-  async getTopRank ({ commit, dispatch, state: CONFIG }, idx: number) {
+  async getTopRank ({ commit, dispatch }, idx: number) {
     api.rank.getTopRank({ params: { idx } })
       .then(({ code, playlist }) => {
         if (code === ERR_OK) {
@@ -247,7 +252,12 @@ const actions: ActionTree<CONFIG, any> = {
       })
   },
 
-  async queryUser ({ commit, dispatch, state }, username: string) {
+  setGlobalMessage ({ commit, }, { type, message }: Message) {
+    commit('setGlobalMessage', { type, message })
+    commit('setGlobalMessageShow', true)
+  },
+
+  async queryUser ({ commit, dispatch }, username: string) {
     await api.user.queryUser({ params: { username } })
       .then(({ success, data, exist }) => {
         if (success) {
@@ -258,7 +268,7 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('queryUser', username)
       })
   },
-  async Register ({ commit, state: CONFIG }, data) {
+  async Register ({ commit }, data) {
     let rst = {
       success: false,
       type: '',
@@ -308,18 +318,16 @@ const actions: ActionTree<CONFIG, any> = {
         ...data
       }
     })
-    .then(async ({ success, message }) => {
-      await dispatch('getLoginStatus')
-      commit('setGlobalMessage', { type: success ? 'success' : 'error', message })
-      commit('setGlobalMessageShow', true)
-    })
+      .then(async ({ success, message }) => {
+        await dispatch('getLoginStatus')
+        dispatch('setGlobalMessage', { type: success ? 'success' : 'error', message })
+      })
   },
-  async Logout ({ commit }) {
+  async Logout ({ commit, dispatch }) {
     commit('setIsLogin', false)
     commit('resetUserInfo')
     commit('removeToken')
-    commit('setGlobalMessage', { type: 'success', message: '退出成功' })
-    commit('setGlobalMessageShow', true)
+    dispatch('setGlobalMessage', { type: 'success', message: '退出成功' })
   },
   async getLoginStatus ({ commit, state }) {
     let message = ''

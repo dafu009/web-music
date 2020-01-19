@@ -3,6 +3,9 @@ import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search,
 import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
+  setRecentlyPlayedList (state: CONFIG, value: string) {
+    state.globalEvent.recentlyPlayedList = value
+  },
   setIsLogin (state: CONFIG, value: boolean) {
     state.globalEvent.isLogin = value
   },

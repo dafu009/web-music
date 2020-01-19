@@ -41,6 +41,7 @@ export interface RandomImage {
 }
 export interface GlobalEvent {
   isLogin: boolean | null
+  recentlyPlayedList: string
   checkShow: boolean
   checkPass: CheckEvent
   drawerShow: boolean

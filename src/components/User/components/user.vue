@@ -1,14 +1,18 @@
 <template lang="pug">
+.user
   user-info
+  recently-played
 </template>
 <script lang="ts">
 import UserInfo from './userInfo/index.vue'
+import RecentlyPlayed from './recently-played/index.vue'
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { State } from 'vuex-class'
 import { CONFIG } from '@/store/types'
 @Component({
   components: {
-    UserInfo
+    UserInfo,
+    RecentlyPlayed
   }
 })
 export default class user extends Vue {

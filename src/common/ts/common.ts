@@ -1,5 +1,9 @@
 import store from '@/store'
+import { CurrentMusic } from '@/store/types'
 export function __setPlayLists (detail: any) {
+  if (detail.songId) {
+    return detail
+  }
   const { al: album, ar: artist, name, id } = detail
   const CurrentMusic = {
     album: album.name,
@@ -11,7 +15,7 @@ export function __setPlayLists (detail: any) {
   }
   return CurrentMusic
 }
-export async function  __pushList (lists: any) {
+export async function __pushList (lists: any) {
   let list = store.state.globalEvent.playList
   list.push(lists)
   store.commit('setPlayList', list)
@@ -19,4 +23,13 @@ export async function  __pushList (lists: any) {
 
 export function createOnlyId () {
   return new Date().valueOf().toString(16)
+}
+
+export function Deduplication (objArray: CurrentMusic[]) {
+  var hash: any = {};
+  objArray = objArray.reduce((item: any, next: CurrentMusic) => {
+    hash[next.songId] ? '' : hash[next.songId] = true && item.push(next)
+    return item
+  }, [])
+  return objArray;
 }
