@@ -7,7 +7,7 @@
         .name 《 {{playListDetail.name}} 》
         .desc {{playListDetail.desc}}
     ul.tags
-      img(src="@/assets/image/tags.png" v-if="playListDetail.tags")
+      span.iconfont &#xe610
       li.item(v-for="(item, index) in playListDetail.tags") {{ item }}  
       play-all.all(:allSongList="playListDetail.tracks")
     .list(ref="wrapper")
@@ -106,9 +106,8 @@ ul > li {
     align-items: center;
     margin: 20px 0;
     padding: 0;
-    img {
-      width: 30px;
-      height: 30px;
+    .iconfont {
+      font-size: 36px;
       margin-right: 10px;
     }
     .item {

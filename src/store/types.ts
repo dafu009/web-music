@@ -35,6 +35,10 @@ export interface CurrentMv {
   cover: string
   artist: string
 }
+export interface RandomImage {
+  path: string
+  rotate: number
+}
 export interface GlobalEvent {
   isLogin: boolean | null
   checkShow: boolean
@@ -49,6 +53,7 @@ export interface GlobalEvent {
   currentMv: CurrentMv
   mvPlayerStatus: boolean
   message: Message
+  randomImage: RandomImage
 }
 export interface Message {
   show: boolean

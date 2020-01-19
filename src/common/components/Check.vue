@@ -8,7 +8,7 @@ transition(name="fade")
         p.tip.tip-info-1 身份验证
         p.tip.tip-info-2 拖动滑块，使图片角度为正
         .faceboder
-          img(v-lazy="randomImage" :style="{transform: randomRotate}")
+          img(v-lazy="randomImage" :style="{transform: randomRotate}" @error="imageError")
           .status(v-if="statusShow")
             .icon.success(v-if="checkSuccess")
               span.iconfont &#xe605
@@ -21,8 +21,9 @@ transition(name="fade")
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
-import { Mutation, State } from 'vuex-class'
-import { CONFIG } from '@/store/types'
+import { Mutation, State, Action } from 'vuex-class'
+import { CONFIG, RandomImage } from '@/store/types'
+import api from '../../api'
 @Component({
   components: {}
 })
@@ -30,23 +31,24 @@ export default class check extends Vue {
   @State((state: CONFIG) => state.globalEvent.checkShow) checkShow!: boolean
   @State((state: CONFIG) => state.globalEvent.checkPass.success) checkSuccess!: boolean
   @State((state: CONFIG) => state.globalEvent.checkPass.fail) checkFail!: boolean
+  @State((state: CONFIG) => state.globalEvent.randomImage) image!: RandomImage
 
   @Mutation('setCheckShow') setCheckShow!: Function
-  @Mutation('setCheckSuccess') setCheckSuccess!: Function
-  @Mutation('setCheckFail') setCheckFail!: Function
 
-  randomImgId: number = 0
+  @Action('getRandomImg') getRandomImg!: Function
+  @Action('checkImagePass') checkImagePass!: Function
+  @Action('resetCheckStatus') resetCheckStatus!: Function
+
   rotate: number = 0
   statusShow: boolean = false
   offsetX: number = 0
-  watchEvent: boolean = false
 
   created() {
     this.init()
   }
 
   get randomImage() {
-    return `https://api.yimian.xyz/img?id=${this.randomImgId}&type=moe&size=200x200`
+    return this.image.path
   }
   get randomRotate() {
     return `rotate(${this.rotate}deg)`
@@ -57,32 +59,21 @@ export default class check extends Vue {
 
   @Watch('offsetX')
   resetRotate(a: number, b: number) {
-    if (a > 0) {
-      this.watchEvent = true
-    } else return
     this.rotate = +(+this.rotate + ((a - b) * 12) / 7).toFixed(0)
   }
 
-  init() {
-    this.watchEvent = false
+  async init() {
+    await this.getRandomImg()
+    await this.resetCheckStatus()
+    this.rotate = this.image.rotate
     this.statusShow = false
-    this.setCheckSuccess(false)
-    this.setCheckFail(false)
     this.offsetX = 0
-    this.rotate = this.RandomNum(60, 300)
-    this.randomImgId = this.RandomNum(1, 1000)
   }
   close() {
     this.setCheckShow(false)
   }
   imageError() {
     this.init()
-  }
-  RandomNum(Min: number, Max: number) {
-    let Range = Max - Min
-    let Rand = Math.random()
-    let num = Min + Math.round(Rand * Range)
-    return num
   }
   downEvent(e: MouseEvent) {
     const startX = e.clientX
@@ -100,23 +91,17 @@ export default class check extends Vue {
       this.upEvent()
     }
   }
-  upEvent() {
+  async upEvent() {
     document.onmousemove = null
     document.onmouseup = null
-    if (this.watchEvent) {
-      this.statusShow = true
-      if (this.rotate >= 350 && this.rotate <= 370) {
-        this.setCheckSuccess(true)
-      } else {
-        this.setCheckFail(true)
+    this.statusShow = true
+    await this.checkImagePass(this.rotate)
+    setTimeout(() => {
+      if (this.checkSuccess) {
+        this.close()
       }
-      setTimeout(() => {
-        if (this.checkSuccess) {
-          this.close()
-        }
-        this.init()
-      }, 1100)
-    }
+      this.init()
+    }, 1100)
   }
 }
 </script>

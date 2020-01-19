@@ -15,6 +15,9 @@ const UserController = require('./controller/user')
 // 阿里云OSS 配置
 const GetAliOSSCreds = require('./controller/oss')
 
+// 图片生成校验
+const ImageController = require('./controller/check')
+
 // 登录
 const loginRouter = new Router()
 loginRouter.post('/login', UserController.Login)
@@ -34,6 +37,16 @@ getAliOSSOptionsRouter.get('/getAliOssOptions', GetAliOSSCreds)
 // 获取用户信息
 const getUserInfo = new Router()
 getUserInfo.get('/getUserInfo', UserController.GetUserInfo)
+
+// 获取图片
+const getImage = new Router()
+getImage.get('/getRandomImage', ImageController.getRandomImg)
+
+// 校验图盘准确性
+const checkImage = new Router()
+checkImage.get('/checkImage', ImageController.check)
+
+
 // 装载路由
 router.use(
   '/api',
@@ -60,7 +73,16 @@ router.use(
   getUserInfo.routes(),
   getUserInfo.allowedMethods()
 )
-
+router.use(
+  '/api',
+  getImage.routes(),
+  getImage.allowedMethods()
+)
+router.use(
+  '/api',
+  checkImage.routes(),
+  checkImage.allowedMethods()
+)
 // koa加载路由中间件
 app.use(router.routes())
   .use(router.allowedMethods())

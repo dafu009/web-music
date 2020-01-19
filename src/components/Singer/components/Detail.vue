@@ -193,15 +193,19 @@ export default class Overview extends Vue {
       ul.list {
         display: flex;
         flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 30px;
         li.item {
           list-style: none;
-          margin-left: 2px;
+          margin: 0 5px 15px;
           .item-wrap {
+            border-bottom: 1px solid #ccc;
+            border-right: 1px solid #ccc;
             position: relative;
             width: 400px;
             font-size: 18px;
+            padding-bottom: 5px;
             display: flex;
-            margin-bottom: 15px;
             .song-cover {
               box-sizing: border-box;
               border: 1px solid #ccc;

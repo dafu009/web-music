@@ -59,6 +59,10 @@ const state: CONFIG = {
       show: false,
       type: '',
       message: ''
+    },
+    randomImage: {
+      path: '',
+      rotate: 0
     }
   },
   album: {},

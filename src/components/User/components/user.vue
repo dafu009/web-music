@@ -1,5 +1,6 @@
 <template lang="pug">
   .user
+    
     button(@click="quit") quir
     vue-core-image-upload.btn.btn-primary(
       :crop="'local'"

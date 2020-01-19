@@ -7,6 +7,7 @@ import album from './album'
 import mv from './mv'
 import rank from './rank'
 import oss from './oss'
+import image from './image'
 export default {
   mv,
   oss,
@@ -14,6 +15,7 @@ export default {
   song,
   rank,
   album,
+  image,
   singer,
   search,
   recommend

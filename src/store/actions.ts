@@ -324,6 +324,29 @@ const actions: ActionTree<CONFIG, any> = {
         console.log(err)
       })
     return { message, isLogin }
+  },
+  async getRandomImg ({ commit, dispatch }) {
+    await api.image.getRandomImage()
+      .then(({ success, data }) => {
+        if (success) {
+          commit('setRandomImage', data)
+        }
+      })
+      .catch(() => { })
+  },
+  async checkImagePass ({ commit }, rotate: number) {
+    await api.image.checkImage({ params: { rotate } })
+      .then(({ success }) => {
+        if (success) {
+          commit('setCheckSuccess', true)
+        } else {
+          commit('setCheckFail', true)
+        }
+      })
+  },
+  async resetCheckStatus ({ commit }) {
+    commit('setCheckSuccess', false)
+    commit('setCheckFail', false)
   }
 }
 export default actions

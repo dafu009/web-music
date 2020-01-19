@@ -1,5 +1,6 @@
 import { MutationTree } from 'vuex'
-import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message, UserQuery, CheckEvent } from './types'
+import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message, UserQuery, CheckEvent, RandomImage } from './types';
+import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
   setIsLogin (state: CONFIG, value: boolean) {
@@ -184,6 +185,11 @@ const mutations: MutationTree<CONFIG> = {
   setGlobalMessage (state: CONFIG, { type, message }: Message) {
     state.globalEvent.message.type = type
     state.globalEvent.message.message = message
+  },
+  setRandomImage (state: CONFIG, data: RandomImage) {
+    state.globalEvent.randomImage.path = data.path
+    state.globalEvent.randomImage.rotate = data.rotate
+
   }
 }
 
