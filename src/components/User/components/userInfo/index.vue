@@ -3,11 +3,11 @@
     .avatar
       img(v-lazy="userInfo.avatar" alt="头像")
     .info
-      .nickname 昵称： {{ userInfo.nickname }}
-      .desc 个人描述： {{ userInfo.introduction ? userInfo.introduction : '这个人很懒，什么也没留下' }}
-      .area 地区： {{ userInfo.area ? userInfo.area : '暂无' }}
-      .birthday 生日： {{ userInfo.birthday ? userInfo.birthday : '暂无' }}
-      .createTime 创建日期：{{ userInfo.createTime | formatDate }}
+      .item.nickname 昵称： {{ userInfo.nickname }}
+      .item.desc 个人描述： {{ userInfo.introduction ? userInfo.introduction : '这个人很懒，什么也没留下' }}
+      .item.area 地区： {{ userInfo.area ? userInfo.area : '暂无' }}
+      .item.birthday 生日： {{ userInfo.birthday ? userInfo.birthday : '暂无' }}
+      .item.createTime 创建日期：{{ userInfo.createTime | formatDate }}
     .operate
       .item.quit(@click="quit")
         span.iconfont &#xe61d
@@ -63,8 +63,11 @@ export default class user extends Vue {
   }
   .info {
     flex: 1;
+    .item {
+      padding: 5px;
+    }
     .nickname {
-      font-size: 28px;
+      font-size: 24px;
     }
     .desc {
       color: #595959;
@@ -84,12 +87,12 @@ export default class user extends Vue {
       margin: 10px 0;
       cursor: pointer;
       span {
-        font-size: 20px;
+        font-size: 18px;
         color: #595959;
         vertical-align: middle;
       }
       .iconfont {
-        font-size: 24px;
+        font-size: 20px;
         margin: 0 10px;
       }
     }

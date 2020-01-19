@@ -3,25 +3,30 @@
   back-to(:title="backTo" @back="goBack")
   .edit-content
     .edit-item.edit-avatar
-      el-upload.avatar-uploader(
-        :show-file-list="false"
-        action="''"
-        :http-request="upload"
-        :before-upload="beforeAvatarUpload")
-        img.avatar(v-if="info.avatar" :src="info.avatar")
+      .upload(
+        :class="{'active': over}"
+        @dragover="dragenter"
+        @dragenter="dragenter"
+        @dragleave="dragleave"
+        @drop="drop"
+        @click="triggerUpload")
+        transition(name="fade")
+          .mask(v-if="over") 释放以上传
+        img(v-lazy="info.avatar")
+        input.hidden(ref="uploader" type="file" @change="change")
       .preview
         img.pic_1(v-lazy="info.avatar")
         img.pic_2(v-lazy="info.avatar")
-    .tips tips: 单击头像以进行上传
-    .edit-item.edit-username
+    .tips tips: 单击头像/拖拽图片至头像处进行上传
+    .edit-item
       span.title 用户名
-      el-input(v-model="info.username" :disabled="true")
-    .edit-item.edit-nickname
+      input.input.username(v-model="info.username" :disabled="true")
+    .edit-item
       span.title 昵称
-      el-input(v-model="info.nickname" placeholder="请输入昵称" )
-    .edit-item.edit-nickname
+      input.input(v-model="info.nickname" placeholder="请输入昵称" )
+    .edit-item
       span.title 描述
-      el-input(v-model="info.introduction" type="textarea" placeholder="请输入个人描述")
+      textarea.input(v-model="info.introduction" placeholder="请输入个人描述")
     .edit-item
       span.title
       .btn.btn-primary.btn-ghost.btn-shine(@click="submit") 提交
@@ -30,7 +35,7 @@
 import clone from 'lodash/cloneDeep'
 import 'element-ui/lib/theme-chalk/upload.css'
 import 'element-ui/lib/theme-chalk/input.css'
-import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import BackTo from '@/common/components/BackTo.vue'
 import { State, Action } from 'vuex-class'
 import { CONFIG, UserInfo } from '@/store/types'
@@ -44,12 +49,16 @@ import OSS from 'ali-oss'
   }
 })
 export default class index extends Vue {
+  @Ref('uploader') readonly uploader!: HTMLInputElement
+
   @State((state: CONFIG) => state.userInfo) userInfo!: UserInfo
   @State((state: CONFIG) => state.globalEvent.isLogin) isLogin!: boolean
   @Action('Update') Update!: Function
-  
+  @Action('setGlobalMessage') setGlobalMessage!: Function
   private backTo: string = '个人中心'
   private info = {} as UserInfo
+  private over: boolean = false
+
   created() {
     if (!this.isLogin) {
       this.$router.push('/user')
@@ -58,15 +67,30 @@ export default class index extends Vue {
     this.info = clone(this.userInfo)
   }
 
-  beforeAvatarUpload(file: File) {
-    const isLt2M = file.size / 1024 / 1024 < 2
-    if (!isLt2M) {
-      this.$message.error('上传头像图片大小不能超过 2MB!')
-    }
-    return isLt2M
+  dragenter (e: DragEvent) {
+    e.preventDefault()
+    this.over = true
+  }
+  dragleave (e: DragEvent) {
+    e.preventDefault()
+    this.over = false
+  }
+  drop (e: any) {
+    e.preventDefault()
+    this.over = false
+    const file = e.dataTransfer.files[0]
+    this.upload(file)
   }
 
-  upload(item: any) {
+  triggerUpload () {
+    this.uploader.click()
+  }
+  change (event: any) {
+    const file = event.target.files[0]
+    this.upload(file)
+  }
+  upload(file: any) {
+    console.log(file)
     api.oss
       .getAliOssOptions()
       .then(({ success, data }) => {
@@ -74,11 +98,14 @@ export default class index extends Vue {
         let client = new OSS({
           ...ossConfig
         })
-        let key = `resource/images/${createOnlyId()}-${item.file.name}.png`
-        return client.put(key, item.file)
+        let key = `resource/images/${createOnlyId()}-${file.name}`
+        return client.put(key, file)
       })
-      .then(({ url, rst }: any) => {
+      .then(({ url, res }: any) => {
         this.info.avatar = url
+        if (res.status === 200) {
+          this.setGlobalMessage({ type: 'success', message: '上传成功' })
+        }
       })
       .catch(err => {
         console.log(err)
@@ -88,9 +115,12 @@ export default class index extends Vue {
   goBack() {
     this.$router.go(-1)
   }
-
+  
   async submit() {
     await this.Update(this.info)
+    setTimeout(() => {
+      this.$router.go(-1)
+    }, 500)
   }
 }
 </script>
@@ -99,29 +129,40 @@ export default class index extends Vue {
   .edit-content {
     padding: 30px;
     .edit-avatar {
-      .avatar-uploader .el-upload {
-        border: 1px dashed #d9d9d9;
+      .upload {
+        box-sizing: border-box;
+        position: relative;
+        border: 2px dashed #d9d9d9;
         border-radius: 6px;
         cursor: pointer;
         position: relative;
+        width: 210px;
+        height: 210px;
         overflow: hidden;
+        .mask {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          line-height: 210px;
+          text-align: center;
+          font-size: 18px;
+          color: #fff;
+          background-color: rgba(0,0,0,0.5);
+        }
+        .hidden {
+          display: none;
+        }
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+        }
       }
-      .avatar-uploader .el-upload:hover {
-        border-color: #409eff;
+      .upload:hover {
+        border-color: #56a6f5cc;
       }
-      .avatar-uploader-icon {
-        font-size: 28px;
-        color: #8c939d;
-        width: 178px;
-        height: 178px;
-        line-height: 178px;
-        text-align: center;
-      }
-      .avatar {
-        width: 200px;
-        height: 200px;
-        object-fit: contain;
-        display: block;
+      .active {
+        border: 3px dashed #56a6f5cc;
       }
       .preview {
         margin-left: 40px;
@@ -148,7 +189,7 @@ export default class index extends Vue {
       }
     }
     .tips {
-      width: 200px;
+      width: 210px;
       text-align: center;
       color: #818181;
       font-size: 14px;
@@ -162,16 +203,33 @@ export default class index extends Vue {
         margin-right: 20px;
         text-align: right;
       }
-      .el-input {
+      .input {
         width: 300px;
+        height: 40px;
+        line-height: 40px;
+        border: 1px solid #dcdfe6;
+        padding: 0 10px;
+        background-color: #fff;
+        color: #606266;
+        border-radius: 5px;
       }
-      .el-textarea {
-        width: 300px;
+      .input:hover {
+        border-color: #c0c4cc
+      }
+      .input:focus {
+        outline: none;
+        border-color: #409eff
+      }
+      .username {
+        background-color: #ccc;
+      }
+      .username:hover {
+        cursor: not-allowed;
       }
       .btn {
         --hue: 210;
         position: relative;
-        width: 300px;
+        width: 322px;
         height: 40px;
         line-height: 38px;
         font-size: 1rem;
@@ -215,7 +273,7 @@ export default class index extends Vue {
 
           &:hover {
             background: transparent;
-            box-shadow: 0 0 20px 10px hsla(var(--hue), 74%, 44%, 0.8);
+            box-shadow: 0 0 10px 10px hsla(var(--hue), 74%, 44%, 0.8);
           }
 
           &:hover::before {
