@@ -42,8 +42,8 @@ export default class confitm extends Vue {
   z-index: 1499;
   .confirm {
     position: absolute;
-    width: 340px;
-    height: 240px;
+    width: 300px;
+    height: 200px;
     background-color: #fff;
     border-radius: 20px;
     top: 50%;
@@ -54,29 +54,29 @@ export default class confitm extends Vue {
       cursor: pointer;
       text-align: right;
       height: 35px;
-      padding: 15px 15px 0 15px;
+      padding: 10px 10px 0 10px;
       .iconfont {
         font-size: 32px;
       }
     }
     .title {
-      height: 130px;
-      line-height: 120px;
+      height: 100px;
+      line-height: 90px;
       text-align: center;
-      font-size: 24px;
+      font-size: 20px;
     }
     .options{
       width: 100%;
-      height: 60px;
+      height: 65px;
       display: flex;
       .item {
         flex: 1;
         cursor: pointer;
         text-align: center;
-        line-height: 60px;
+        line-height: 65px;
         color: #fff;
         font-weight: 600;
-        font-size: 20px;
+        font-size: 16px;
         position: relative;
       }
       .cancel {
