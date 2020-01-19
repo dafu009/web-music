@@ -11,7 +11,6 @@ const getAliOSSCreds = async (ctx) => {
   ctx.body = {
     success: true,
     code: 200,
-    exist: true,
     data: {
       oss_options
     }

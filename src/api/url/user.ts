@@ -8,6 +8,7 @@ interface UrlConfig {
   delUser: string,
   getAllUsers: string
   getUserInfo: string
+  update: string
 }
 const BASE: string = BASE_URL.user
 const path: UrlConfig = {
@@ -18,7 +19,8 @@ const path: UrlConfig = {
   queryUser: `${BASE}/queryUser`,
   getAllUsers: `${BASE}/getAllUsers`,
   delUser: `${BASE}/delUser`,
-  getUserInfo: `${BASE}/getUserInfo`
+  getUserInfo: `${BASE}/getUserInfo`,
+  update: `${BASE}/update`
 }
 
 export default {

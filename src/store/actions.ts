@@ -302,6 +302,18 @@ const actions: ActionTree<CONFIG, any> = {
       })
     return rst
   },
+  async Update ({ commit, dispatch }, data) {
+    await api.user.update({
+      method: 'PUT', data: {
+        ...data
+      }
+    })
+    .then(async ({ success, message }) => {
+      await dispatch('getLoginStatus')
+      commit('setGlobalMessage', { type: success ? 'success' : 'error', message })
+      commit('setGlobalMessageShow', true)
+    })
+  },
   async Logout ({ commit }) {
     commit('setIsLogin', false)
     commit('resetUserInfo')

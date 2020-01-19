@@ -159,6 +159,38 @@ const Register = async (ctx) => {
     }
   }
 }
+// 数据更新
+const Update = async (ctx) => {
+  let tokenContent = null
+  const token = ctx.get('Authorization')
+  const { nickname, avatar, introduction, phone, area, birthday } = ctx.request.body
+  console.log(nickname)
+  try {
+    tokenContent = await JWT.verify(token, privateKey)
+    User.update(
+      { username: tokenContent.username },
+      { $set: { nickname, avatar, introduction, phone, area, birthday } },
+      function (err, docs) {
+        if (err) console.log(err)
+        console.log('更改成功：' + docs)
+      }
+    )
+    ctx.status = 200
+    ctx.body = {
+      success: true,
+      code: 200,
+      message: '修改成功'
+    }
+  } catch (err) {
+    ctx.status = 200
+    ctx.body = {
+      success: false,
+      code: 200,
+      message: '修改失败'
+    }
+  }
+}
+
 // 用户查询
 const queryUser = async (ctx, next) => {
   const username = ctx.request.query.username
@@ -193,5 +225,6 @@ module.exports = {
   Register,
   queryUser,
   GetUserInfo,
-  getUser
+  getUser,
+  Update
 }

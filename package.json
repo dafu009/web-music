@@ -9,7 +9,7 @@
     "server": "nodemon ./server/server.js"
   },
   "dependencies": {
-    "ali-oss": "^6.5.0",
+    "ali-oss": "^6.5.1",
     "axios": "^0.19.0",
     "busboy": "^0.3.1",
     "core-js": "^3.3.2",

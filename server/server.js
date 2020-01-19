@@ -26,6 +26,10 @@ loginRouter.post('/login', UserController.Login)
 const registerRouter = new Router()
 registerRouter.post('/register', UserController.Register)
 
+// 更新数据
+const upDateRouter = new Router()
+upDateRouter.put('/update', UserController.Update)
+
 // 用户是否存在查询
 const queryUserRouter = new Router()
 queryUserRouter.get('/queryUser', UserController.queryUser)
@@ -83,6 +87,12 @@ router.use(
   checkImage.routes(),
   checkImage.allowedMethods()
 )
+router.use(
+  '/api',
+  upDateRouter.routes(),
+  upDateRouter.allowedMethods()
+)
+
 // koa加载路由中间件
 app.use(router.routes())
   .use(router.allowedMethods())

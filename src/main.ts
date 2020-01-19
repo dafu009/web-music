@@ -5,7 +5,10 @@ import store from './store'
 import VueLazyLoad from 'vue-lazyload'
 import VueDrawerLayout from 'vue-drawer-layout'
 import Component from 'vue-class-component'
+import { Upload, Input } from 'element-ui'
 import 'assets/css/iconfont.css'
+Vue.use(Upload)
+Vue.use(Input)
 Vue.use(VueDrawerLayout)
 Vue.use(VueLazyLoad, {
   preLoad: 1.3,
