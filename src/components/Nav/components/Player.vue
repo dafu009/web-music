@@ -54,8 +54,7 @@ export default class Player extends Vue {
   @Mutation('setPlaying') setPlaying!: Function
   @Mutation('setCurrentIndex') setCurrentIndex!: Function
   @Mutation('setCurrentSong') setCurrentSong!: Function
-  @Mutation('setGlobalMessage') setGlobalMessage!: Function
-  @Mutation('setGlobalMessageShow') setGlobalMessageShow!: Function
+  @Action('setGlobalMessage') setGlobalMessage!: Function
 
   
   @Action('GetCurrentMusic') GetCurrentMusic!: Function
@@ -81,18 +80,17 @@ export default class Player extends Vue {
           message: '请前往登录畅想音乐'
         })
         this.setPlaying(false)
-        this.setGlobalMessageShow(true)
         this.$router.push('/user')
       }
     } 
   }
   @Watch('currentIndex')
-  setCurrentPlay(index: number) {
+  async setCurrentPlay(index: number) {
     document.title = `
       ${this.currentMusic.songName} - ${this.currentMusic.artist}
     `
     this.setPlaying(false)
-    this.GetCurrentMusic({item: this.playList[index], index: this.currentIndex})
+    await this.GetCurrentMusic({item: this.playList[index], index: this.currentIndex})
   }
   @Watch('GlobalPlaying')
   PlayStatusChange(val: boolean) {

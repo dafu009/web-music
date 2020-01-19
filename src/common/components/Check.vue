@@ -23,7 +23,6 @@ transition(name="fade")
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'
 import { Mutation, State, Action } from 'vuex-class'
 import { CONFIG, RandomImage } from '@/store/types'
-import api from '../../api'
 @Component({
   components: {}
 })

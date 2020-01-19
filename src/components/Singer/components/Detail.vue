@@ -71,8 +71,7 @@ export default class Overview extends Vue {
   @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic!: CurrentMusic
   @Mutation('setLoading') setLoading!: Function
   @Mutation('setCurrentIndex') setCurrentIndex!: Function
-  @Mutation('setGlobalMessageShow') setGlobalMessageShow!: Function
-  @Mutation('setGlobalMessage') setGlobalMessage!: Function
+  @Action('setGlobalMessage') setGlobalMessage!: Function
 
   @Action('getAlbumDetail') getAlbumDetail!: Function
 
@@ -115,7 +114,6 @@ export default class Overview extends Vue {
     const CurrentMusic = __setPlayLists(item)
     await __pushList(CurrentMusic)
     this.setGlobalMessage({ type: 'success', message: '添加成功' })
-    this.setGlobalMessageShow(true)
   }
   async toAlbumDetail(id: number, singer: string) {
     await this.getAlbumDetail(id)

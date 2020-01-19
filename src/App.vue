@@ -52,9 +52,7 @@ export default class App extends Vue {
   @Ref('drawerContent') readonly drawerContent!: any
   @State((state: CONFIG) => state.userInfo) userInfo!: UserInfo
 
-  @Mutation('setGlobalMessage') setGlobalMessage!: Function
-  @Mutation('setGlobalMessageShow') setGlobalMessageShow!: Function
-
+  @Action('setGlobalMessage') setGlobalMessage!: Function
   @Action('getLoginStatus') getLoginStatus!: Function
   drawerShow: boolean = true
 
@@ -66,7 +64,6 @@ export default class App extends Vue {
             type: 'warning',
             message
           })
-          this.setGlobalMessageShow(true)
         }
       })
   }

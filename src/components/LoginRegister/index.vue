@@ -66,8 +66,7 @@ export default class loginRegister extends Vue {
   @State(state => state.globalEvent.playList) playList!: CurrentMusic[]
 
   @Mutation('setCheckShow') setCheckShow!: Function
-  @Mutation('setGlobalMessageShow') setGlobalMessageShow!: Function
-  @Mutation('setGlobalMessage') setGlobalMessage!: Function
+  @Action('setGlobalMessage') setGlobalMessage!: Function
   @Mutation('setPlaying') setPlaying!: Function
   @Action('queryUser') queryUser!: Function
   @Action('Register') Register!: Function
@@ -128,7 +127,6 @@ export default class loginRegister extends Vue {
       if (this.userForm.password !== this.userForm.checkPass) {
         this.__setMessage('warning', '两次密码不一致')
         this.userForm.checkPass = ''
-        this.setGlobalMessageShow(true)
       }
     }
   }
@@ -174,7 +172,6 @@ export default class loginRegister extends Vue {
   }
   __setMessage (type: 'success' | 'error' | 'warning', message: string) {
     this.setGlobalMessage({ type, message })
-    this.setGlobalMessageShow(true)
   }
   handel () {
     if (!this.userForm.username) {
