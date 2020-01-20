@@ -1,21 +1,26 @@
 <template lang="pug">
   .recently-played
-    .title 最近播放
-    .list
+    .header
+      .title 最近播放
+      transition(name="fade")
+        .clear(@click="clear" v-if="this.playedList.length > 0")
+          span.iconfont &#xe631
+          span 清除播放记录
+    .list(v-if="this.playedList.length > 0")
       template(v-for="(item, index) in playedList")
         .item(:key="index")
           .cover-wrap
             img(v-lazy="item.picUrl")
-            transition(name="fade")
-              .mask
-                play.selfPlay(:song="item")
+            .mask
+              play.selfPlay(:song="item")
           .info
             p.name 《{{item.songName}}》
             p.artise {{item.artist}}
+    .no-data(v-if="this.playedList.length === 0") 暂无数据
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { State } from 'vuex-class'
+import { State, Mutation } from 'vuex-class'
 import { CONFIG, CurrentMusic } from '@/store/types'
 import Play from '@/common/components/play.vue'
 
@@ -27,13 +32,39 @@ import Play from '@/common/components/play.vue'
 export default class RecentlyPlayed extends Vue {
   @State((state: CONFIG) => JSON.parse(state.globalEvent.recentlyPlayedList))
   playedList!: CurrentMusic[]
+
+  @Mutation('setRecentlyPlayedList') setRecentlyPlayedList!: Function
+
+  clear () {
+    this.setRecentlyPlayedList('[]')
+  }
 }
 </script>
 <style lang="scss" scoped>
 .recently-played {
   padding: 30px;
-  .title {
-    font-size: 24px;
+  border-bottom: 1px solid #ccc;
+  .header {
+    display: flex;
+    align-items: baseline;
+    .title {
+      font-size: 24px;
+      margin-right: 20px;
+    }
+    .clear {
+      cursor: pointer;
+      font-size: 12px;
+      padding: 4px 8px;
+      color: #595959;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      span {
+        vertical-align: middle;
+      }
+      .iconfont {
+        margin-right: 5px;
+      }
+    }
   }
   .list {
     display: flex;
@@ -78,6 +109,12 @@ export default class RecentlyPlayed extends Vue {
         }
       }
     }
+  }
+  .no-data {
+    font-size: 20px;
+    margin: 20px;
+    text-align: center;
+    color: #909090;
   }
 }
 </style>

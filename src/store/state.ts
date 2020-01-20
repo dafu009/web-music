@@ -9,6 +9,7 @@ const state: CONFIG = {
     introduction: '',
     createTime: '',
     phone: 0,
+    birthday: '',
     queryData: {
       exist: false,
       avatar: ''
@@ -26,6 +27,7 @@ const state: CONFIG = {
     playListDetail: {}
   },
   globalEvent: {
+    recentlySearched: window.sessionStorage.getItem('recently-searched') || '[]',
     recentlyPlayedList: window.sessionStorage.getItem('recently-played-list') || '[]',
     isLogin: null,
     checkShow: false,

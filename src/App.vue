@@ -20,9 +20,10 @@
       .drawer-content(slot="drawer" ref="drawerContent")
         Nav
       .content(slot="content" :class="{'drawer_active': drawerShow}")
-        transition(name="fade")
-          keep-alive
-            router-view
+        .outside-wrap
+          transition(name="fade")
+            keep-alive
+              router-view
 </template>
 <script lang="ts">
 import Nav from '@/components/Nav/index.vue'
@@ -94,6 +95,9 @@ export default class App extends Vue {
     min-height: 100%;
     box-sizing: border-box;
     padding: 60px;
+    .outside-wrap {
+      position: relative;
+    }
   }
   .drawer_active {
     width: calc(100% - 300px);

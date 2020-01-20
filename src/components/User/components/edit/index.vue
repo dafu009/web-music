@@ -26,15 +26,23 @@
       input.input(v-model="info.nickname" placeholder="请输入昵称" )
     .edit-item
       span.title 描述
-      textarea.input(v-model="info.introduction" placeholder="请输入个人描述")
+      textarea.input(v-model="info.introduction" rows="3" placeholder="请输入个人描述")
+    .edit-item
+      span.title 生日
+      el-date-picker(
+        v-model="info.birthday"
+        placeholder="选择日期时间"
+        type="datetime")
     .edit-item
       span.title
       .btn.btn-primary.btn-ghost.btn-shine(@click="submit") 提交
 </template>
 <script lang="ts">
 import clone from 'lodash/cloneDeep'
-import 'element-ui/lib/theme-chalk/upload.css'
-import 'element-ui/lib/theme-chalk/input.css'
+import 'element-ui/lib/theme-chalk/date-picker.css'
+import 'element-ui/lib/theme-chalk/button.css'
+import 'element-ui/lib/theme-chalk/icon.css'
+
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import BackTo from '@/common/components/BackTo.vue'
 import { State, Action } from 'vuex-class'
@@ -203,15 +211,21 @@ export default class index extends Vue {
         margin-right: 20px;
         text-align: right;
       }
-      .input {
+      input.input {
         width: 300px;
         height: 40px;
+      }
+      textarea.input {
+        width: 300px
+      }
+      .input { 
         line-height: 40px;
         border: 1px solid #dcdfe6;
         padding: 0 10px;
         background-color: #fff;
         color: #606266;
         border-radius: 5px;
+        line-height: 2;
       }
       .input:hover {
         border-color: #c0c4cc

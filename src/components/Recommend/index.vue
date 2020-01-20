@@ -1,7 +1,6 @@
 <template lang="pug">
-  .recommend
-    transition(name="fade")
-      router-view
+transition(name="fade")
+  router-view
 </template>
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'

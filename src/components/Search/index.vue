@@ -11,4 +11,9 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 })
 export default class index extends Vue {}
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.search {
+  position: absolute;
+  width: 100%;
+}
+</style>

@@ -4,6 +4,7 @@ import { Deduplication } from '@/common/ts/common'
 import api from '@/api'
 import { ERR_OK } from '@/common/ts/config'
 import { AxiosRequestConfig } from 'axios'
+import state from './state';
 interface SearchParams {
   type?: number
   offset?: number
@@ -94,7 +95,6 @@ const actions: ActionTree<CONFIG, any> = {
           list.push(state.globalEvent.currentMusic)
           list = Deduplication(list.reverse())
           let value = JSON.stringify(list)
-          window.sessionStorage.setItem('recently-played-list', value)
           commit('setRecentlyPlayedList', value)
         }
       })
@@ -177,6 +177,32 @@ const actions: ActionTree<CONFIG, any> = {
         dispatch('getAlbumDetail', id)
       })
   },
+
+  async searchTotalAction ({ commit, dispatch, state }, keyword: string) {
+    let keyList = JSON.parse(state.globalEvent.recentlySearched)
+    keyList.push(keyword)
+    keyList = new Set(keyList.reverse())
+    let value = JSON.stringify([...keyList])
+    commit('setRecentlySearched', value)
+    commit('setGlobalLoading', true)
+    commit('resetSearchAllConfig')
+    commit('setSearchKeywords', keyword)
+
+    await Promise.all([
+      dispatch('getSearchSongs'),
+      dispatch('getSearchArtists'),
+      dispatch('getSearchAlbums'),
+      dispatch('getSearchPlaylist'),
+      dispatch('getSearchMv')
+    ])
+      .then(() => {
+        commit('setGlobalLoading', false)
+        commit('setSearchStatus', true)
+      })
+      .catch(() => {})
+    return true
+  },
+
   async getSearchSongs ({ commit, dispatch, state }) {
     const genre: string = 'songs'
     const requestConfig: AxiosRequestConfig = initSearchParams(state, genre)

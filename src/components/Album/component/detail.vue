@@ -1,5 +1,5 @@
 <template lang="pug">
-  .album-detail(v-if="album && songs")
+  .album(v-if="album && songs")
     back-to(:title="backTo" @back="goBack")
     .header
       .cover
@@ -76,7 +76,9 @@ export default class detail extends Vue {
 }
 </script>
 <style lang="scss" scoped>
-.album-detail {
+.album {
+  position: absolute;
+  width: 100%;
   .header {
     margin-top: 20px;
     display: flex;

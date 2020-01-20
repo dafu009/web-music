@@ -5,8 +5,7 @@
     .info
       .item.nickname 昵称： {{ userInfo.nickname }}
       .item.desc 个人描述： {{ userInfo.introduction ? userInfo.introduction : '这个人很懒，什么也没留下' }}
-      .item.area 地区： {{ userInfo.area ? userInfo.area : '暂无' }}
-      .item.birthday 生日： {{ userInfo.birthday ? userInfo.birthday : '暂无' }}
+      .item.birthday 生日：{{ userInfo.birthday | formatDate }}
       .item.createTime 创建日期：{{ userInfo.createTime | formatDate }}
     .operate
       .item.quit(@click="quit")
@@ -29,7 +28,6 @@ import { CONFIG, UserInfo } from '@/store/types'
   filters: {
     formatDate
   }
-
 })
 export default class user extends Vue {
   @State((state: CONFIG) => state.userInfo) userInfo!: UserInfo
@@ -71,9 +69,7 @@ export default class user extends Vue {
     }
     .desc {
       color: #595959;
-    }
-    .area {
-      color: #595959;
+      max-width: 700px;
     }
     .birthday {
       color: #595959;

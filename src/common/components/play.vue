@@ -1,7 +1,7 @@
 <template lang="pug">
 .play(@click.stop="play(song)")
-  span.iconfont(v-if="GlobalPlaying && currentMusic.songId === song.id") &#xe69e
-  span.iconfont(v-if="!GlobalPlaying || currentMusic.songId !== song.id") &#xe6a2
+  span.iconfont(v-if="GlobalPlaying && currentMusic.songId === thisSong.id") &#xe69e
+  span.iconfont(v-if="!GlobalPlaying || currentMusic.songId !== thisSong.id") &#xe6a2
 </template>
 <script lang="ts">
 import { CONFIG, CurrentMusic } from '@/store/types'
@@ -14,6 +14,14 @@ import { __setPlayLists, __pushList } from '../ts/common'
 export default class play extends Vue {
   @Prop() private song?: any
   
+  get thisSong () {
+    let song = this.song
+    if (song.songId) {
+      song.id = song.songId
+    }
+    return song
+  }
+
   @State((state: CONFIG) => state.globalEvent.playList) playList!: CurrentMusic[]
   @State((state: CONFIG) => state.globalEvent.playing) GlobalPlaying!: boolean
   @State((state: CONFIG) => state.globalEvent.currentMusic) currentMusic!: CurrentMusic

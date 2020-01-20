@@ -13,19 +13,21 @@
 <script lang='ts'>
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Action, State, Mutation } from 'vuex-class'
+import { CONFIG } from '@/store/types'
 @Component({
     components: {
         
     }
 })
 export default class search extends Vue {
-
+  @State((state: CONFIG) => state.globalEvent.recentlySearched) recentlySearched!: string
   private keywords: string = ''
   private isActive: boolean = false
   @Mutation('setSearchKeywords') setSearchKeywords!: Function
   @Mutation('setSearchStatus') setSearchStatus!: Function
   @Mutation('resetSearchAllConfig') resetSearchAllConfig!: Function
   @Mutation('setGlobalLoading') setGlobalLoading!: Function
+  @Mutation('setRecentlySearched') setRecentlySearched!: Function
 
   @Action('getSearchSongs') getSearchSongs!: Function
   @Action('getSearchArtists') getSearchArtists!: Function
@@ -33,26 +35,15 @@ export default class search extends Vue {
   @Action('getSearchPlaylist') getSearchPlaylist!: Function
   @Action('getSearchMv') getSearchMv!: Function
 
+  @Action('searchTotalAction') searchTotalAction!: Function
+
   async search () {
     if (this.keywords) {
-      this.setGlobalLoading(true)
-      await this.resetSearchAllConfig()
-      await this.setSearchKeywords(this.keywords)
-      Promise.all(
-        [
-          this.getSearchSongs(),
-          this.getSearchArtists(),
-          this.getSearchAlbums(),
-          this.getSearchPlaylist(),
-          this.getSearchMv()
-      ])
-      .then(async () => {
-        this.setGlobalLoading(false)
-        this.setSearchStatus(true)
-        if (this.$route.name === 'search') return
-        this.$router.push('/search')
-      })
-      .catch(() => {})
+      await this.searchTotalAction(this.keywords)
+        .then(() => {
+          if (this.$route.name === 'search') return
+          this.$router.push('/search')
+        })
     }
   }
 

@@ -13,6 +13,7 @@ export interface UserInfo {
   avatar: string
   createTime: string
   introduction: string
+  birthday: string
   phone: number
   token: string | null
   queryData: UserQuery
@@ -42,6 +43,7 @@ export interface RandomImage {
 export interface GlobalEvent {
   isLogin: boolean | null
   recentlyPlayedList: string
+  recentlySearched: string
   checkShow: boolean
   checkPass: CheckEvent
   drawerShow: boolean

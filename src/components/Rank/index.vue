@@ -20,5 +20,7 @@ export default class index extends Vue {
 <style lang="scss" scoped>
 .rank {
   display: flex;
+  position: absolute;
+  width: 100%;
 }
 </style>

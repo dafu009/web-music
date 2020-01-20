@@ -59,7 +59,6 @@ const GetUserInfo = async (ctx) => {
           createTime: doc.create_time,
           introduction: doc.introduction,
           phone: doc.phone,
-          area: doc.area,
           birthday: doc.birthday
         }
       }
@@ -133,7 +132,6 @@ const Register = async (ctx) => {
     avatar: 'https://image.yy.com/yjmf/OGYyMDY2ZTItNTgzZS00NGQwLTg4ODItNTk0OGEyODg5YWI1.png',
     introduction: '',
     phone: 0,
-    area: '',
     birthday: ''
   })
   const doc = await getUser(user.username)
@@ -163,13 +161,13 @@ const Register = async (ctx) => {
 const Update = async (ctx) => {
   let tokenContent = null
   const token = ctx.get('Authorization')
-  const { nickname, avatar, introduction, phone, area, birthday } = ctx.request.body
+  const { nickname, avatar, introduction, phone, birthday } = ctx.request.body
   console.log(nickname)
   try {
     tokenContent = await JWT.verify(token, privateKey)
     User.update(
       { username: tokenContent.username },
-      { $set: { nickname, avatar, introduction, phone, area, birthday } },
+      { $set: { nickname, avatar, introduction, phone, birthday } },
       function (err, docs) {
         if (err) console.log(err)
         console.log('更改成功：' + docs)

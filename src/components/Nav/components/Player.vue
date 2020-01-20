@@ -114,6 +114,8 @@ export default class Player extends Vue {
   }
   async setCurrentSongIndex(type: boolean) {
     if (this.playList.length === 1) {
+      await this.setCurrentIndex(1)
+      await this.setCurrentIndex(0)
       this.setPlaying(true)
       return
     }

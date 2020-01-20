@@ -12,4 +12,9 @@ export default class index extends Vue {
   mounted() {}
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.singer {
+  position: absolute;
+  width: 100%;
+}
+</style>

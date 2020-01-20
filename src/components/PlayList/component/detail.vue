@@ -71,6 +71,8 @@ ul > li {
   list-style: none;
 }
 .play-list-detail {
+  position: absolute;
+  width: 100%;
   .header {
     display: flex;
     .cover {

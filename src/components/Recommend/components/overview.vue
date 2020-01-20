@@ -3,8 +3,6 @@
     banner.banner
     .recommend-content
       play-list
-        
-        
 </template>
 <script lang="ts">
 import { Mutation, State, Action } from 'vuex-class'
@@ -21,6 +19,8 @@ export default class overview extends Vue {}
 </script>
 <style lang="scss" scoped>
 .recommend {
+  position: absolute;
+  width: 100%;
   .banner {
     margin-bottom: 30px;
   }
