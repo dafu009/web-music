@@ -1,4 +1,7 @@
+import storage from 'good-storage'
 import { CONFIG } from './types'
+const __SEARCHED__ = '__searched__'
+const __PLAYED__ = '__played__'
 const state: CONFIG = {
   
   userInfo: {
@@ -28,6 +31,8 @@ const state: CONFIG = {
     playListDetail: {}
   },
   globalEvent: {
+    recentlyPlayedList: JSON.parse(window.localStorage.getItem(__PLAYED__) || '{}'), // total
+    recentlySearchedList: JSON.parse(window.localStorage.getItem(__SEARCHED__) || '{}'), // total
     isLogin: null,
     checkShow: false,
     checkPass: {

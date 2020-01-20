@@ -1,10 +1,28 @@
 import { MutationTree } from 'vuex'
 import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message, UserQuery, CheckEvent, RandomImage } from './types';
-import state from './state';
-
+import { setPlayedList, setSearchedList } from '@/common/ts/cache'
+import { Deduplication } from '@/common/ts/common'
 const mutations: MutationTree<CONFIG> = {
   setIsLogin (state: CONFIG, value: boolean) {
     state.globalEvent.isLogin = value
+  },
+  setRecentlySearchedList (state: CONFIG, keyword: string) {
+    const username = state.userInfo.username || '__tourist__'
+    let Total: any = state.globalEvent.recentlySearchedList
+    let SingleSearchedList = Total[username] || []
+    SingleSearchedList.unshift(keyword)
+    let rst = new Set(SingleSearchedList)
+    state.globalEvent.recentlySearchedList[username] = [...rst]
+    setSearchedList(state.globalEvent.recentlySearchedList)
+  },
+  setRecentlyPlayedList (state: CONFIG, data) {
+    const username = state.userInfo.username || '__tourist__'
+    let Total: any = state.globalEvent.recentlyPlayedList
+    let SingleSearchedList = Total[username] || []
+    SingleSearchedList.unshift(data)
+    let rst = Deduplication(SingleSearchedList)
+    state.globalEvent.recentlyPlayedList[username] = rst
+    setPlayedList(state.globalEvent.recentlyPlayedList)
   },
   setUserQueryData (state: CONFIG, { exist, avatar, username }: UserQuery) {
     state.userInfo.queryData.exist = exist
@@ -99,7 +117,7 @@ const mutations: MutationTree<CONFIG> = {
   async setAlbumDetail (state: CONFIG, data) {
     state.album = data
   },
-  async setSearchKeywords (state: CONFIG, value: string) {
+  setSearchKeywords (state: CONFIG, value: string) {
     state.search.keywords = value
   },
   async setSearchStatus (state: CONFIG, value: boolean) {

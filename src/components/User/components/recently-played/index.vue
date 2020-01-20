@@ -23,6 +23,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import { State, Mutation } from 'vuex-class'
 import { CONFIG, CurrentMusic } from '@/store/types'
 import Play from '@/common/components/play.vue'
+import { setPlayedList } from '@/common/ts/cache'
 
 @Component({
   components: {
@@ -30,13 +31,17 @@ import Play from '@/common/components/play.vue'
   }
 })
 export default class RecentlyPlayed extends Vue {
-  @State((state: CONFIG) => JSON.parse(state.globalEvent.recentlyPlayedList))
-  playedList!: CurrentMusic[]
+  @State((state: CONFIG) => state.userInfo.username) username!: string
+  @State((state: CONFIG) => state.globalEvent.recentlyPlayedList)
+  TotalRecord!: any
 
-  @Mutation('setRecentlyPlayedList') setRecentlyPlayedList!: Function
+  get playedList () {
+    return this.TotalRecord[this.username] || []
+  }
 
   clear () {
-    this.setRecentlyPlayedList('[]')
+    this.TotalRecord[this.username] = []
+    setPlayedList(this.TotalRecord)
   }
 }
 </script>

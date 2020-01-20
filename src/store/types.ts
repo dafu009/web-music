@@ -41,7 +41,13 @@ export interface RandomImage {
   path: string
   rotate: number
 }
+
+export interface storage {
+  [key: string]: any
+} 
 export interface GlobalEvent {
+  recentlyPlayedList: storage
+  recentlySearchedList: storage
   isLogin: boolean | null
   checkShow: boolean
   checkPass: CheckEvent

@@ -25,7 +25,10 @@ declare module 'element-resize-detector' {
   const ElementResizeDetector: any
   export default ElementResizeDetector
 }
-
+declare module 'good-storage' {
+  const GoodStorage: any
+  export default GoodStorage
+}
 
 declare module 'vue-core-image-upload' {
   const VueCoreImageUpload: any

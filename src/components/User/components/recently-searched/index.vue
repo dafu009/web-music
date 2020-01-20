@@ -16,14 +16,19 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { State, Action, Mutation } from 'vuex-class'
 import { CONFIG } from '@/store/types'
+import { setSearchedList } from '@/common/ts/cache'
 @Component({
   components: {}
 })
 export default class index extends Vue {
-  @State((state: CONFIG) => JSON.parse(state.globalEvent.recentlySearched))
-  searchList!: any
-  @Mutation('setRecentlySearched') setRecentlySearched!: Function
+  @State((state: CONFIG) => state.userInfo.username) username!: string
+  @State((state: CONFIG) => state.globalEvent.recentlySearchedList)
+  TotalRecord!: any
   @Action('searchTotalAction') searchTotalAction!: Function
+
+  get searchList () {
+    return this.TotalRecord[this.username] || []
+  }
 
   async research(keyword: string) {
     await this.searchTotalAction(keyword).then(() => {
@@ -32,7 +37,8 @@ export default class index extends Vue {
   }
 
   clear () {
-    this.setRecentlySearched('[]')
+    this.TotalRecord[this.username] = []
+    setSearchedList(this.TotalRecord)
   }
 }
 </script>

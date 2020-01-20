@@ -4,7 +4,6 @@ import { Deduplication } from '@/common/ts/common'
 import api from '@/api'
 import { ERR_OK } from '@/common/ts/config'
 import { AxiosRequestConfig } from 'axios'
-import state from './state';
 interface SearchParams {
   type?: number
   offset?: number
@@ -89,6 +88,7 @@ const actions: ActionTree<CONFIG, any> = {
             state.globalEvent.currentIndex++
             return
           }
+          commit('setRecentlyPlayedList', obj.item)
           commit('setCurrentSong', { songUrl: url, lyric, ...obj.item })
           commit('setPlaying', true)
         }
@@ -174,7 +174,9 @@ const actions: ActionTree<CONFIG, any> = {
   },
 
   async searchTotalAction ({ commit, dispatch, state }, keyword: string) {
-
+    commit('resetSearchAllConfig')
+    commit('setRecentlySearchedList', keyword)
+    commit('setSearchKeywords', keyword)
     await Promise.all([
       dispatch('getSearchSongs'),
       dispatch('getSearchArtists'),
