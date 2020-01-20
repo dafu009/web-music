@@ -28,8 +28,6 @@ const state: CONFIG = {
     playListDetail: {}
   },
   globalEvent: {
-    recentlySearched: window.sessionStorage.getItem('recently-searched') || '[]',
-    recentlyPlayedList: window.sessionStorage.getItem('recently-played-list') || '[]',
     isLogin: null,
     checkShow: false,
     checkPass: {

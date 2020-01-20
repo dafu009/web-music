@@ -1,8 +1,8 @@
 <template lang="pug">
 .user
   user-info
-  recently-searched
-  recently-played
+  //- recently-searched
+  //- recently-played
 </template>
 <script lang="ts">
 import UserInfo from './userInfo/index.vue'

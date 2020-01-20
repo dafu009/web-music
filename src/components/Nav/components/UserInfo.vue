@@ -43,6 +43,10 @@ export default class userInfo extends Vue {
     padding-top: 10px;
     font-size: 24px;
     text-align: center;
+    padding: 0 20px;
+    span {
+      word-break: break-all;
+    }
   }
 }
 </style>

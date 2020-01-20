@@ -91,11 +91,6 @@ const actions: ActionTree<CONFIG, any> = {
           }
           commit('setCurrentSong', { songUrl: url, lyric, ...obj.item })
           commit('setPlaying', true)
-          let list = JSON.parse(state.globalEvent.recentlyPlayedList)
-          list.push(state.globalEvent.currentMusic)
-          list = Deduplication(list.reverse())
-          let value = JSON.stringify(list)
-          commit('setRecentlyPlayedList', value)
         }
       })
       .catch(() => {
@@ -179,14 +174,6 @@ const actions: ActionTree<CONFIG, any> = {
   },
 
   async searchTotalAction ({ commit, dispatch, state }, keyword: string) {
-    let keyList = JSON.parse(state.globalEvent.recentlySearched)
-    keyList.push(keyword)
-    keyList = new Set(keyList.reverse())
-    let value = JSON.stringify([...keyList])
-    commit('setRecentlySearched', value)
-    commit('setGlobalLoading', true)
-    commit('resetSearchAllConfig')
-    commit('setSearchKeywords', keyword)
 
     await Promise.all([
       dispatch('getSearchSongs'),
