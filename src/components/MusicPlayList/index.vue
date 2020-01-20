@@ -3,23 +3,24 @@ transition(name="fade")
   drawer(v-if="drawerShow" @close="closeDrawer")
     .play-list(v-if="drawerShow")
       ul.list
-        li.item(v-for="(item, index) in playList")
-          .cover
-            img(v-lazy="item.picUrl")
-          .info
-            span.singer {{ item.artist }}
-            span.song {{ item.songName }}
-            span.album(v-if="item.songName !== item.album") {{ item.album }}
-          .operating
-            .control(v-if="!item.disable")
-              transition(name="fade")
-                blow.blow-position(v-if="GlobalPlaying && currentMusic.songId === item.songId")
-              transition(name="fade")
-                span.iconfont(@click="playOrPause(index)" v-if="GlobalPlaying && currentMusic.songId === item.songId") &#xe69e
-              transition(name="fade")
-                span.iconfont(@click="playOrPause(index)" v-if="!GlobalPlaying || currentMusic.songId !== item.songId") &#xe6a2
-            .tips(v-else) 暂无音源
-            span.iconfont(@click="deleteSong(index)") &#xe698
+        template(v-for="(item, index) in Lists")
+          li.item(:key="index")
+            .cover
+              img(v-lazy="item.picUrl")
+            .info
+              span.singer {{ item.artist }}
+              span.song {{ item.songName }}
+              span.album(v-if="item.songName !== item.album") {{ item.album }}
+            .operating
+              .control(v-if="!item.disable")
+                transition(name="fade")
+                  blow.blow-position(v-if="GlobalPlaying && currentMusic.songId === item.songId")
+                transition(name="fade")
+                  span.iconfont(@click="playOrPause(index)" v-if="GlobalPlaying && currentMusic.songId === item.songId") &#xe69e
+                transition(name="fade")
+                  span.iconfont(@click="playOrPause(index)" v-if="!GlobalPlaying || currentMusic.songId !== item.songId") &#xe6a2
+              .tips(v-else) 暂无音源
+              span.iconfont(@click="deleteSong(index)") &#xe698
       .clear(@click="clear")
         p 清空播放列表
 </template>
@@ -29,6 +30,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import Blow from '@/common/components/Blow.vue'
 import Drawer from '@/common/components/Drawer.vue'
 import { CONFIG, CurrentMusic } from '@/store/types'
+import { Deduplication } from '@/common/ts/common'
 
 @Component({
   components: {
@@ -47,6 +49,10 @@ export default class index extends Vue {
   @Mutation('setDrawer') setDrawer!: Function
   @Mutation('setPlayList') setPlayList!: Function
   @Mutation('setCurrentIndex') setCurrentIndex!: Function
+
+  get Lists () {
+    return Deduplication(this.playList)
+  }
 
   closeDrawer() {
     this.setDrawer(false)

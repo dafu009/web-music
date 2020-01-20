@@ -1,5 +1,6 @@
 import store from '@/store'
 import { CurrentMusic } from '@/store/types'
+
 export function __setPlayLists (detail: any) {
   if (detail.songId) {
     return detail

@@ -279,6 +279,7 @@ export default class Overview extends Vue {
       }
     }
     .wrap {
+      margin-bottom: 30px;
       max-height: 600px;
       overflow: hidden;
       overflow-y: scroll;

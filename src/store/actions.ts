@@ -76,6 +76,7 @@ const actions: ActionTree<CONFIG, any> = {
       })
   },
   async GetCurrentMusic ({ commit, dispatch, state }, obj: any) {
+    if (!obj.item) return
     Promise.all([
       api.song.getSongUrl({ params: { id: obj.item.songId } }),
       api.song.getLyric({ params: { id: obj.item.songId } })
