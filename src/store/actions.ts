@@ -260,9 +260,11 @@ const actions: ActionTree<CONFIG, any> = {
   },
 
   async getTopRank ({ commit, dispatch }, idx: number) {
+    commit('setGlobalLoading', true)
     api.rank.getTopRank({ params: { idx } })
       .then(({ code, playlist }) => {
         if (code === ERR_OK) {
+          commit('setGlobalLoading', false)
           commit('setCurrentRank', {
             creator: playlist.creator,
             list: playlist.tracks,
