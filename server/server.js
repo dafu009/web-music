@@ -18,6 +18,9 @@ const GetAliOSSCreds = require('./controller/oss')
 // 图片生成校验
 const ImageController = require('./controller/check')
 
+// 邮箱验证
+const MailController = require('./controller/mail')
+
 // 登录
 const loginRouter = new Router()
 loginRouter.post('/login', UserController.Login)
@@ -29,6 +32,10 @@ registerRouter.post('/register', UserController.Register)
 // 更新数据
 const upDateRouter = new Router()
 upDateRouter.put('/update', UserController.Update)
+
+// 更新邮箱
+const updateEmail = new Router()
+updateEmail.put('/updateEmail', UserController.updateEmail)
 
 // 用户是否存在查询
 const queryUserRouter = new Router()
@@ -50,7 +57,13 @@ getImage.get('/getRandomImage', ImageController.getRandomImg)
 const checkImage = new Router()
 checkImage.get('/checkImage', ImageController.check)
 
+// 邮箱验证码发送
+const sendMailCode = new Router()
+sendMailCode.post('/sendMailCode', MailController.transmitMail)
 
+// 校验验证码
+const checkMailCode = new Router()
+checkMailCode.post('/checkMailCode', MailController.checkCode)
 // 装载路由
 router.use(
   '/api',
@@ -92,7 +105,21 @@ router.use(
   upDateRouter.routes(),
   upDateRouter.allowedMethods()
 )
-
+router.use(
+  '/api',
+  sendMailCode.routes(),
+  sendMailCode.allowedMethods()
+)
+router.use(
+  '/api',
+  checkMailCode.routes(),
+  checkMailCode.allowedMethods()
+)
+router.use(
+  '/api',
+  updateEmail.routes(),
+  updateEmail.allowedMethods()
+)
 // koa加载路由中间件
 app.use(router.routes())
   .use(router.allowedMethods())

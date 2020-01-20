@@ -1,5 +1,6 @@
 import { MutationTree } from 'vuex'
 import { CONFIG, UserInfo, GlobalEvent, Singer, CurrentMusic, Recommend, Search, SearchParams, CurrentMv, Message, UserQuery, CheckEvent, RandomImage } from './types';
+import state from './state';
 
 const mutations: MutationTree<CONFIG> = {
   setRecentlyPlayedList (state: CONFIG, value: string) {
@@ -26,7 +27,7 @@ const mutations: MutationTree<CONFIG> = {
     state.userInfo.phone = 0
     state.userInfo.createTime = ''
   },
-  setUserInfo (state: CONFIG, {username, avatar, introduction, phone, createTime, nickname, birthday }: UserInfo) {
+  setUserInfo (state: CONFIG, {username, avatar, introduction, phone, createTime, nickname, birthday, email }: UserInfo) {
     state.userInfo.nickname = nickname
     state.userInfo.username = username
     state.userInfo.avatar = avatar
@@ -34,6 +35,7 @@ const mutations: MutationTree<CONFIG> = {
     state.userInfo.phone = phone
     state.userInfo.createTime = createTime
     state.userInfo.birthday = birthday
+    state.userInfo.email = email
   },
   setToken (state: CONFIG, value: string) {
     state.userInfo.token = value
@@ -200,6 +202,9 @@ const mutations: MutationTree<CONFIG> = {
   },
   setConfirmShow (state: CONFIG, value: boolean) {
     state.globalEvent.confirmShow = value
+  },
+  setCheckMail (state: CONFIG, value: boolean) {
+    state.globalEvent.checkMail = value
   }
 }
 

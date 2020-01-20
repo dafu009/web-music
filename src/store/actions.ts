@@ -199,7 +199,7 @@ const actions: ActionTree<CONFIG, any> = {
         commit('setGlobalLoading', false)
         commit('setSearchStatus', true)
       })
-      .catch(() => {})
+      .catch(() => { })
     return true
   },
 
@@ -396,6 +396,42 @@ const actions: ActionTree<CONFIG, any> = {
   async resetCheckStatus ({ commit }) {
     commit('setCheckSuccess', false)
     commit('setCheckFail', false)
+  },
+  async sendMailCheckCode ({ commit, dispatch }, email: string) {
+    await api.mail.sendMailCode({
+      method: 'POST',
+      data: {
+        email
+      }
+    })
+      .then(({ success, message }) => {
+        dispatch('setGlobalMessage', { type: success ? 'success' : 'error', message })
+        commit('setCheckMail', true)
+      })
+      .catch(() => { })
+  },
+  async checkMailCode ({ commit, dispatch }, { code, email }) {
+    await api.mail.checkMailCode({
+      method: 'POST',
+      data: {
+        code
+      }
+    })
+      .then(async ({ success, message }) => {
+        dispatch('setGlobalMessage', { type: success ? 'success' : 'error', message })
+        if (success) {
+          await api.user.updateEmail({
+            method: 'PUT', data: {
+              email
+            }
+          })
+            .then(({ success }) => {
+              if (success) {
+                commit('setCheckMail', false)
+              }
+            })
+        }
+      })
   }
 }
 export default actions

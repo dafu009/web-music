@@ -28,14 +28,20 @@
       span.title 描述
       textarea.input(v-model="info.introduction" rows="3" placeholder="请输入个人描述")
     .edit-item
+      span.title 邮箱
+      input.input.mail(v-model="info.email" placeholder="请输入可用邮箱")
+      input.checkInput(v-if="isCheckMail" v-model="checkCode" maxlength="6" @keyup="numberOnly" placeholder="验证码")
+      .send(@click="sendOrCheck" :class="{check: isCheckMail}") {{isCheckMail ? '校验' : '发送验证码'}}
+    .edit-item
       span.title 生日
       el-date-picker(
         v-model="info.birthday"
         placeholder="选择日期时间"
         type="datetime")
+      .btn.btn-primary.btn-ghost.btn-shine(@click="submit") 提交
     .edit-item
       span.title
-      .btn.btn-primary.btn-ghost.btn-shine(@click="submit") 提交
+      
 </template>
 <script lang="ts">
 import clone from 'lodash/cloneDeep'
@@ -61,11 +67,18 @@ export default class index extends Vue {
 
   @State((state: CONFIG) => state.userInfo) userInfo!: UserInfo
   @State((state: CONFIG) => state.globalEvent.isLogin) isLogin!: boolean
+  @State((state: CONFIG) => state.globalEvent.checkMail) isCheckMail!: boolean
+
   @Action('Update') Update!: Function
   @Action('setGlobalMessage') setGlobalMessage!: Function
+  @Action('sendMailCheckCode') sendMailCheckCode!: Function
+  @Action('checkMailCode') checkMailCode!: Function
+  
   private backTo: string = '个人中心'
   private info = {} as UserInfo
   private over: boolean = false
+  private checkCode: string = ''
+
 
   created() {
     if (!this.isLogin) {
@@ -74,26 +87,29 @@ export default class index extends Vue {
     }
     this.info = clone(this.userInfo)
   }
+  numberOnly () {
+    this.checkCode=this.checkCode.replace(/\D/g,'')
+  }
 
-  dragenter (e: DragEvent) {
+  dragenter(e: DragEvent) {
     e.preventDefault()
     this.over = true
   }
-  dragleave (e: DragEvent) {
+  dragleave(e: DragEvent) {
     e.preventDefault()
     this.over = false
   }
-  drop (e: any) {
+  drop(e: any) {
     e.preventDefault()
     this.over = false
     const file = e.dataTransfer.files[0]
     this.upload(file)
   }
 
-  triggerUpload () {
+  triggerUpload() {
     this.uploader.click()
   }
-  change (event: any) {
+  change(event: any) {
     const file = event.target.files[0]
     this.upload(file)
   }
@@ -123,7 +139,15 @@ export default class index extends Vue {
   goBack() {
     this.$router.go(-1)
   }
-  
+
+  async sendOrCheck() {
+    if (this.isCheckMail) {
+      await this.checkMailCode({ code: this.checkCode, email: this.info.email })
+    } else {
+      await this.sendMailCheckCode(this.info.email)
+    }
+  }
+
   async submit() {
     await this.Update(this.info)
     setTimeout(() => {
@@ -155,7 +179,7 @@ export default class index extends Vue {
           text-align: center;
           font-size: 18px;
           color: #fff;
-          background-color: rgba(0,0,0,0.5);
+          background-color: rgba(0, 0, 0, 0.5);
         }
         .hidden {
           display: none;
@@ -206,19 +230,20 @@ export default class index extends Vue {
       margin-top: 20px;
       display: flex;
       align-items: center;
+      width: 600px;
       .title {
         width: 50px;
         margin-right: 20px;
         text-align: right;
       }
       input.input {
-        width: 300px;
+        flex: 1;
         height: 40px;
       }
       textarea.input {
-        width: 300px
+        flex: 1;
       }
-      .input { 
+      .input {
         line-height: 40px;
         border: 1px solid #dcdfe6;
         padding: 0 10px;
@@ -228,11 +253,22 @@ export default class index extends Vue {
         line-height: 2;
       }
       .input:hover {
-        border-color: #c0c4cc
+        border-color: #c0c4cc;
       }
-      .input:focus {
+      input:focus {
         outline: none;
-        border-color: #409eff
+        border-color: #409eff;
+      }
+      .checkInput {
+        margin-left: 10px;
+        height: 40px;
+        line-height: 40px;
+        border: 1px solid #dcdfe6;
+        padding: 0 10px;
+        background-color: #fff;
+        color: #606266;
+        border-radius: 5px;
+        width: 50px;
       }
       .username {
         background-color: #ccc;
@@ -240,7 +276,12 @@ export default class index extends Vue {
       .username:hover {
         cursor: not-allowed;
       }
+      input.mail {
+        width: 220px;
+        transition: width 0.4s;
+      }
       .btn {
+        margin-left: 10px;
         --hue: 210;
         position: relative;
         width: 322px;
@@ -294,6 +335,25 @@ export default class index extends Vue {
             transform: translateX(100%);
           }
         }
+      }
+      .send {
+        cursor: pointer;
+        width: 100px;
+        height: 40px;
+        text-align: center;
+        line-height: 38px;
+        border-radius: 5px;
+        margin-left: 10px;
+        border: 1px solid #87c1fb;
+        background-color: #87c1fb;
+        color: #fff;
+      }
+      .check {
+        width: 70px;
+      }
+      .disable {
+        cursor: not-allowed;
+        background-color: #ccc;
       }
     }
   }

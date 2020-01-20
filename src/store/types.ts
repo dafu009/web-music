@@ -17,6 +17,7 @@ export interface UserInfo {
   phone: number
   token: string | null
   queryData: UserQuery
+  email: string
 }
 
 export interface CurrentMusic {
@@ -58,6 +59,7 @@ export interface GlobalEvent {
   message: Message
   randomImage: RandomImage
   confirmShow: boolean
+  checkMail: boolean
 }
 export interface Message {
   show: boolean

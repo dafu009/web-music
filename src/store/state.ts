@@ -10,6 +10,7 @@ const state: CONFIG = {
     createTime: '',
     phone: 0,
     birthday: '',
+    email: '',
     queryData: {
       exist: false,
       avatar: ''
@@ -67,7 +68,8 @@ const state: CONFIG = {
       path: '',
       rotate: 0
     },
-    confirmShow: false
+    confirmShow: false,
+    checkMail: false
   },
   album: {},
   rank: {

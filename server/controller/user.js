@@ -11,12 +11,11 @@ const SERVICE_LOST = 5000
 
 const getUser = async (username) => {
   return new Promise((resolve, reject) => {
-
-    User.findOne(
-      { username },
+    User.find(
+      { $or: [ { username }, { email: username } ] },
       (err, doc) => {
         if (err) reject(err)
-        resolve(doc)
+        resolve(doc[0])
       }
     )
   })
@@ -59,7 +58,8 @@ const GetUserInfo = async (ctx) => {
           createTime: doc.create_time,
           introduction: doc.introduction,
           phone: doc.phone,
-          birthday: doc.birthday
+          birthday: doc.birthday,
+          email: doc.email
         }
       }
     }
@@ -132,7 +132,8 @@ const Register = async (ctx) => {
     avatar: 'https://image.yy.com/yjmf/OGYyMDY2ZTItNTgzZS00NGQwLTg4ODItNTk0OGEyODg5YWI1.png',
     introduction: '',
     phone: 0,
-    birthday: ''
+    birthday: '',
+    email: ''
   })
   const doc = await getUser(user.username)
   if (doc) {
@@ -162,12 +163,41 @@ const Update = async (ctx) => {
   let tokenContent = null
   const token = ctx.get('Authorization')
   const { nickname, avatar, introduction, phone, birthday } = ctx.request.body
-  console.log(nickname)
   try {
     tokenContent = await JWT.verify(token, privateKey)
     User.update(
       { username: tokenContent.username },
       { $set: { nickname, avatar, introduction, phone, birthday } },
+      function (err, docs) {
+        if (err) console.log(err)
+        console.log('更改成功：' + docs)
+      }
+    )
+    ctx.status = 200
+    ctx.body = {
+      success: true,
+      code: 200,
+      message: '修改成功'
+    }
+  } catch (err) {
+    ctx.status = 200
+    ctx.body = {
+      success: false,
+      code: 200,
+      message: '修改失败'
+    }
+  }
+}
+
+const updateEmail = async (ctx) => {
+  let tokenContent = null
+  const token = ctx.get('Authorization')
+  const { email } = ctx.request.body
+  try {
+    tokenContent = await JWT.verify(token, privateKey)
+    User.update(
+      { username: tokenContent.username },
+      { $set: { email } },
       function (err, docs) {
         if (err) console.log(err)
         console.log('更改成功：' + docs)
@@ -224,5 +254,6 @@ module.exports = {
   queryUser,
   GetUserInfo,
   getUser,
-  Update
+  Update,
+  updateEmail
 }

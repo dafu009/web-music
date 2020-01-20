@@ -8,12 +8,14 @@ import mv from './mv'
 import rank from './rank'
 import oss from './oss'
 import image from './image'
+import mail from './mail'
 export default {
   mv,
   oss,
   user,
   song,
   rank,
+  mail,
   album,
   image,
   singer,
