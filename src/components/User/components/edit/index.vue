@@ -30,7 +30,7 @@
     .edit-item
       span.title 邮箱
       input.input.mail(v-model="info.email" placeholder="请输入可用邮箱")
-      input.checkInput(v-if="isCheckMail" v-model="checkCode" maxlength="6" @keyup="numberOnly" placeholder="验证码")
+      input.checkInput(ref="checkInput" v-if="isCheckMail" v-model="checkCode" maxlength="6" @keyup="numberOnly" placeholder="验证码")
       .send(@click="sendOrCheck" :class="{check: isCheckMail}") {{isCheckMail ? '校验' : '发送验证码'}}
     .edit-item
       span.title 生日
@@ -44,6 +44,7 @@
       
 </template>
 <script lang="ts">
+import '@/common/style/button.scss'
 import clone from 'lodash/cloneDeep'
 import 'element-ui/lib/theme-chalk/date-picker.css'
 import 'element-ui/lib/theme-chalk/button.css'
@@ -64,6 +65,7 @@ import OSS from 'ali-oss'
 })
 export default class index extends Vue {
   @Ref('uploader') readonly uploader!: HTMLInputElement
+  @Ref('checkInput') readonly checkInput!: HTMLInputElement
 
   @State((state: CONFIG) => state.userInfo) userInfo!: UserInfo
   @State((state: CONFIG) => state.globalEvent.isLogin) isLogin!: boolean
@@ -73,12 +75,11 @@ export default class index extends Vue {
   @Action('setGlobalMessage') setGlobalMessage!: Function
   @Action('sendMailCheckCode') sendMailCheckCode!: Function
   @Action('checkMailCode') checkMailCode!: Function
-  
+
   private backTo: string = '个人中心'
   private info = {} as UserInfo
   private over: boolean = false
   private checkCode: string = ''
-
 
   created() {
     if (!this.isLogin) {
@@ -87,8 +88,8 @@ export default class index extends Vue {
     }
     this.info = clone(this.userInfo)
   }
-  numberOnly () {
-    this.checkCode=this.checkCode.replace(/\D/g,'')
+  numberOnly() {
+    this.checkCode = this.checkCode.replace(/\D/g, '')
   }
 
   dragenter(e: DragEvent) {
@@ -143,8 +144,10 @@ export default class index extends Vue {
   async sendOrCheck() {
     if (this.isCheckMail) {
       await this.checkMailCode({ code: this.checkCode, email: this.info.email })
+      this.checkCode = ''
     } else {
       await this.sendMailCheckCode(this.info.email)
+      this.checkInput.focus()
     }
   }
 
@@ -280,62 +283,6 @@ export default class index extends Vue {
         width: 220px;
         transition: width 0.4s;
       }
-      .btn {
-        margin-left: 10px;
-        --hue: 210;
-        position: relative;
-        width: 322px;
-        height: 40px;
-        line-height: 38px;
-        font-size: 1rem;
-        text-decoration: none;
-        text-transform: uppercase;
-        border: 1px solid hsla(var(--hue), 89%, 65%, 0.8);
-        outline: transparent;
-        overflow: hidden;
-        cursor: pointer;
-        user-select: none;
-        white-space: nowrap;
-        transition: 0.25s;
-        border-radius: 20px;
-        text-align: center;
-
-        &-register {
-          --hue: 6;
-        }
-        &-ghost {
-          color: hsla(var(--hue), 89%, 65%, 0.8);
-          border-color: hsla(var(--hue), 89%, 65%, 0.8);
-        }
-
-        &-shine {
-          &::before {
-            position: absolute;
-            content: '';
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-              120deg,
-              transparent,
-              hsla(var(--hue), 89%, 65%, 0.8),
-              transparent
-            );
-            transform: translateX(-100%);
-            transition: 0.6s;
-          }
-
-          &:hover {
-            background: transparent;
-            box-shadow: 0 0 10px 10px hsla(var(--hue), 74%, 44%, 0.8);
-          }
-
-          &:hover::before {
-            transform: translateX(100%);
-          }
-        }
-      }
       .send {
         cursor: pointer;
         width: 100px;
@@ -354,6 +301,11 @@ export default class index extends Vue {
       .disable {
         cursor: not-allowed;
         background-color: #ccc;
+      }
+      .btn {
+        margin-left: 10px;
+        --hue: 210;
+        border-radius: 5px;
       }
     }
   }

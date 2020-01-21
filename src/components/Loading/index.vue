@@ -113,6 +113,7 @@ export default class index extends Vue {
   cursor: pointer;
   display: inline-block;
   height: 100px;
+  width: 100px;
   line-height: 80px;
   padding: 0 200px;
   border-top: 1px solid #e3e3e3;

@@ -33,7 +33,7 @@ const transmitMail = async (ctx) => {
   })
 
   let mailOptions = {
-    from: '"越粑粑丶"<563569293@qq.com>',
+    from: '"邮箱验证"<563569293@qq.com>',
     to: email,
     subject: '邮箱验证',
     html: HTML
@@ -69,7 +69,7 @@ const checkCode = async (ctx) => {
     ctx.status = 200
     ctx.body = {
       success: false,
-      message: '校验失败'
+      message: '校验失败,请重试'
     }
   }
 }

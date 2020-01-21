@@ -1,11 +1,12 @@
 <template lang="pug">
   .volume
-    .control(@mousedown="focus" @mouseup="blur")
+    .control(@mousedown="focus")
       span.iconfont &#xe6e3
       span.iconfont.mute(v-if="volume === 0") &#xe6e1
       transition(name="fade")
         .control-bar(ref="control" v-if="active")
           .progress-btn-wrap
+            .num {{ (volume * 100).toFixed(0) }}
             .progress-btn(ref="controlBtn")
 </template>
 <script lang="ts">
@@ -33,6 +34,9 @@ export default class VolumeControl extends Vue {
     this.firstPosition = e.clientY
     this.$nextTick(() => {
       this.control.addEventListener('mousemove', this.move)
+      document.onmouseup = () => {
+        this.blur()
+      }
     })
   }
   blur () {
@@ -49,7 +53,7 @@ export default class VolumeControl extends Vue {
     if (this.controlBtn) {
       this.controlBtn.style.top = `${this.movePosition}px`
     }
-    this.volume = Number(((100 - this.movePosition) / 100).toFixed(1))
+    this.volume = Number(((100 - this.movePosition) / 100).toFixed(2))
     this.change(this.volume)
   }
 }
@@ -83,6 +87,12 @@ export default class VolumeControl extends Vue {
         right: 15px;
         border-radius: 5px;
         background-color: rgba(0,0,0,0.5);
+        .num {
+          position: absolute;
+          top: -25px;
+          left: -4px;
+          color: #ecb3b2;
+        }
         .progress-btn {
           position: absolute;
           right: -2px;

@@ -14,6 +14,7 @@
             v-model="userForm.username"
             placeholder="请输入用户名完成登录/注册"
             @keyup="query"
+            @keyup.enter="submit"
             @focus="focus(1)"
             @blur="activeIndex = 0")
         .form(:class="{active: activeIndex === 2}")
@@ -23,6 +24,7 @@
             :type="inputType"
             v-model="userForm.password"
             placeholder="请输入密码"
+            @keyup.enter="submit"
             @focus="focus(2)"
             @blur="activeIndex = 0")
           transition(name="fade")
@@ -40,6 +42,7 @@
               v-model="userForm.checkPass"
               placeholder="确认密码"
               @keyup="checkSame"
+              @keyup.enter="submit"
               @focus="focus(3)"
               @blur="activeIndex = 0")
             transition(name="fade")
@@ -48,7 +51,7 @@
                 span.iconfont.invisible(v-else) &#xe7d0
       .btn.btn-primary.btn-ghost.btn-shine(
         :class="{'btn-register': checkPassword && !result.exist}"
-        @click="handel") {{ checkPassword && !result.exist ? '注册' : '登录' }}
+        @click="submit") {{ checkPassword && !result.exist ? '注册' : '登录' }}
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Ref, Watch } from 'vue-property-decorator'
@@ -174,7 +177,7 @@ export default class loginRegister extends Vue {
   __setMessage (type: 'success' | 'error' | 'warning', message: string) {
     this.setGlobalMessage({ type, message })
   }
-  handel () {
+  submit () {
     if (!this.userForm.username) {
       this.__setMessage('warning', '用户名不能为空')
       return

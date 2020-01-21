@@ -20,7 +20,6 @@ import { CONFIG } from '@/store/types'
     }
 })
 export default class search extends Vue {
-  @State((state: CONFIG) => state.globalEvent.recentlySearched) recentlySearched!: string
   private keywords: string = ''
   private isActive: boolean = false
   @Mutation('setSearchKeywords') setSearchKeywords!: Function

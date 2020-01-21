@@ -47,6 +47,8 @@ const actions: ActionTree<CONFIG, any> = {
           commit('setSingerList', artists)
           commit('setLoading', false)
           commit('setGlobalLoading', false)
+        } else {
+          dispatch('GetArtistList', { isTop, cat })
         }
       })
       .catch(() => {
@@ -95,7 +97,7 @@ const actions: ActionTree<CONFIG, any> = {
         }
       })
       .catch(() => {
-        dispatch('GetCurrentMusic', obj.item)
+        dispatch('GetCurrentMusic', obj)
       })
   },
   async getCurrentMv ({ commit, dispatch }, { id, name, artistName, cover }) {
@@ -415,12 +417,8 @@ const actions: ActionTree<CONFIG, any> = {
               email
             }
           })
-            .then(({ success }) => {
-              if (success) {
-                commit('setCheckMail', false)
-              }
-            })
         }
+        commit('setCheckMail', false)
       })
   }
 }
