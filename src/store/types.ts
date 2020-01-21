@@ -64,6 +64,7 @@ export interface GlobalEvent {
   randomImage: RandomImage
   confirmShow: boolean
   checkMail: boolean
+  isForgot: boolean
 }
 export interface Message {
   show: boolean

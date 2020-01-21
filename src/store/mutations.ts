@@ -215,6 +215,9 @@ const mutations: MutationTree<CONFIG> = {
   },
   setCheckMail (state: CONFIG, value: boolean) {
     state.globalEvent.checkMail = value
+  },
+  setIsForget (state: CONFIG, value: boolean) {
+    state.globalEvent.isForgot = value
   }
 }
 

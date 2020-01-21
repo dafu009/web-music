@@ -31,6 +31,7 @@
             .operation(@click="changeVisible")
               span.iconfont.visible(v-if="visible") &#xe61b
               span.iconfont.invisible(v-else) &#xe7d0
+          .forget(@click="forgetPass" v-if="isForget") 忘记密码？
         transition(name="fade")
           .form(
             v-if="checkPassword && !result.exist"
@@ -68,6 +69,7 @@ export default class loginRegister extends Vue {
   @State((state: CONFIG) => state.userInfo) UserInfo!: UserInfo
   @State((state: CONFIG) => state.globalEvent.checkPass.success) checkSuccess!: boolean
   @State(state => state.globalEvent.playList) playList!: CurrentMusic[]
+  @State((state: CONFIG) => state.globalEvent.isForgot) isForget!: boolean
 
   @Mutation('setCheckShow') setCheckShow!: Function
   @Action('setGlobalMessage') setGlobalMessage!: Function
@@ -177,6 +179,9 @@ export default class loginRegister extends Vue {
   __setMessage (type: 'success' | 'error' | 'warning', message: string) {
     this.setGlobalMessage({ type, message })
   }
+  forgetPass() {
+    this.$router.push('/user/forget-pass')
+  }
   submit () {
     if (!this.userForm.username) {
       this.__setMessage('warning', '用户名不能为空')
@@ -248,6 +253,17 @@ export default class loginRegister extends Vue {
           border: 2px solid #717171;
           background:#F9F0DA;
           position: relative;
+          .forget {
+            cursor: pointer;
+            position: absolute;
+            right: 0;
+            bottom: -35px;
+            font-size: 13px;
+            color: #585858;
+          }
+          .forget:hover {
+            color: #fff;
+          }
           .iconfont {
             padding: 0 10px;
             font-size: 24px;

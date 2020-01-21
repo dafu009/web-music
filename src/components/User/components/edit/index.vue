@@ -20,7 +20,7 @@
     .tips tips: 单击头像/拖拽图片至头像处进行上传
     .edit-item
       span.title 用户名
-      input.input.username(v-model="info.username" :disabled="true")
+      span.username {{info.username }}
     .edit-item
       span.title 昵称
       input.input(v-model="info.nickname" placeholder="请输入昵称" )
@@ -75,6 +75,7 @@ export default class index extends Vue {
   @Action('setGlobalMessage') setGlobalMessage!: Function
   @Action('sendMailCheckCode') sendMailCheckCode!: Function
   @Action('checkMailCode') checkMailCode!: Function
+  @Action('upDateEmail') upDateEmail!: Function
 
   private backTo: string = '个人中心'
   private info = {} as UserInfo
@@ -143,7 +144,12 @@ export default class index extends Vue {
 
   async sendOrCheck() {
     if (this.isCheckMail) {
-      await this.checkMailCode({ code: this.checkCode, email: this.info.email })
+      await this.checkMailCode(this.checkCode)
+        .then((success: boolean) => {
+          if (success) {
+            this.upDateEmail(this.info.email)
+          }
+        })
       this.checkCode = ''
     } else {
       await this.sendMailCheckCode(this.info.email)
@@ -263,6 +269,7 @@ export default class index extends Vue {
         border-color: #409eff;
       }
       .checkInput {
+        text-align: center;
         margin-left: 10px;
         height: 40px;
         line-height: 40px;
@@ -274,7 +281,7 @@ export default class index extends Vue {
         width: 50px;
       }
       .username {
-        background-color: #ccc;
+        color: #5d5d5d;
       }
       .username:hover {
         cursor: not-allowed;

@@ -278,8 +278,10 @@ const actions: ActionTree<CONFIG, any> = {
   },
 
   async queryUser ({ commit, dispatch }, username: string) {
+    let isExist: boolean = false
     await api.user.queryUser({ params: { username } })
       .then(({ success, data, exist }) => {
+        isExist = exist
         if (success) {
           commit('setUserQueryData', { ...data, exist })
         }
@@ -287,6 +289,7 @@ const actions: ActionTree<CONFIG, any> = {
       .catch(() => {
         dispatch('queryUser', username)
       })
+    return isExist
   },
   async Register ({ commit }, data) {
     let rst = {
@@ -321,7 +324,10 @@ const actions: ActionTree<CONFIG, any> = {
       .then(({ token, success, message }) => {
         if (success) {
           commit('setToken', token)
+          commit('setIsForget', false)
           dispatch('getLoginStatus')
+        } else {
+          commit('setIsForget', true)
         }
         rst.type = success ? 'success' : 'error'
         rst.message = message
@@ -402,7 +408,8 @@ const actions: ActionTree<CONFIG, any> = {
       })
       .catch(() => { })
   },
-  async checkMailCode ({ commit, dispatch }, { code, email }) {
+  async checkMailCode ({ commit, dispatch }, code) {
+    let isPass: boolean = false
     await api.mail.checkMailCode({
       method: 'POST',
       data: {
@@ -411,15 +418,18 @@ const actions: ActionTree<CONFIG, any> = {
     })
       .then(async ({ success, message }) => {
         dispatch('setGlobalMessage', { type: success ? 'success' : 'error', message })
-        if (success) {
-          await api.user.updateEmail({
-            method: 'PUT', data: {
-              email
-            }
-          })
-        }
         commit('setCheckMail', false)
+        isPass = success
       })
+    return isPass
+  },
+  async upDateEmail ({ commit }, email: string) {
+    await api.user.updateEmail({
+      method: 'PUT',
+      data: {
+        email
+      }
+    })
   }
 }
 export default actions

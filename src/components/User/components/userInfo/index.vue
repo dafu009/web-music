@@ -5,7 +5,7 @@
     .info
       .item.nickname 昵称： {{ userInfo.nickname }}
       .item.desc 个人描述： {{ userInfo.introduction ? userInfo.introduction : '这个人很懒，什么也没留下' }}
-      .item.birthday 邮箱：{{ userInfo.email }} (可作为登录账号)
+      .item.birthday 邮箱：{{ userInfo.email }} (可作为登录账号)(可用于找回密码)
       .item.birthday 生日：{{ userInfo.birthday | formatDate }}
       .item.createTime 创建日期：{{ userInfo.createTime | formatDate }}
     .operate

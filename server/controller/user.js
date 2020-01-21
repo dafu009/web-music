@@ -12,7 +12,7 @@ const SERVICE_LOST = 5000
 const getUser = async (username) => {
   return new Promise((resolve, reject) => {
     User.find(
-      { $or: [ { username }, { email: username } ] },
+      { $or: [{ username }, { email: username }] },
       (err, doc) => {
         if (err) reject(err)
         resolve(doc[0])
@@ -189,6 +189,25 @@ const Update = async (ctx) => {
   }
 }
 
+const updatePasswprd = async (ctx) => {
+  const { email, password } = ctx.request.body
+  const doc = await getUser(email)
+  User.update(
+    { username: doc.username },
+    { $set: { password } },
+    function (err, docs) {
+      if (err) console.log(err)
+      console.log('修改成功：' + docs)
+    }
+  )
+  ctx.status = 200
+  ctx.body = {
+    success: true,
+    code: 200,
+    message: '修改成功'
+  }
+}
+
 const updateEmail = async (ctx) => {
   let tokenContent = null
   const token = ctx.get('Authorization')
@@ -255,5 +274,6 @@ module.exports = {
   GetUserInfo,
   getUser,
   Update,
-  updateEmail
+  updateEmail,
+  updatePasswprd
 }

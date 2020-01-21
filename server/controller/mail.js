@@ -20,15 +20,16 @@ let transporter = nodemailer.createTransport({
     pass: 'nvawuwxfmnjgbehe'
   }
 })
-const template = ejs.compile(fs.readFileSync(path.resolve(__dirname, '../mail-template/email.ejs'), 'utf-8'))
+
 
 const transmitMail = async (ctx) => {
   const { email } = ctx.request.body
   VerificationCode = RandomNum(100000, 999999)
-
+  const template = ejs.compile(fs.readFileSync(path.resolve(__dirname, '../mail-template/email.ejs'), 'utf-8'))
+  
   const HTML = template({
     title: '越粑粑丶',
-    desc: '使用Ejs渲染模板',
+    desc: '验证码为：',
     code: VerificationCode
   })
 
@@ -38,7 +39,6 @@ const transmitMail = async (ctx) => {
     subject: '邮箱验证',
     html: HTML
   }
-  console.log(mailOptions)
   try {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {

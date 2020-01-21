@@ -72,7 +72,8 @@ const state: CONFIG = {
       rotate: 0
     },
     confirmShow: false,
-    checkMail: false
+    checkMail: false,
+    isForgot: false
   },
   album: {},
   rank: {

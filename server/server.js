@@ -37,6 +37,10 @@ upDateRouter.put('/update', UserController.Update)
 const updateEmail = new Router()
 updateEmail.put('/updateEmail', UserController.updateEmail)
 
+// 修改密码
+const updatePasswprd = new Router()
+updatePasswprd.put('/updatePasswprd', UserController.updatePasswprd)
+
 // 用户是否存在查询
 const queryUserRouter = new Router()
 queryUserRouter.get('/queryUser', UserController.queryUser)
@@ -118,8 +122,10 @@ router.use(
 router.use(
   '/api',
   updateEmail.routes(),
-  updateEmail.allowedMethods()
-)
+  updateEmail.allowedMethods(),
+  updatePasswprd.routes(),
+  updatePasswprd.allowedMethods()
+) 
 // koa加载路由中间件
 app.use(router.routes())
   .use(router.allowedMethods())
