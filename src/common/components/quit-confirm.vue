@@ -3,7 +3,7 @@ transition(name="fade")
   .confirm-wrap(v-if="confirmShow")
     .confirm
       .close(@click.stop="close")
-        span.iconfont &#xe6dc
+        span.iconfont &#xe69f
       .title 是否确认退出?
       .options
         .item.cancel(@click.stop="close") 取消
@@ -67,13 +67,13 @@ export default class confitm extends Vue {
     }
     .options{
       width: 100%;
-      height: 65px;
+      height:55px;
       display: flex;
       .item {
         flex: 1;
         cursor: pointer;
         text-align: center;
-        line-height: 65px;
+        line-height:55px;
         color: #fff;
         font-weight: 600;
         font-size: 16px;

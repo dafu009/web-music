@@ -24,7 +24,7 @@
                   p.album-name {{ item.al.name }}
                 .operating
                   .operating_item.add(@click="add(item)")
-                    span.iconfont &#xe6a0
+                    span.iconfont &#xe6a1
                   .operating_item.play(@click="play(item)")
                     span.iconfont &#xe6a2
                 transition(name="fade")

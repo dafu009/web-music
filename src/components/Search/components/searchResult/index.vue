@@ -41,7 +41,7 @@ export default class searchResult extends Vue {
     {
       title: '歌曲',
       name: 'songs',
-      icon: 'icon-Music'
+      icon: 'icon-icon-test'
     },
     {
       title: '专辑',
@@ -51,17 +51,17 @@ export default class searchResult extends Vue {
     {
       title: '歌手',
       name: 'artists',
-      icon: 'icon-personal'
+      icon: 'icon-geren_rend'
     },
     {
       title: '歌单',
       name: 'playLists',
-      icon: 'icon-SongListgedan'
+      icon: 'icon-gedan'
     },
     {
       title: 'MV',
       name: 'mvs',
-      icon: 'icon-MV'
+      icon: 'icon-mv'
     }
   ]
   private currentName: string = 'songs'

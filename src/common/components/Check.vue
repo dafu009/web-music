@@ -3,7 +3,7 @@ transition(name="fade")
   .mask(v-if="checkShow")
     .check-wrap(@click.stop)
       .close(@click="close")
-        span.iconfont &#xe6dc
+        span.iconfont &#xe69f
       .check-content
         p.tip.tip-info-1 身份验证
         p.tip.tip-info-2 拖动滑块，使图片角度为正
@@ -11,13 +11,13 @@ transition(name="fade")
           img(v-lazy="randomImage" :style="{transform: randomRotate}" @error="imageError")
           .status(v-if="statusShow")
             .icon.success(v-if="checkSuccess")
-              span.iconfont &#xe605
+              span.iconfont &#xe61c
             .icon.error(v-if="checkFail")
-              span.iconfont &#xe6dc
+              span.iconfont &#xe69f
         .contorl(:class="{ failed: checkFail, successed: checkSuccess }")
           .button(ref="contorl" @mousedown="downEvent" :style="{ transform: translateX }")
             p.icon
-              span.iconfont &#xeb09
+              span.iconfont &#xe61a
 </template>
 <script lang="ts">
 import { Component, Vue, Prop, Watch } from 'vue-property-decorator'

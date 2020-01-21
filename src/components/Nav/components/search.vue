@@ -1,6 +1,6 @@
 <template lang="pug">
 .searchForm(:class="{'active': isActive}")
-  span.submit.iconfont(@click="search") &#xe6e2
+  span.submit.iconfont(@click="search") &#xe67c
   input.input(
     clearable
     type="text"
@@ -15,9 +15,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Action, State, Mutation } from 'vuex-class'
 import { CONFIG } from '@/store/types'
 @Component({
-    components: {
-        
-    }
+  components: {}
 })
 export default class search extends Vue {
   private keywords: string = ''
@@ -59,7 +57,7 @@ export default class search extends Vue {
   background:#F9F0DA;
   .submit {
     padding: 0 12px;
-    font-size: 30px;
+    font-size: 23px;
     vertical-align: top;
     cursor: pointer;
     color: #717171;

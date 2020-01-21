@@ -12,7 +12,7 @@ transition(name="fade")
           p.singer {{ currentMusic.artist }}
       .contorl
         p.prev(@click.stop="prev")
-          span.iconfont &#xe69f
+          span.iconfont &#xe6a0
         p.play(@click.stop="play")
           transition(name="fade")
             span.iconfont(v-if="GlobalPlaying") &#xe69e

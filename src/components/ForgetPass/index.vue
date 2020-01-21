@@ -5,7 +5,7 @@
     .main(:class="{fill: resetPassPart}")
       .title 忘记密码
       .form(v-if="!resetPassPart")
-        span.iconfont &#xe652
+        span.iconfont &#xe610
         input.input(
           clearable
           v-model="EMail"
@@ -26,7 +26,7 @@
       transition(name="fade")
         .resetPass(v-if="resetPassPart")
           .form
-            span.iconfont &#xe616
+            span.iconfont &#xe644
             input.input(
               clearable
               :type="inputType"
@@ -35,10 +35,10 @@
               @keyup.enter="submit")
             transition(name="fade")
               .operation(@click="changeVisible")
-                span.iconfont.visible(v-if="visible") &#xe61b
-                span.iconfont.invisible(v-else) &#xe7d0
+                span.iconfont.visible(v-if="visible") &#xe633
+                span.iconfont.invisible(v-else) &#xe634
           .form
-            span.iconfont &#xe627
+            span.iconfont &#xe607
             input.input(
               clearable
               :type="inputType"
@@ -48,8 +48,8 @@
               @keyup.enter="submit")
             transition(name="fade")
               .operation(@click="changeVisible")
-                span.iconfont.visible(v-if="visible") &#xe61b
-                span.iconfont.invisible(v-else) &#xe7d0
+                span.iconfont.visible(v-if="visible") &#xe633
+                span.iconfont.invisible(v-else) &#xe634
           .submit.btn.btn-primary.btn-ghost.btn-shine(@click="submit") 提交
 </template>
 <script lang="ts">
@@ -258,9 +258,6 @@ export default class index extends Vue {
             position: absolute;
             top: 0;
             right: 0;
-          }
-          .invisible {
-            top: 4px
           }
         }
         .checkInput {

@@ -3,8 +3,8 @@ transition(name="fade")
   .message(v-if="message.show" :class="message.type")
     .type
       span.iconfont(v-if="message.type === 'error'") &#xe8ac
-      span.iconfont(v-if="message.type === 'success'") &#xe63e
-      span.iconfont(v-if="message.type === 'warning'") &#xe620
+      span.iconfont(v-if="message.type === 'success'") &#xe674
+      span.iconfont(v-if="message.type === 'warning'") &#xe716
     .text {{ message.message }}
 </template>
 <script lang="ts">

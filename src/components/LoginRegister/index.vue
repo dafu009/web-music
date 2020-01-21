@@ -7,7 +7,7 @@
         img.default(v-else src="http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/default-avatar.png")
       .form-wrap
         .form(:class="{active: activeIndex === 1}")
-          span.iconfont &#xe652
+          span.iconfont &#xe501
           input.input(
             clearable
             type="text"
@@ -18,7 +18,7 @@
             @focus="focus(1)"
             @blur="activeIndex = 0")
         .form(:class="{active: activeIndex === 2}")
-          span.iconfont &#xe616
+          span.iconfont &#xe644
           input.input(
             clearable
             :type="inputType"
@@ -29,14 +29,14 @@
             @blur="activeIndex = 0")
           transition(name="fade")
             .operation(@click="changeVisible")
-              span.iconfont.visible(v-if="visible") &#xe61b
-              span.iconfont.invisible(v-else) &#xe7d0
+              span.iconfont.visible(v-if="visible") &#xe633
+              span.iconfont.invisible(v-else) &#xe634
           .forget(@click="forgetPass" v-if="isForget") 忘记密码？
         transition(name="fade")
           .form(
             v-if="checkPassword && !result.exist"
             :class="{active: activeIndex === 3}")
-            span.iconfont &#xe627
+            span.iconfont &#xe607
             input.input(
               clearable
               :type="inputType"
@@ -48,8 +48,8 @@
               @blur="activeIndex = 0")
             transition(name="fade")
               .operation(@click="changeVisible")
-                span.iconfont.visible(v-if="visible") &#xe61b
-                span.iconfont.invisible(v-else) &#xe7d0
+                span.iconfont.visible(v-if="visible") &#xe633
+                span.iconfont.invisible(v-else) &#xe634
       .btn.btn-primary.btn-ghost.btn-shine(
         :class="{'btn-register': checkPassword && !result.exist}"
         @click="submit") {{ checkPassword && !result.exist ? '注册' : '登录' }}
@@ -291,9 +291,6 @@ export default class loginRegister extends Vue {
               position: absolute;
               top: 0;
               right: 0;
-            }
-            .invisible {
-              top: 4px
             }
           }
         }

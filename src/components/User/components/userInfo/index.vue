@@ -3,17 +3,27 @@
     .avatar
       img(v-lazy="userInfo.avatar" alt="头像")
     .info
-      .item.nickname 昵称： {{ userInfo.nickname }}
-      .item.desc 个人描述： {{ userInfo.introduction ? userInfo.introduction : '这个人很懒，什么也没留下' }}
-      .item.birthday 邮箱：{{ userInfo.email }} (可作为登录账号)(可用于找回密码)
-      .item.birthday 生日：{{ userInfo.birthday | formatDate }}
-      .item.createTime 创建日期：{{ userInfo.createTime | formatDate }}
+      .item.nickname 
+        span.iconfont &#xe511
+        span {{ userInfo.nickname }}
+      .item.desc 
+        span.iconfont &#xe62a
+        span {{ userInfo.introduction ? userInfo.introduction : '这个人很懒，什么也没留下' }}
+      .item.birthday 
+        span.iconfont &#xe610
+        span {{ userInfo.email }} (可作为登录账号)(可用于找回密码)
+      .item.birthday 
+        span.iconfont &#xe620
+        span {{ userInfo.birthday | formatDate }}
+      .item.createTime 
+        span.iconfont &#xe68c
+        span {{ userInfo.createTime | formatDate }}
     .operate
       .item.quit(@click="quit")
-        span.iconfont &#xe61d
+        span.iconfont &#xe692
         span 退出
       .item.edit(@click="edit")
-        span.iconfont &#xe639
+        span.iconfont &#xe613
         span 编辑信息
 </template>
 <script lang="ts">
@@ -64,19 +74,20 @@ export default class user extends Vue {
     flex: 1;
     .item {
       padding: 5px;
+      span {
+        vertical-align: middle;
+        color: #595959;
+      }
+      .iconfont {
+        font-size: 24px;
+        margin-right: 10px;
+      }
     }
     .nickname {
       font-size: 24px;
     }
     .desc {
-      color: #595959;
       max-width: 700px;
-    }
-    .birthday {
-      color: #595959;
-    }
-    .createTime {
-      color: #595959;
     }
   }
   .operate {

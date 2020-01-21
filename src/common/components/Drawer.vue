@@ -5,7 +5,7 @@
     .maincontent(v-if="drawerShow")
       .header
         span.title 播放列表
-        span.iconfont.close(@click.stop="close" title="关闭") &#xe6dc
+        span.iconfont.close(@click.stop="close" title="关闭") &#xe69f
       .content-wrap
         slot
 </template>

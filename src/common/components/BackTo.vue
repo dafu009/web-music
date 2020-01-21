@@ -1,7 +1,7 @@
 <template lang="pug">
   .back-to
     .back(@click="back")
-      span.iconfont &#xe611
+      span.iconfont &#xe612
       .txt 返回
     .title {{ title }}
 </template>
