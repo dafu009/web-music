@@ -81,8 +81,7 @@ const GetUserInfo = async (ctx) => {
 
 // 登录
 const Login = async (ctx) => {
-  const username = ctx.request.body.username
-  const password = sha1(ctx.request.body.password)
+  const { username, password } = ctx.request.body
   const doc = await getUser(username)
 
   if (!doc) {
@@ -123,10 +122,11 @@ const Login = async (ctx) => {
 
 // 注册
 const Register = async (ctx) => {
+  const { username, password } = ctx.request.body
   let user = new User({
-    username: ctx.request.body.username,
-    nickname: ctx.request.body.username,
-    password: sha1(ctx.request.body.password),
+    username,
+    password,
+    nickname: username,
     token: createToken(this.username),
     create_time: new Date(),  // 十位时间戳
     avatar: 'https://image.yy.com/yjmf/OGYyMDY2ZTItNTgzZS00NGQwLTg4ODItNTk0OGEyODg5YWI1.png',

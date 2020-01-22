@@ -34,3 +34,8 @@ declare module 'vue-core-image-upload' {
   const VueCoreImageUpload: any
   export default VueCoreImageUpload 
 }
+
+declare module 'sha1' {
+  const sha1: any
+  export default sha1
+}

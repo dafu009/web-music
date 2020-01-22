@@ -61,6 +61,7 @@ import { Action, State, Mutation } from 'vuex-class'
 import { CONFIG, UserQuery, UserInfo, CurrentMusic } from '@/store/types'
 import { RST } from '@/common/ts/config'
 import debounce from 'lodash/debounce'
+import sha1 from 'sha1'
 @Component({
   components: {}
 })
@@ -150,7 +151,7 @@ export default class loginRegister extends Vue {
   async userLogin () {
     await this.Login({
       username: this.userForm.username,
-      password: this.userForm.password
+      password: sha1(this.userForm.password)
     }).then(({ type, success, message }: RST) => {
       this.__setMessage(type, message)
       if (success) {
@@ -166,7 +167,7 @@ export default class loginRegister extends Vue {
   async userRegister() {
     await this.Register({ 
       username: this.userForm.username,
-      password: this.userForm.password
+      password: sha1(this.userForm.password)
     }).then(({ type, success, message }: RST) => {
       this.__setMessage(type, message)
       if (success) {
