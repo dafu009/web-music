@@ -7,7 +7,7 @@
         .name 《 {{playListDetail.name}} 》
         .desc {{playListDetail.desc}}
     ul.tags
-      span.iconfont &#xe610
+      span.iconfont &#xe648
       li.item(v-for="(item, index) in playListDetail.tags") {{ item }}  
       play-all.all(:allSongList="playListDetail.tracks")
     .list(ref="wrapper")

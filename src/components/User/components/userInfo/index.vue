@@ -20,7 +20,7 @@
         span {{ userInfo.createTime | formatDate }}
     .operate
       .item.quit(@click="quit")
-        span.iconfont &#xe692
+        span.iconfont &#xe764
         span 退出
       .item.edit(@click="edit")
         span.iconfont &#xe613
