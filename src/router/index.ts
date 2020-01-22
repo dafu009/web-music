@@ -91,9 +91,9 @@ const routes = [
         component: () => import('@/components/LoginRegister/index.vue')
       },
       {
-        path: 'forget-pass',
-        name: 'forgetPass',
-        component: () => import('@/components/ForgetPass/index.vue')
+        path: 'change-password',
+        name: 'changePassword',
+        component: () => import('@/components/changePassword/index.vue')
       },
       {
         path: 'edit',

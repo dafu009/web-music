@@ -1,9 +1,9 @@
 <template lang="pug">
 .forget-pass
-  back-to(:title="'登录'" @back="goBack")
+  back-to(:title="title" @back="goBack")
   .wrapper
     .main(:class="{fill: resetPassPart}")
-      .title 忘记密码
+      .title {{ subTitle }}
       .form(v-if="!resetPassPart")
         span.iconfont &#xe610
         input.input(
@@ -85,6 +85,9 @@ export default class index extends Vue {
   private checkCode: string  = ''
   private EMail: string = ''
   private resetPassPart: boolean = false
+  private title: string = ''
+  private subTitle: string = ''
+
   private passwordForm = {
     password: '',
     checkPass: ''
@@ -112,6 +115,24 @@ export default class index extends Vue {
     }
   }
 
+  beforeRouteEnter(to: any, from: any, next: Function): void {
+    next((vm: Vue) => {
+      let title = ''
+      let subTitle = ''
+      switch(from.name) {
+        case 'loginRegister':
+          title = '登录'
+          subTitle = '忘记密码'
+          break
+        case 'edit':
+          title = '个人中心'
+          subTitle = '修改密码'
+          break
+      }
+      vm.$data.title = title
+      vm.$data.subTitle = subTitle
+    })
+  }
   created () {
     this.query = debounce(this.query, 1000)
     this.checkSame = debounce(this.checkSame, 1000)

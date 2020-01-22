@@ -6,9 +6,10 @@ import VueLazyLoad from 'vue-lazyload'
 import VueDrawerLayout from 'vue-drawer-layout'
 import Component from 'vue-class-component'
 import 'assets/css/iconfont.css'
-import { DatePicker, Switch, Input } from 'element-ui'
+import { DatePicker, Switch, Input, Button } from 'element-ui'
 Vue.use(Input)
 Vue.use(Switch)
+Vue.use(Button)
 Vue.use(DatePicker)
 Vue.use(VueDrawerLayout)
 Vue.use(VueLazyLoad, {

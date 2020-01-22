@@ -181,7 +181,7 @@ export default class loginRegister extends Vue {
     this.setGlobalMessage({ type, message })
   }
   forgetPass() {
-    this.$router.push('/user/forget-pass')
+    this.$router.push('/user/change-password')
   }
   submit () {
     if (!this.userForm.username) {

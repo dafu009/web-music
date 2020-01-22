@@ -9,7 +9,7 @@
       .item.desc 
         span.iconfont &#xe62a
         span {{ userInfo.introduction ? userInfo.introduction : '这个人很懒，什么也没留下' }}
-      .item.birthday 
+      .item.email
         span.iconfont &#xe610
         span {{ userInfo.email }} (可作为登录账号)(可用于找回密码)
       .item.birthday 

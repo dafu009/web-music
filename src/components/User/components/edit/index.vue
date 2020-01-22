@@ -21,17 +21,20 @@
     .edit-item
       span.title 用户名
       span.username {{info.username }}
+      el-button.changePassword(@click="changePass" size="small") 修改密码
     .edit-item
       span.title 昵称
-      input.input(v-model="info.nickname" placeholder="请输入昵称" )
+      el-input.input(v-model="info.nickname" placeholder="请输入昵称" )
     .edit-item
       span.title 描述
-      textarea.input(v-model="info.introduction" rows="3" placeholder="请输入个人描述")
+      el-input.input(type="textarea" v-model="info.introduction" rows="3" placeholder="请输入个人描述")
     .edit-item
       span.title 邮箱
-      input.input.mail(v-model="info.email" placeholder="请输入可用邮箱")
-      input.checkInput(ref="checkInput" v-if="isCheckMail" v-model="checkCode" maxlength="6" @keyup="numberOnly" placeholder="验证码")
-      .send(@click="sendOrCheck" :class="{check: isCheckMail}") {{isCheckMail ? '校验' : '发送验证码'}}
+      .switch
+        el-switch(v-model="switchValue")
+      el-input.input.mail(v-model="info.email" :disabled="!switchValue" style="cursor: not-allowed" placeholder="请输入可用邮箱")
+      el-input.checkInput(ref="checkInput" v-if="isCheckMail" v-model="checkCode" maxlength="6" @keyup="numberOnly" placeholder="验证码")
+      el-button.send(@click="sendOrCheck" :disabled="!switchValue" type="primary" :class="{check: isCheckMail}") {{ isCheckMail ? '校验' : '发送验证码' }}
     .edit-item
       span.title 生日
       el-date-picker(
@@ -39,16 +42,16 @@
         placeholder="选择日期时间"
         type="datetime")
       .btn.btn-primary.btn-ghost.btn-shine(@click="submit") 提交
-    .edit-item
-      span.title
       
 </template>
 <script lang="ts">
-import '@/common/style/button.scss'
 import clone from 'lodash/cloneDeep'
+import '@/common/style/button.scss'
 import 'element-ui/lib/theme-chalk/date-picker.css'
 import 'element-ui/lib/theme-chalk/button.css'
 import 'element-ui/lib/theme-chalk/icon.css'
+import 'element-ui/lib/theme-chalk/input.css'
+import 'element-ui/lib/theme-chalk/switch.css'
 
 import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
 import BackTo from '@/common/components/BackTo.vue'
@@ -57,6 +60,7 @@ import { CONFIG, UserInfo } from '@/store/types'
 import { createOnlyId } from '@/common/ts/common'
 import api from '@/api'
 import OSS from 'ali-oss'
+import router from '../../../../router/index';
 
 @Component({
   components: {
@@ -81,6 +85,13 @@ export default class index extends Vue {
   private info = {} as UserInfo
   private over: boolean = false
   private checkCode: string = ''
+  private switchValue: boolean = false
+
+  beforeRouteEnter(to: any, from: any, next: Function): void {
+    next((vm: Vue) => {
+      vm.$data.switchValue = false
+    })
+  }
 
   created() {
     if (!this.isLogin) {
@@ -163,6 +174,10 @@ export default class index extends Vue {
       this.$router.go(-1)
     }, 500)
   }
+
+  changePass () {
+    this.$router.push('/user/change-password')
+  }
 }
 </script>
 <style lang="scss">
@@ -239,68 +254,46 @@ export default class index extends Vue {
       margin-top: 20px;
       display: flex;
       align-items: center;
-      width: 600px;
+      width: 650px;
+      position: relative;
       .title {
         width: 50px;
         margin-right: 20px;
         text-align: right;
+        flex-shrink: 0;
       }
-      input.input {
-        flex: 1;
-        height: 40px;
+      .switch {
+        position: absolute;
+        top: 6px;
+        left: 80px;
+        z-index: 9;
       }
-      textarea.input {
-        flex: 1;
-      }
-      .input {
-        line-height: 40px;
-        border: 1px solid #dcdfe6;
-        padding: 0 10px;
-        background-color: #fff;
-        color: #606266;
-        border-radius: 5px;
-        line-height: 2;
-      }
-      .input:hover {
-        border-color: #c0c4cc;
-      }
-      input:focus {
-        outline: none;
-        border-color: #409eff;
-      }
-      .checkInput {
-        text-align: center;
-        margin-left: 10px;
-        height: 40px;
-        line-height: 40px;
-        border: 1px solid #dcdfe6;
-        padding: 0 10px;
-        background-color: #fff;
-        color: #606266;
-        border-radius: 5px;
-        width: 50px;
+      .mail {
+        input {
+          padding-left: 60px;
+        }
       }
       .username {
-        color: #5d5d5d;
+        color: #9c9c9c;
       }
       .username:hover {
         cursor: not-allowed;
       }
-      input.mail {
-        width: 220px;
-        transition: width 0.4s;
+      .changePassword {
+        margin-left: 10px;
+      }
+      .checkInput {
+        width: 80px;
+        flex-shrink: 0;
+        margin-left: 10px;
+        input {
+          text-align: center;
+        }
       }
       .send {
-        cursor: pointer;
-        width: 100px;
-        height: 40px;
-        text-align: center;
-        line-height: 38px;
-        border-radius: 5px;
+        flex-shrink: 0;
+        width: 112px;
         margin-left: 10px;
-        border: 1px solid #87c1fb;
-        background-color: #87c1fb;
-        color: #fff;
       }
       .check {
         width: 70px;
@@ -310,6 +303,7 @@ export default class index extends Vue {
         background-color: #ccc;
       }
       .btn {
+        flex: 1;
         margin-left: 10px;
         --hue: 210;
         border-radius: 5px;
