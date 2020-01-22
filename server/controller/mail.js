@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer')
 const ejs = require('ejs')
 const fs = require('fs')
 const path = require('path')
-
+const { getUser } = require('./user')
 function RandomNum (Min, Max) {
   let Range = Max - Min
   let Rand = Math.random()
@@ -24,12 +24,13 @@ let transporter = nodemailer.createTransport({
 
 const transmitMail = async (ctx) => {
   const { email } = ctx.request.body
+  const { nickname, avatar } = await getUser(email)
   VerificationCode = RandomNum(100000, 999999)
   const template = ejs.compile(fs.readFileSync(path.resolve(__dirname, '../mail-template/email.ejs'), 'utf-8'))
   
   const HTML = template({
-    title: '越粑粑丶',
-    desc: '验证码为：',
+    nickname,
+    avatar,
     code: VerificationCode
   })
 
@@ -39,6 +40,7 @@ const transmitMail = async (ctx) => {
     subject: '邮箱验证',
     html: HTML
   }
+  console.log(HTML)
   try {
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
