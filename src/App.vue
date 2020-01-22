@@ -18,7 +18,7 @@
       @slide-end="handleSlideEnd"
       toggle="true")
       .drawer-content(slot="drawer" ref="drawerContent")
-        Nav
+        Nav(:drawerShow="drawerShow" @toggle="toggle")
       .content(slot="content" :class="{'drawer_active': drawerShow}")
         .outside-wrap
           transition(name="fade")
@@ -71,6 +71,9 @@ export default class App extends Vue {
   mounted() {
     this.drawer.toggle()
   }
+  toggle () {
+    this.drawer.toggle()
+  }
   handleSlideEnd(value: boolean) {
     this.drawerShow = value
   }
@@ -94,7 +97,7 @@ export default class App extends Vue {
     position: relative;
     min-height: 100%;
     box-sizing: border-box;
-    padding: 60px;
+    padding: 70px;
     .outside-wrap {
       position: relative;
     }

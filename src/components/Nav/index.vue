@@ -3,12 +3,14 @@
     user-info.nav_userinfo
     Tab.nav_tab
     player.nav_player
+    .controler(@click="toggle" :class="{hide: hide}")
+      span.iconfont &#xe61a
 </template>
 <script lang="ts">
 import UserInfo from './components/UserInfo.vue'
 import Tab from './components/Tab.vue'
 import Player from './components/Player.vue'
-import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
+import { Component, Vue, Prop, Ref, Emit, Watch } from 'vue-property-decorator'
 @Component({
   components: {
     UserInfo,
@@ -17,11 +19,23 @@ import { Component, Vue, Prop, Ref } from 'vue-property-decorator'
   }
 })
 export default class index extends Vue {
-  @Ref('') readonly nav!: HTMLDivElement
+  @Prop() private drawerShow!: boolean
+  private hide: boolean = true
+
+  @Watch('drawerShow')
+  drawer (value: boolean) {
+    this.hide = value
+  }
+
+  @Emit('toggle')
+  toggle () {
+    return true
+  }
 }
 </script>
 <style lang="scss" scoped>
 .nav {
+  position: relative;
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -37,6 +51,28 @@ export default class index extends Vue {
   }
   .nav_player {
     flex: 1;
+  }
+  .controler{
+    cursor: pointer;
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    padding: 5px;
+    line-height: 50px;
+    text-align: center;
+    top: 5px;
+    right: -65px;
+    background-color: #fff;
+    border-radius: 50%;
+    transition: 0.5s;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    .iconfont {
+      font-size: 28px;
+      color: #595959;
+    }
+  }
+  .hide {
+    transform: rotate(180deg)
   }
 }
 </style>
