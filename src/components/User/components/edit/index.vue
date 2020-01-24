@@ -163,7 +163,10 @@ export default class index extends Vue {
         })
       this.checkCode = ''
     } else {
-      await this.sendMailCheckCode(this.info.email)
+      await this.sendMailCheckCode({
+        username: this.info.username,
+        email: this.info.email
+      })
       this.checkInput.focus()
     }
   }

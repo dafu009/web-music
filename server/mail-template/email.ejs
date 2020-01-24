@@ -1,34 +1,33 @@
 <!-- 入参 nickname, avatar, code -->
 <div style="margin: 0 auto;
-            width: 500px;
-            background-image: linear-gradient( 135deg, #FFD26F 10%, #3677FF 100%);
-            border: 1px solid #ccc">
-  <div style="width: 100%;
-              height: 150px;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              background-color: #fff;">
-    <div style="box-sizing: border-box;
-                border: 1px solid #ccc;
-                padding: 5px;
-                width: 100px;
-                height: 100px;
-                flex-shrink: 0;
-                margin-right: 20px;">
-      <img src="<%= avatar %>" alt="" style="width: 100%;
-                                      height: 100%;
-                                      object-fit: cover;"/>
+                width: 500px;
+                background-color: #fff;
+                border: 1px solid #ccc;">
+      <div style="width: 100%;
+                  height: 150px;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  background-image: linear-gradient( 135deg, #FFD26F 10%, #3677FF 100%);">
+        <div style="box-sizing: border-box;
+                    border: 1px solid #ccc;
+                    padding: 5px;
+                    width: 120px;
+                    height: 120px;
+                    flex-shrink: 0;
+                    margin: 0 15px;">
+          <img src="<%= avatar %>" alt="" style="width: 100%;
+                                          height: 100%;
+                                          object-fit: cover;">
+        </div>
+        <div style="font-size: 18px;
+                    flex: 1;
+                    ">
+          <%= nickname %>, 您好
+        </div>
+      </div>
+      <div style="padding: 30px;">
+        验证码为 <strong style="cursor: pointer;
+                               color: #fb7240"><%= code %></strong>
+      </div>
     </div>
-    <div style="font-size: 18px;
-                ">
-      尊敬的 <%= nickname %>
-    </div>
-  </div>
-  <div style="padding: 30px; text-align: center;">
-    验证码为 <strong style="cursor: pointer;
-                            color: #f40">
-                            <%= code %>
-                            </strong>
-  </div>
-</div>

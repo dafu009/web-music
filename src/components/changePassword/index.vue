@@ -10,8 +10,8 @@
           clearable
           v-model="EMail"
           type="text"
-          @keyup="query"
-          placeholder="请输入绑定的邮箱")
+          placeholder="请输入绑定的邮箱"
+          @keyup.enter="sendAndCheck")
         input.checkInput(
           ref="checkInput"
           v-if="isCheckMail"
@@ -134,8 +134,7 @@ export default class index extends Vue {
     })
   }
   created () {
-    this.query = debounce(this.query, 1000)
-    this.checkSame = debounce(this.checkSame, 1000)
+    this.checkSame = debounce(this.checkSame, 500)
   }
 
   changeVisible () {
@@ -170,7 +169,7 @@ export default class index extends Vue {
           if (!exist) {
             this.__setMessage(
               'error',
-              '该邮箱未绑定，请确认'
+              '该邮箱未绑定，请检查是否有误'
             )
           }
         })
@@ -194,6 +193,21 @@ export default class index extends Vue {
       this.__setMessage('warning', '校验邮箱不能为空')
       return
     }
+    if (!this.EMail.match(/@/g)) {
+      this.__setMessage(
+        'warning',
+        '请输入正确的邮箱'
+      )
+      return
+    }
+    if (this.checkInput && !this.checkCode) {
+      this.__setMessage('warning', '验证码不能为空')
+      return
+    }
+    if (this.checkInput && this.checkCode.length < 6) {
+      this.__setMessage('warning', '请输入正确的验证码')
+      return
+    }
     if (this.isCheckMail) {
       await this.checkMailCode(this.checkCode)
         .then((success: boolean) => {
@@ -203,8 +217,13 @@ export default class index extends Vue {
         })
       this.checkCode = ''
     } else {
-      await this.sendMailCheckCode(this.EMail)
-      this.checkInput.focus()
+      await this.sendMailCheckCode({
+        username: '__00__',
+        email: this.EMail
+      })
+      if (this.checkInput) {
+        this.checkInput.focus()
+      }
     }
   }
 

@@ -395,16 +395,19 @@ const actions: ActionTree<CONFIG, any> = {
     commit('setCheckSuccess', false)
     commit('setCheckFail', false)
   },
-  async sendMailCheckCode ({ commit, dispatch }, email: string) {
+  async sendMailCheckCode ({ commit, dispatch }, { username, email }) {
     await api.mail.sendMailCode({
       method: 'POST',
       data: {
-        email
+        email,
+        username
       }
     })
       .then(({ success, message }) => {
         dispatch('setGlobalMessage', { type: success ? 'success' : 'error', message })
-        commit('setCheckMail', true)
+        if (success) {
+          commit('setCheckMail', true)
+        }
       })
       .catch(() => { })
   },
