@@ -61,7 +61,6 @@ import { CONFIG, UserInfo } from '@/store/types'
 import { createOnlyId } from '@/common/ts/common'
 import api from '@/api'
 import OSS from 'ali-oss'
-import router from '../../../../router/index';
 
 @Component({
   components: {
@@ -128,7 +127,13 @@ export default class index extends Vue {
     this.upload(file)
   }
   upload(file: any) {
-    console.log(file)
+    const type = file.type
+      .substring(file.type.lastIndexOf('/') + 1)
+      .toLowerCase()
+    if (type !== 'jpg' && type !== 'jpeg' && type !== 'png' && type !== 'gif') {
+      this.setGlobalMessage({ type: 'error', message: '请上传jpg/png/gif' })
+      return
+    }
     api.oss
       .getAliOssOptions()
       .then(({ success, data }) => {
@@ -156,12 +161,11 @@ export default class index extends Vue {
 
   async sendOrCheck() {
     if (this.isCheckMail) {
-      await this.checkMailCode(this.checkCode)
-        .then((success: boolean) => {
-          if (success) {
-            this.upDateEmail(this.info.email)
-          }
-        })
+      await this.checkMailCode(this.checkCode).then((success: boolean) => {
+        if (success) {
+          this.upDateEmail(this.info.email)
+        }
+      })
       this.checkCode = ''
     } else {
       await this.sendMailCheckCode({
@@ -179,7 +183,7 @@ export default class index extends Vue {
     }, 500)
   }
 
-  changePass () {
+  changePass() {
     this.$router.push('/user/change-password')
   }
 }
@@ -262,7 +266,7 @@ export default class index extends Vue {
       position: relative;
       .tip {
         font-size: 12px;
-        color:#818181;
+        color: #818181;
         margin-left: 10px;
       }
       .title {
