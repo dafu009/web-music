@@ -30,12 +30,14 @@ export default class userInfo extends Vue {
     margin: 0 auto;
     text-align: center;
     border-radius: 50%;
-    // border: 2px solid #82bbe4;
+    border: 2px solid #afafaf;
     overflow: hidden;
+    padding: 2px;
     img {
       width: 100%;
       height: 100%;
       object-fit: contain;
+      border-radius: 50%;
     }
   }
   .nickname {
