@@ -21,7 +21,8 @@
     .edit-item
       span.title 用户名
       span.username {{info.username }}
-      el-button.changePassword(@click="changePass" size="small") 修改密码
+      el-button.changePassword(@click="changePass" size="small" :disabled="!info.email") 修改密码
+      span.tip(v-if="!info.email") 绑定邮箱以进行密码修改
     .edit-item
       span.title 昵称
       el-input.input(v-model="info.nickname" placeholder="请输入昵称" )
@@ -259,6 +260,11 @@ export default class index extends Vue {
       align-items: center;
       width: 650px;
       position: relative;
+      .tip {
+        font-size: 12px;
+        color:#818181;
+        margin-left: 10px;
+      }
       .title {
         width: 50px;
         margin-right: 20px;
