@@ -138,14 +138,18 @@ export default class searchResult extends Vue {
     padding: 10px;
     position: relative;
     max-height: 500px;
-    min-height: 400px;
+    min-height: 500px;
     box-shadow: 1px 1px 15px rgba(0,0,0,0.2);
-    section {
+    .wrap {
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
+      width: 98%;
     }
+    // section {
+    //   position: absolute;
+    //   left: 50%;
+    //   transform: translateX(-50%);
+    //   width: 100%;
+    // }
   }
 }
 </style>
