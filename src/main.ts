@@ -15,7 +15,7 @@ Vue.use(VueDrawerLayout)
 Vue.use(VueLazyLoad, {
   preLoad: 1.3,
   loading: 'https://image.yy.com/yjmf/YjFkNzdjYTgtYWQ3Ny00ZTUwLTgxMjUtNDU2MDNiYzEwMjc0.gif',
-  error: 'http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/default-avatar.png'
+  error: 'http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/resource/images/default.png'
 })
 Vue.config.productionTip = false
 Component.registerHooks([

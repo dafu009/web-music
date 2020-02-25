@@ -2,7 +2,7 @@
   .nav(:style="{ maxHeight: `${windowHeight}px` }")
     .base-line(:style="{ top: `${(currentIndex + 1) * 54}px` }")
       .loading
-        img(src="http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/loading.gif")
+        img(src="http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/load.gif")
     template(v-for="(item, index) in categoryList")
       .nav-item(
         :key="item.value"

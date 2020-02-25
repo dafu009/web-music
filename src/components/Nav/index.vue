@@ -61,7 +61,7 @@ export default class index extends Vue {
     line-height: 50px;
     text-align: center;
     top: 5px;
-    right: -65px;
+    right: -35px;
     background-color: #fff;
     border-radius: 50%;
     transition: 0.5s;
