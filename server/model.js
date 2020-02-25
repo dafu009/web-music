@@ -23,7 +23,7 @@ const schema = mongoose.Schema({
   avatar: String,
   introduction: String,
   phone: Number,
-  birthday: String,
+  birthday: Date,
   email: String
 })
 
