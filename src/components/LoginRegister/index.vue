@@ -4,7 +4,7 @@
     .wrapper(:class="{'fill-wrapper': checkPassword && !result.exist}")
       .avatar
         img(v-if="result.avatar && userForm.username" v-lazy="result.avatar")
-        img.default(v-else src="http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/music.png")
+        img.default(v-else src="http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/music-avatar.png")
       .form-wrap
         .form(:class="{active: activeIndex === 1}")
           span.iconfont &#xe501
@@ -239,9 +239,6 @@ export default class loginRegister extends Vue {
           height: 100%;
           object-fit: contain;
           border-radius: 50%;
-        }
-        .default {
-          width: 85%;
         }
       }
       .form-wrap {

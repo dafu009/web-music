@@ -1,7 +1,7 @@
 <template lang="pug">
   .userinfo(@click="toUser")
     .avatar
-      img(v-lazy="UserInfo.avatar || 'http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/resource/images/1707a561986-music.png'")
+      img(v-lazy="UserInfo.avatar || 'http://image-source-lsy.oss-cn-shenzhen.aliyuncs.com/static/images/music-avatar.png'")
     .nickname
       span {{ isLogin ? UserInfo.nickname : '点此登录/注册'}}
 </template>
